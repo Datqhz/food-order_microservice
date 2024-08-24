@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: db_test
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: 123456
+    volumes:
+      - db_test:/var/lib/postgres/data
+  authserver:
+    build:
+      context: .
+      dockerfile: AuthServer/Dockerfile
+    ports:
+      - "5092:5092"
+    depends_on:
+      - db
+  customerservice:
+    build:
+      context: .
+      dockerfile: CustomerService/Dockerfile
+    ports:
+      - "5204:5204"
+    depends_on:
+      - db
+  foodservice:
+    build:
+      context: .
+      dockerfile: FoodService/Dockerfile
+    ports:
+      - "5107:5107"
+    depends_on:
+      - db
+  orderservice:
+    build:
+      context: .
+      dockerfile: OrderService/Dockerfile
+    ports:
+      - "5149:5149"
+    depends_on:
+      - db
+  apigateway:
+    build: 
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+    ports:
+      - "5084:5084"
+    depends_on:
+      - db
+      - authserver
+      - customerservice
+      - foodservice
+      - orderservice
+volumes:
+  db_test:
+
