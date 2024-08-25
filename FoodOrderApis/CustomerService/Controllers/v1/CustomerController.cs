@@ -1,10 +1,12 @@
 ﻿using CustomerService.Data.Models.Dtos.Inputs;
 using CustomerService.Features.Commands;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CustomerService.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/v1/customer")]
 public class CustomerController : ControllerBase

@@ -23,7 +23,7 @@ public class TokenHandler : IRequestHandler<GetTokenRequest, ObjectResult>
                         statusText = "Internal server error"
                     }){StatusCode = StatusCodes.Status500InternalServerError};
             }
-                
+            Console.WriteLine($"address: {discovery.TokenEndpoint}, clientid: {request.Data.client_id}, clientsecret: {request.Data.client_secret}, scope: {request.Data.scope}, username: {request.Data.username}, password: {request.Data.password}");
             var response = await httpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
             {
                 Address = discovery.TokenEndpoint,

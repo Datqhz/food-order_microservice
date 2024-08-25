@@ -2,7 +2,7 @@
 
 namespace CustomerService.Repositories.Interfaces;
 
-public interface ICustomerRepository : IRepository<Customer>
+public interface ICustomerRepository : IRepository<Customer> 
 {
     
 }

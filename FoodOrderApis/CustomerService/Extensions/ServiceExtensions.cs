@@ -1,29 +1,132 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using System.Reflection;
+using System.Security.Cryptography;
+using CustomerService.Data.Context;
+using CustomerService.Repositories;
+using CustomerService.Repositories.Implements;
+using CustomerService.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace CustomerService.Extensions;
 
 public class ServiceExtensions
 {
-    // public void ConfigureDbContext(IServiceCollection services)
-    // {
-    //     services.AddDbContext<>()
-    // }
+    private readonly IConfiguration Configuration;
+
+    public ServiceExtensions(IConfiguration configuration)
+    {
+        Configuration = configuration;
+    }
     public void AddAuthentication(IServiceCollection services)
     {
         services
             .AddAuthentication("Bearer")
             .AddJwtBearer("Bearer", options =>
             {
-                options.Authority = "http://localhost:5092";
+                // options.Authority = "http://localhost:5092";
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
 
                     ValidateIssuer = false,
-                    ValidateAudience = true,
+                    ValidateAudience = false,
                     ValidateIssuerSigningKey = true,
                     RequireExpirationTime = true,
-                    ValidateLifetime = true
+                    ValidateLifetime = true,
+                    IssuerSigningKey = CreateRsaKey()
                 };
             });
+    }
+    private RsaSecurityKey CreateRsaKey()
+    {
+        string publicKey =
+            "k_9bwv79mE3vz7qU82LziCxwRjLdjAgby84sk10uIYdEwiSbmHDTFoHt8DcwngE9XF2eQCiFlKL5hVL1weF7lBZ4sJTcHf57ei6clEhNGzTtmakEfU2cGF4Wk9EgLZizfJsIrr7aBL5DgOPKd-b9xzYQxtTCWln8JcRZtR_TJtHp79t3yGKabzKuA8oVLcGHc9Y2OxIppWeZjD6S0SuliFdLfDT0jjFvhYEkY664MEdYLgx9HKDqI1VFvftFJ3-UkxOEKVwiEp2FDyY1IJ8PnPkD9jUmoWPD5Xbd8fkHEKxjr52gCCXHIKh4OkHXtbNDJfSYDh2juqoI3xChyV4RLQ";
+        string exponent = "AQAB";
+        var publicKeyAsBytes = Base64UrlEncoder.DecodeBytes(publicKey);
+        var exponentBytes = Base64UrlEncoder.DecodeBytes(exponent);
+        var rsaParameter = new RSAParameters
+        {
+            Modulus = publicKeyAsBytes,
+            Exponent = exponentBytes
+        };
+        var rsaKey = RSA.Create();
+        rsaKey.ImportParameters(rsaParameter);
+        return new RsaSecurityKey(rsaKey);
+    }
+    
+    public void AddCors(IServiceCollection services)
+    {
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAllOrigins",
+                builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+            );
+        });
+    }
+    public void ConfigureDbContext(IServiceCollection services)
+    {  
+        var connectionString = Configuration.GetValue<string>("DatabaseSettings:ConnectionString");
+        Console.WriteLine(connectionString);
+        services.AddDbContext<CustomerDbContext>(options => options.UseNpgsql(connectionString,
+            o => { o.EnableRetryOnFailure();}));
+    }
+
+    public void ConfigureDependencyInjection(IServiceCollection services)
+    {
+        services.AddTransient<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<IUnitOfRepository, UnitOfRepository>();
+        services.AddLogging();
+    }
+    
+    public void AddMediatorPattern(IServiceCollection services)
+    {
+        services.AddMediatR(configure => 
+            configure.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+    }
+
+    public void ConfigureSwagger(IServiceCollection services)
+    {
+        services.AddSwaggerGen(opt =>
+        {
+            opt.SwaggerDoc("v1", new OpenApiInfo { Title = "CustomerApi", Version = "v1" });
+            opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
+                Description = "Please enter token",
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                BearerFormat = "JWT",
+                Scheme = "Bearer"
+            });
+            opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type=ReferenceType.SecurityScheme,
+                            Id="Bearer"
+                        }
+                    },
+                    new string[]{}
+                }
+            });
+        });
+    }
+
+    public void InitializeDatabase(IApplicationBuilder app){
+        using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+        {
+            var context = serviceScope.ServiceProvider.GetRequiredService<CustomerDbContext>();
+
+            if (context.Database.GetPendingMigrations().Any())
+            {
+                context.Database.Migrate();
+            }
+        }
     }
 }

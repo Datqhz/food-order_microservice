@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\ApiGateway\\ApiGateway.csproj": {}
+    "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\FoodOrderApis\\ApiGateway\\ApiGateway.csproj": {}
   },
   "projects": {
-    "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\ApiGateway\\ApiGateway.csproj": {
+    "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\FoodOrderApis\\ApiGateway\\ApiGateway.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\ApiGateway\\ApiGateway.csproj",
+        "projectUniqueName": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\FoodOrderApis\\ApiGateway\\ApiGateway.csproj",
         "projectName": "ApiGateway",
-        "projectPath": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\ApiGateway\\ApiGateway.csproj",
+        "projectPath": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\FoodOrderApis\\ApiGateway\\ApiGateway.csproj",
         "packagesPath": "C:\\Users\\baam0\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\ApiGateway\\obj\\",
+        "outputPath": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\FoodOrderApis\\ApiGateway\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages",
@@ -55,9 +55,17 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
             "MMLib.SwaggerForOcelot": {
               "target": "Package",
               "version": "[8.3.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.8, )"
             },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",

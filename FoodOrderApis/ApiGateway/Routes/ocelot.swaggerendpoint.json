@@ -1,0 +1,26 @@
+﻿{
+  "SwaggerEndPoints": [
+    {
+      "key": "authserver",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "AuthServer.Api",
+          "Version": "1.0",
+          "Url": "http://authserver:5092/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "key": "customerservice",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "CustomerService.Api",
+          "Version": "1.0",
+          "Url": "http://customerservice:5204/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ]
+}

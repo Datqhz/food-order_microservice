@@ -3213,11 +3213,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\CustomerService\\CustomerService.csproj",
+      "projectUniqueName": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\FoodOrderApis\\CustomerService\\CustomerService.csproj",
       "projectName": "CustomerService",
-      "projectPath": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\CustomerService\\CustomerService.csproj",
+      "projectPath": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\FoodOrderApis\\CustomerService\\CustomerService.csproj",
       "packagesPath": "C:\\Users\\baam0\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\CustomerService\\obj\\",
+      "outputPath": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\FoodOrderApis\\CustomerService\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages",

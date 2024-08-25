@@ -4707,11 +4707,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\AuthServer\\AuthServer.csproj",
+      "projectUniqueName": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\FoodOrderApis\\AuthServer\\AuthServer.csproj",
       "projectName": "AuthServer",
-      "projectPath": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\AuthServer\\AuthServer.csproj",
+      "projectPath": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\FoodOrderApis\\AuthServer\\AuthServer.csproj",
       "packagesPath": "C:\\Users\\baam0\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\AuthServer\\obj\\",
+      "outputPath": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\FoodOrderApis\\AuthServer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages",
