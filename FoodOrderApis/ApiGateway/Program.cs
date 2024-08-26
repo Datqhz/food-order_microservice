@@ -7,11 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 ServiceExtensions serviceExtensions = new ServiceExtensions(builder.Configuration);
 serviceExtensions.ConfigureAuthentication(builder.Services);
-builder.Configuration.AddJsonFile("ocelot.json", optional: true, reloadOnChange: true);
-builder.Configuration.AddOcelotWithSwaggerSupport(options =>
+builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
+/*builder.Configuration.AddOcelotWithSwaggerSupport(options =>
 {
     options.Folder = "Routes";
-});
+    options.PrimaryOcelotConfigFileName = "ocelot.swaggerendpoint.json";
+});*/
 builder.Services.AddOcelot(builder.Configuration);
 serviceExtensions.ConfigureSwagger(builder.Services);
 var app = builder.Build();
@@ -20,10 +21,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerForOcelotUI(opt =>
-    {
-        opt.PathToSwaggerGenerator = "/swagger/docs";
-    });
+    app.UseSwaggerForOcelotUI();
 }
 // app.UseHttpsRedirection();
 app.UseAuthentication();

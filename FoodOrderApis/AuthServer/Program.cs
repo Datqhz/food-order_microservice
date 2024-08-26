@@ -6,6 +6,7 @@ ServiceExtensions  serviceExtensions = new ServiceExtensions();
 serviceExtensions.AddAuthenticationSettings(builder.Services);
 serviceExtensions.ConfigureMediator(builder.Services);
 serviceExtensions.AddCors(builder.Services);
+serviceExtensions.AddMassTransitWithRabbitMq(builder.Services);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

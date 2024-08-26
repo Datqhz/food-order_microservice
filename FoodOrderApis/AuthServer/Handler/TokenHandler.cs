@@ -1,5 +1,7 @@
 ﻿using AuthServer.Features.Commands;
+using FoodOrderApis.Common.MassTransit.Consumers;
 using IdentityModel.Client;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +10,12 @@ namespace AuthServer.Handler;
 
 public class TokenHandler : IRequestHandler<GetTokenRequest, ObjectResult>
 {
+    private readonly IPublishEndpoint _publishEndpoint;
+
+    public TokenHandler(IPublishEndpoint publishEndpoint)
+    {
+        _publishEndpoint = publishEndpoint;
+    }
     public async Task<ObjectResult> Handle(GetTokenRequest request, CancellationToken cancellationToken)
     {
         try
@@ -23,7 +31,7 @@ public class TokenHandler : IRequestHandler<GetTokenRequest, ObjectResult>
                         statusText = "Internal server error"
                     }){StatusCode = StatusCodes.Status500InternalServerError};
             }
-            Console.WriteLine($"address: {discovery.TokenEndpoint}, clientid: {request.Data.client_id}, clientsecret: {request.Data.client_secret}, scope: {request.Data.scope}, username: {request.Data.username}, password: {request.Data.password}");
+            
             var response = await httpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
             {
                 Address = discovery.TokenEndpoint,
@@ -36,6 +44,11 @@ public class TokenHandler : IRequestHandler<GetTokenRequest, ObjectResult>
             });
             if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
             {
+                await _publishEndpoint.Publish(new CreateAccount
+                {
+                    AccountId = 1,
+                    Username = response.AccessToken
+                });
                 return new ObjectResult(new
                     {
                         status = StatusCodes.Status200OK,

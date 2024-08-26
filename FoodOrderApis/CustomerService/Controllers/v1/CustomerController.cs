@@ -1,5 +1,5 @@
 ﻿using CustomerService.Data.Models.Dtos.Inputs;
-using CustomerService.Features.Commands;
+using CustomerService.Features.Commands.CustomerCommands.CreateCustomer;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

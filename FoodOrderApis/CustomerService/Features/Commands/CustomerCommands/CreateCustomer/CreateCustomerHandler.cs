@@ -1,20 +1,17 @@
 ﻿using CustomerService.Data.Models;
-using CustomerService.Features.Commands;
-using CustomerService.Helpers.Validators;
-using CustomerService.Repositories.Implements;
-using CustomerService.Repositories.Interfaces;
+using CustomerService.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CustomerService.Handler;
+namespace CustomerService.Features.Commands.CustomerCommands.CreateCustomer;
 
 public class CreateCustomerHandler : IRequestHandler<CreateCustomerRequest, ObjectResult>
 {
-    private readonly ICustomerRepository _customerRepository;
+    private readonly IUnitOfRepository _unitOfRepository;
 
-    public CreateCustomerHandler(ICustomerRepository customerRepository)
+    public CreateCustomerHandler(IUnitOfRepository unitOfRepository)
     {
-        _customerRepository = customerRepository;
+        _unitOfRepository = unitOfRepository;
     }
 
     public async Task<ObjectResult> Handle(CreateCustomerRequest request, CancellationToken cancellationToken)
@@ -34,7 +31,7 @@ public class CreateCustomerHandler : IRequestHandler<CreateCustomerRequest, Obje
             }
             else
             {
-                var customerCreated = await _customerRepository.Add(new Customer
+                var customerCreated = await _unitOfRepository.Customer.Add(new Customer
                 {
                     FirstName = request.Data.FirstName,
                     LastName = request.Data.LastName,

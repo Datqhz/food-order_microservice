@@ -10,6 +10,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodService", "FoodService\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{6B0D6CBF-3136-4CEB-9CCC-A85B5F9A64CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodOrderApis.Common", "FoodOrderApis.Common\FoodOrderApis.Common.csproj", "{15BD673B-CBF0-4254-9576-75E9E2D5804C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FA919878-864C-4963-B1FE-01626CB7EA02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthServer.Test", "AuthServer.Test\AuthServer.Test.csproj", "{6989DAA5-4862-42D4-B7EE-F3485F77C9F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +42,16 @@ Global
 		{6B0D6CBF-3136-4CEB-9CCC-A85B5F9A64CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B0D6CBF-3136-4CEB-9CCC-A85B5F9A64CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B0D6CBF-3136-4CEB-9CCC-A85B5F9A64CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15BD673B-CBF0-4254-9576-75E9E2D5804C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15BD673B-CBF0-4254-9576-75E9E2D5804C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15BD673B-CBF0-4254-9576-75E9E2D5804C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15BD673B-CBF0-4254-9576-75E9E2D5804C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6989DAA5-4862-42D4-B7EE-F3485F77C9F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6989DAA5-4862-42D4-B7EE-F3485F77C9F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6989DAA5-4862-42D4-B7EE-F3485F77C9F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6989DAA5-4862-42D4-B7EE-F3485F77C9F6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6989DAA5-4862-42D4-B7EE-F3485F77C9F6} = {FA919878-864C-4963-B1FE-01626CB7EA02}
 	EndGlobalSection
 EndGlobal

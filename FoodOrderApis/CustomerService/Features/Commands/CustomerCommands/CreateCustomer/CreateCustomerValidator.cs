@@ -1,7 +1,7 @@
 ﻿using CustomerService.Data.Models.Dtos.Inputs;
 using FluentValidation;
 
-namespace CustomerService.Helpers.Validators;
+namespace CustomerService.Features.Commands.CustomerCommands.CreateCustomer;
 
 public class CreateCustomerValidator : AbstractValidator<CreateCustomerInput>
 {

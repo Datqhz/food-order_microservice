@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CustomerService.Features.Commands;
+namespace CustomerService.Features.Commands.CustomerCommands.CreateCustomer;
 
 public class CreateCustomerRequest : IRequest<ObjectResult>
 {

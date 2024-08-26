@@ -26,6 +26,7 @@ namespace AuthServer.Config
                 new Client
                 {
                     ClientId = "client1",
+                    
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     ClientSecrets = 
                     {

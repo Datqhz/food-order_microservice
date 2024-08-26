@@ -1,6 +1,13 @@
 version: '3.8'
 
 services:
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmqdata:/var/lib/rabbitmq
   db:
     image: postgres
     ports:
@@ -19,6 +26,7 @@ services:
       - "5092:5092"
     depends_on:
       - db
+      - rabbitmq
   customerservice:
     build:
       context: .
@@ -27,6 +35,8 @@ services:
       - "5204:5204"
     depends_on:
       - db
+      - authserver
+      - rabbitmq
   foodservice:
     build:
       context: .
@@ -35,6 +45,8 @@ services:
       - "5107:5107"
     depends_on:
       - db
+      - authserver
+      - rabbitmq
   orderservice:
     build:
       context: .
@@ -43,6 +55,8 @@ services:
       - "5149:5149"
     depends_on:
       - db
+      - authserver
+      - rabbitmq
   apigateway:
     build: 
       context: .
@@ -51,10 +65,12 @@ services:
       - "5084:5084"
     depends_on:
       - db
+      - rabbitmq
       - authserver
       - customerservice
       - foodservice
       - orderservice
 volumes:
   db_test:
+  rabbitmqdata:
 

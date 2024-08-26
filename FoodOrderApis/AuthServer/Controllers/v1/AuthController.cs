@@ -1,7 +1,9 @@
 ﻿using System.Net;
 using AuthServer.Data.Dtos.Inputs;
 using AuthServer.Features.Commands;
+using FoodOrderApis.Common.MassTransit.Consumers;
 using IdentityModel.Client;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +14,7 @@ namespace AuthServer.Controllers.v1;
 public class AuthController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IPublishEndpoint _publishEndpoint;
 
     public AuthController(IMediator mediator)
     {
@@ -22,4 +25,5 @@ public class AuthController : ControllerBase
     {
         return await _mediator.Send(new GetTokenRequest { Data = input });
     }
+    
 }
