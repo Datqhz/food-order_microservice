@@ -2,7 +2,7 @@
 
 namespace AuthServer.Repositories.Interfaces;
 
-public interface IApiResourceRepository : IRepository<ApiResources>
+public interface IApiResourceRepository : IGenericRepository<ApiResource>
 {
     
 }

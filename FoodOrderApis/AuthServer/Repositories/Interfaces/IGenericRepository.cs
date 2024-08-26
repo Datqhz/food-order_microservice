@@ -1,6 +1,6 @@
 ﻿namespace AuthServer.Repositories.Interfaces;
 
-public interface IRepository<T>
+public interface IGenericRepository<T>
 {
     IQueryable<T> GetAll();
     Task<T> GetById(int id);

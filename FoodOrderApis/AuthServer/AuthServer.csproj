@@ -39,7 +39,6 @@
     <ItemGroup>
       <Folder Include="Features\Queries\" />
       <Folder Include="Helper\" />
-      <Folder Include="Repositories\Implements\" />
     </ItemGroup>
 
     <ItemGroup>

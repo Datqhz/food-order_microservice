@@ -2,10 +2,10 @@
 
 namespace AuthServer.Data.Models;
 
-public class ClientScopes
+public class ApiResource
 {
     [Key]
     public int Id { get; set; }
-    public string Scope { get; set; }
-    public string ClientId { get; set; }
+    public string Name { get; set; }
+    public string DisplayName { get; set; }
 }

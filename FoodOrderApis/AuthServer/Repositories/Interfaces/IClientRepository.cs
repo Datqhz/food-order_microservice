@@ -1,9 +1,9 @@
-﻿using AuthServer.Repositories.Interfaces;
-using IdentityServer4.Models;
+﻿using AuthServer.Data.Models;
+using AuthServer.Repositories.Interfaces;
 
 namespace AuthServer.Repositories.Interfaces;
 
-public interface IClientRepository : IRepository<Client>
+public interface IClientRepository : IGenericRepository<Client>
 {
     
 }

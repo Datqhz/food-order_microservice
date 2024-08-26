@@ -3,7 +3,7 @@ using AuthServer.Repositories.Interfaces;
 
 namespace AuthServer.Repositories.Interfaces;
 
-public interface IClientGrantTypeRepository : IRepository<ClientGrantTypes>
+public interface IClientGrantTypeRepository : IGenericRepository<ClientGrantType>
 {
     
 }

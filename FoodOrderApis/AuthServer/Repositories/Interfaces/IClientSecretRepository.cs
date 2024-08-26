@@ -1,8 +1,10 @@
-﻿using IdentityServer4.EntityFramework.Entities;
+﻿
+
+using AuthServer.Data.Models;
 
 namespace AuthServer.Repositories.Interfaces;
 
-public interface IClientSecretRepository : IRepository<ClientSecret>
+public interface IClientSecretRepository : IGenericRepository<ClientSecret>
 {
     
 }

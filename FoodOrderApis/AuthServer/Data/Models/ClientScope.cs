@@ -2,10 +2,10 @@
 
 namespace AuthServer.Data.Models;
 
-public class ClientGrantTypes
+public class ClientScope
 {
     [Key]
     public int Id { get; set; }
-    public string ClientId { get; set; }
-    public string GrantType { get; set; }
+    public string Scope { get; set; }
+    public int ClientId { get; set; }
 }

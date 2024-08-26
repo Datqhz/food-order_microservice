@@ -2,10 +2,10 @@
 
 namespace AuthServer.Data.Models;
 
-public class ApiResources
+public class ClientGrantType
 {
     [Key]
     public int Id { get; set; }
-    public string Name { get; set; }
-    public string DisplayName { get; set; }
+    public int ClientId { get; set; }
+    public string GrantType { get; set; }
 }

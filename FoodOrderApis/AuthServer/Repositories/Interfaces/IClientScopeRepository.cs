@@ -1,8 +1,9 @@
-﻿using IdentityServer4.EntityFramework.Entities;
+﻿
+using AuthServer.Data.Models;
 
 namespace AuthServer.Repositories.Interfaces;
 
-public interface IClientScopeRepository : IRepository<ClientScope>
+public interface IClientScopeRepository : IGenericRepository<ClientScope>
 {
     
 }

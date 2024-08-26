@@ -2,10 +2,10 @@
 
 namespace AuthServer.Data.Models;
 
-public class ClientSecrets
+public class ClientSecret
 {
     [Key]
     public int Id { get; set; }
     public string SecretName { get; set; }
-    public string ClientId { get; set; }
+    public int ClientId { get; set; }
 }

@@ -2,7 +2,7 @@
 
 namespace AuthServer.Repositories.Interfaces;
 
-public interface IUserRepository : IRepository<User>
+public interface IUserRepository : IGenericRepository<User>
 {
     
 }
