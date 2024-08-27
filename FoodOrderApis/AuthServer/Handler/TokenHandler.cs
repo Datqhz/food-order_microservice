@@ -46,7 +46,7 @@ public class TokenHandler : IRequestHandler<GetTokenRequest, ObjectResult>
             {
                 await _publishEndpoint.Publish(new CreateAccount
                 {
-                    AccountId = 1,
+                    AccountId = "1",
                     Username = response.AccessToken
                 });
                 return new ObjectResult(new

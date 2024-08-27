@@ -1,4 +1,5 @@
-﻿using AuthServer.Data.Context;
+﻿using System.Linq.Expressions;
+using AuthServer.Data.Context;
 using AuthServer.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,6 +31,20 @@ public abstract class GenericRepository<T> : IGenericRepository<T> where T : cla
         return result.Entity;
     }
 
+    public async Task<bool> AddRange(IEnumerable<T> entities)
+    {
+        try
+        {
+            _dbSet.AddRange(entities);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return false;
+        }
+    }
+
     public bool Update(T entity)
     {
         try
@@ -56,5 +71,9 @@ public abstract class GenericRepository<T> : IGenericRepository<T> where T : cla
             Console.WriteLine(e.Message);
             return false;
         }
+    }
+    public virtual IQueryable<T> Where(Expression<Func<T, bool>> expression)
+    {
+        return _dbSet.Where(expression);
     }
 }

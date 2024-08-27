@@ -20,7 +20,7 @@ public class CreateAccountHandler :IRequestHandler<CreateAccountRequest>
         {
             await _repository.Account.Add(new Account
             {
-                Id = request.Data.AccountId,
+                Id = Int32.Parse(request.Data.AccountId),
                 Username = request.Data.Username
             });
 

@@ -15,11 +15,11 @@ namespace CustomerService.Extensions;
 
 public class ServiceExtensions
 {
-    private readonly IConfiguration Configuration;
+    private readonly IConfiguration _configuration;
 
     public ServiceExtensions(IConfiguration configuration)
     {
-        Configuration = configuration;
+        _configuration = configuration;
     }
     public void AddAuthentication(IServiceCollection services)
     {
@@ -55,8 +55,7 @@ public class ServiceExtensions
     }
     public void ConfigureDbContext(IServiceCollection services)
     {  
-        var connectionString = Configuration.GetValue<string>("DatabaseSettings:ConnectionString");
-        Console.WriteLine(connectionString);
+        var connectionString = _configuration.GetValue<string>("DatabaseSettings:ConnectionString");
         services.AddDbContext<CustomerDbContext>(options => options.UseNpgsql(connectionString,
             o => { o.EnableRetryOnFailure();}));
     }
@@ -119,10 +118,7 @@ public class ServiceExtensions
                     h.Password("guest");
                 });
                 cfg.ConfigureEndpoints(context);
-                /*cfg.ReceiveEndpoint(("userinfo-endpoint"), e =>
-                {
-                    e.ConfigureConsumer<CreateAccountConsumer>(context);
-                });*/
+                
             });
         });
         

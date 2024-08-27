@@ -9,12 +9,15 @@
 
     <ItemGroup>
         <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+        <PackageReference Include="FluentValidation" Version="11.9.2" />
         <PackageReference Include="IdentityServer4" Version="4.1.2" />
+        <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.2" />
         <PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.2" />
         <PackageReference Include="MassTransit" Version="8.2.5" />
         <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.5" />
         <PackageReference Include="MediatR" Version="12.4.0" />
         <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.8"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
           <PrivateAssets>all</PrivateAssets>
@@ -25,6 +28,7 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
         <PackageReference Include="Npgsql" Version="8.0.3" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
@@ -37,6 +41,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Data\Context\Migrations\" />
+      <Folder Include="Data\Models\Responses\" />
       <Folder Include="Features\Queries\" />
       <Folder Include="Helper\" />
     </ItemGroup>
