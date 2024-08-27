@@ -11,3 +11,16 @@ C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\FoodOrderApi
 C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\FoodOrderApis.Common\obj\Debug\net8.0\refint\FoodOrderApis.Common.dll
 C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\FoodOrderApis.Common\obj\Debug\net8.0\FoodOrderApis.Common.pdb
 C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\FoodOrderApis.Common\obj\Debug\net8.0\ref\FoodOrderApis.Common.dll
+C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\FoodOrderApis.Common\bin\Debug\net8.0\FoodOrderApis.Common.deps.json
+C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\FoodOrderApis.Common\bin\Debug\net8.0\FoodOrderApis.Common.dll
+C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\FoodOrderApis.Common\bin\Debug\net8.0\FoodOrderApis.Common.pdb
+C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\FoodOrderApis.Common\obj\Debug\net8.0\FoodOrderApis.Common.csproj.AssemblyReference.cache
+C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\FoodOrderApis.Common\obj\Debug\net8.0\FoodOrderApis.Common.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\FoodOrderApis.Common\obj\Debug\net8.0\FoodOrderApis.Common.AssemblyInfoInputs.cache
+C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\FoodOrderApis.Common\obj\Debug\net8.0\FoodOrderApis.Common.AssemblyInfo.cs
+C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\FoodOrderApis.Common\obj\Debug\net8.0\FoodOrderApis.Common.csproj.CoreCompileInputs.cache
+C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\FoodOrderApis.Common\obj\Debug\net8.0\FoodOrderApis.Common.sourcelink.json
+C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\FoodOrderApis.Common\obj\Debug\net8.0\FoodOrderApis.Common.dll
+C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\FoodOrderApis.Common\obj\Debug\net8.0\refint\FoodOrderApis.Common.dll
+C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\FoodOrderApis.Common\obj\Debug\net8.0\FoodOrderApis.Common.pdb
+C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\FoodOrderApis.Common\obj\Debug\net8.0\ref\FoodOrderApis.Common.dll

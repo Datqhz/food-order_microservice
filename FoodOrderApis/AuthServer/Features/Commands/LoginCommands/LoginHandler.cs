@@ -1,15 +1,19 @@
 ﻿using System.Net;
+using AuthServer.Data.Dtos;
+using AuthServer.Data.Dtos.Responses;
 using AuthServer.Data.Models;
 using AuthServer.Repositories;
+using FoodOrderApis.Common.Helpers;
 using IdentityModel.Client;
 using MassTransit;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthServer.Features.Commands.LoginCommands;
 
-public class LoginHandler : IRequestHandler<LoginCommand, ObjectResult>
+public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
 {
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly IUnitOfRepository _unitOfRepository;
@@ -20,34 +24,29 @@ public class LoginHandler : IRequestHandler<LoginCommand, ObjectResult>
         _publishEndpoint = publishEndpoint;
     }
 
-    public async Task<ObjectResult> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<LoginResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
+        var loginResponse = new LoginResponse(){StatusCode = (int)ResponseStatusCode.BadRequest};
         try
         {
             var validator = new LoginValidator();
             var validateResult = validator.Validate(request);
             if (!validateResult.IsValid)
-                return new ObjectResult
-                (new
-                    {
-                        status = StatusCodes.Status400BadRequest,
-                        statusText = "Bad request",
-                        message = "Invalid information"
-                    }
-                ) { StatusCode = StatusCodes.Status400BadRequest };
+            {
+                loginResponse.StatusText = "Bad Request";
+                loginResponse.ErrorMessage = "Invalid information";
+                return loginResponse;
+            }
 
             var payload = request.Payload;
             var user = await _unitOfRepository.User.Where(u => u.UserName == payload.Username)
                 .FirstOrDefaultAsync(cancellationToken);
             if (user == null)
-                return new ObjectResult
-                (new
-                    {
-                        status = StatusCodes.Status400BadRequest,
-                        statusText = "Bad request",
-                        message = "Invalid information"
-                    }
-                ) { StatusCode = StatusCodes.Status400BadRequest };
+            {
+                loginResponse.StatusText = "Bad Request";
+                loginResponse.ErrorMessage = "Invalid information";
+                return loginResponse;
+            }
             var client = await _unitOfRepository.Client.Where(cl => cl.Id == user.ClientId)
                 .Select(_ => new Client
                 {
@@ -56,14 +55,11 @@ public class LoginHandler : IRequestHandler<LoginCommand, ObjectResult>
                 })
                 .FirstOrDefaultAsync(cancellationToken);
             if (client == null)
-                return new ObjectResult
-                (new
-                    {
-                        status = StatusCodes.Status400BadRequest,
-                        statusText = "Bad request",
-                        message = "Invalid information"
-                    }
-                ) { StatusCode = StatusCodes.Status400BadRequest };
+            {
+                loginResponse.StatusText = "Bad Request";
+                loginResponse.ErrorMessage = "Invalid information";
+                return loginResponse;
+            }
             var clientSecret = await _unitOfRepository.ClientSecret.Where(cs => cs.ClientId == client.Id)
                 .Select(_ => _.SecretName).FirstOrDefaultAsync(cancellationToken);
             var scopes = payload.Scope.Split(' ');
@@ -71,23 +67,21 @@ public class LoginHandler : IRequestHandler<LoginCommand, ObjectResult>
                 .Select(cs => cs.Scope).ToListAsync();
             foreach (var scope in scopes)
                 if (clientScopes.All(cs => cs.ToLower() != scope.ToLower()))
-                    return new ObjectResult
-                    (new
-                        {
-                            status = StatusCodes.Status400BadRequest,
-                            statusText = "Bad request",
-                            message = "Invalid information"
-                        }
-                    ) { StatusCode = StatusCodes.Status400BadRequest };
+                {
+                    loginResponse.StatusText = "Bad Request";
+                    loginResponse.ErrorMessage = "Invalid information";
+                    return loginResponse;
+                }
             var httpClient = new HttpClient();
             var discovery = await httpClient.GetDiscoveryDocumentAsync("http://localhost:5092");
             if (discovery.IsError)
-                return new ObjectResult(
-                    new
-                    {
-                        status = StatusCodes.Status500InternalServerError,
-                        statusText = "Internal server error"
-                    }) { StatusCode = StatusCodes.Status500InternalServerError };
+            {
+                loginResponse.StatusCode = (int)ResponseStatusCode.InternalServerError;
+                loginResponse.StatusText = "Internal server error";
+                loginResponse.ErrorMessage = discovery.Error;
+                return loginResponse;
+            }
+
             var response = await httpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
             {
                 Address = discovery.TokenEndpoint,
@@ -99,39 +93,31 @@ public class LoginHandler : IRequestHandler<LoginCommand, ObjectResult>
             });
             if (response.HttpStatusCode == HttpStatusCode.OK)
             {
-                return new ObjectResult(new
-                    {
-                        status = StatusCodes.Status200OK,
-                        statusText = "Get token successful",
-                        data = new
-                        {
-                            access_token = response.AccessToken,
-                            scope = response.Scope,
-                            expired = response.ExpiresIn
-                        }
-                    })
-                    { StatusCode = StatusCodes.Status200OK };
+                loginResponse.StatusText = "OK";
+                loginResponse.StatusCode = (int)ResponseStatusCode.OK;
+                loginResponse.Data = new LoginDto
+                {
+                    AccessToken = response.AccessToken, 
+                    Scope= response.Scope,
+                    Expired = response.ExpiresIn
+                };
+                return loginResponse;
             }
             else
             {
-                return new ObjectResult(
-                    new
-                    {
-                        status = StatusCodes.Status500InternalServerError,
-                        statusText = "Internal server error",
-                        error = response.ErrorDescription
-                    }) { StatusCode = StatusCodes.Status500InternalServerError };
+                loginResponse.StatusCode = (int)ResponseStatusCode.InternalServerError;
+                loginResponse.StatusText = "Internal server error";
+                loginResponse.ErrorMessage = response.ErrorDescription;
+                return loginResponse;
             }
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex);
-            return new ObjectResult(
-                new
-                {
-                    status = StatusCodes.Status500InternalServerError,
-                    statusText = "Internal server error"
-                }) { StatusCode = StatusCodes.Status500InternalServerError };
+            loginResponse.StatusCode = (int)ResponseStatusCode.InternalServerError;
+            loginResponse.StatusText = "Internal server error";
+            loginResponse.ErrorMessage = ex.Message;
+            return loginResponse;
         }
     }
 }

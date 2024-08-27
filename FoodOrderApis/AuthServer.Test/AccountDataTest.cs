@@ -1,4 +1,4 @@
-﻿using AuthServer.Data.Dtos.Inputs;
+﻿
 using FoodOrderApis.Common.MassTransit.Consumers;
 
 namespace AuthServer.Test;

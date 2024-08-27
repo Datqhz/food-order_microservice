@@ -1,4 +1,4 @@
-﻿namespace AuthServer.Data.Models.Requests;
+﻿namespace AuthServer.Data.Requests;
 
 public class RegisterRequest
 {

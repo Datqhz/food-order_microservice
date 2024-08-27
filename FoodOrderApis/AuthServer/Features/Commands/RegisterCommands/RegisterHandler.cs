@@ -1,5 +1,7 @@
-﻿using AuthServer.Data.Models;
+﻿using AuthServer.Data.Dtos.Responses;
+using AuthServer.Data.Models;
 using AuthServer.Repositories;
+using FoodOrderApis.Common.Helpers;
 using FoodOrderApis.Common.MassTransit.Consumers;
 using MassTransit;
 using MediatR;
@@ -9,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AuthServer.Features.Commands.RegisterCommands;
 
-public class RegisterHandler : IRequestHandler<RegisterCommand, ObjectResult>
+public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse>
 {
     private readonly IUnitOfRepository _unitOfRepository;
     private readonly IPublishEndpoint _publishEndpoint;
@@ -21,8 +23,9 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, ObjectResult>
         _publishEndpoint = publishEndpoint;
         _userManager = userManager;
     }
-    public async Task<ObjectResult> Handle(RegisterCommand request, CancellationToken cancellationToken)
+    public async Task<RegisterResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
+        var response = new RegisterResponse(){StatusCode = (int)ResponseStatusCode.BadRequest};
         var payload = request.Payload;
         try
         {
@@ -30,14 +33,9 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, ObjectResult>
             var validateResult = validator.Validate(request);
             if (!validateResult.IsValid)
             {
-                return new ObjectResult
-                (new
-                    {
-                        status = StatusCodes.Status400BadRequest,
-                        statusText = "Bad request",
-                        message = "Invalid information"
-                    }
-                ) { StatusCode = StatusCodes.Status400BadRequest };
+                response.StatusText = "Bad Request";
+                response.ErrorMessage = "Invalid information";
+                return response;
             }
 
             var clientId = await _unitOfRepository.Client
@@ -46,14 +44,9 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, ObjectResult>
                 .Select(_ => _.Id).FirstOrDefaultAsync(cancellationToken);
             if (clientId == 0)
             {
-                return new ObjectResult
-                (new
-                    {
-                        status = StatusCodes.Status400BadRequest,
-                        statusText = "Bad request",
-                        message = "Invalid information"
-                    }
-                ) { StatusCode = StatusCodes.Status400BadRequest };
+                response.StatusText = "Bad Request";
+                response.ErrorMessage = "Invalid information";
+                return response;
             }
             
             var userId = Guid.NewGuid().ToString();
@@ -71,21 +64,11 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, ObjectResult>
             var createResult = await _userManager.CreateAsync(newUser);
             if (!createResult.Succeeded)
             {
-                return new ObjectResult
-                (new
-                    {
-                        status = StatusCodes.Status500InternalServerError,
-                        statusText = "Internal Server Error",
-                        message = createResult.ToString()
-                    }
-                ){StatusCode = StatusCodes.Status500InternalServerError};
+                response.StatusCode = (int)ResponseStatusCode.InternalServerError;
+                response.StatusText = "Internal server error";
+                response.ErrorMessage = createResult.Errors.ToString();
+                return response;
             }
-            
-            /*var hasher = new PasswordHasher<User>();
-            string hashedPassword = hasher.HashPassword(newUser, payload.Password);
-            newUser.PasswordHash = hashedPassword;
-            var createResult = await _unitOfRepository.User.Add(newUser);
-            await _unitOfRepository.CompleteAsync();*/
             _publishEndpoint.Publish(new CreateAccount
             {
                 AccountId = userId,
@@ -93,25 +76,16 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, ObjectResult>
                 CreatedDate = DateTime.Now,
                 PhoneNumber = payload.PhoneNumber,
             });
-            return new ObjectResult
-            (new
-                {
-                    status = StatusCodes.Status201Created,
-                    statusText = "Created",
-                    message = "Create account successful"
-                }
-            ) { StatusCode = StatusCodes.Status201Created };
+            response.StatusText = "Created";
+            response.StatusCode = (int)ResponseStatusCode.Created;
+            return response;
         }
         catch (Exception ex)
         {
-            return new ObjectResult
-            (new
-                {
-                    status = StatusCodes.Status500InternalServerError,
-                    statusText = "Internal Server Error",
-                    message = ex.ToString()
-                }
-            ){StatusCode = StatusCodes.Status500InternalServerError};
+            response.StatusCode = (int)ResponseStatusCode.InternalServerError;
+            response.StatusText = "Internal server error";
+            response.ErrorMessage = ex.Message;
+            return response;
         }
     }
 }

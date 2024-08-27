@@ -42,7 +42,6 @@
 
     <ItemGroup>
       <Folder Include="Data\Context\Migrations\" />
-      <Folder Include="Data\Models\Responses\" />
       <Folder Include="Features\Queries\" />
       <Folder Include="Helper\" />
     </ItemGroup>

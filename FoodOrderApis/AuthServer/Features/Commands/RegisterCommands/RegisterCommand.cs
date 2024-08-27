@@ -1,10 +1,11 @@
-﻿using AuthServer.Data.Models.Requests;
+﻿using AuthServer.Data.Requests;
+using AuthServer.Data.Dtos.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthServer.Features.Commands.RegisterCommands;
 
-public class RegisterCommand : IRequest<ObjectResult>
+public class RegisterCommand : IRequest<RegisterResponse>
 {
     public RegisterRequest Payload { get; set; }
 }

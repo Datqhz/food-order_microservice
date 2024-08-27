@@ -1,5 +1,5 @@
 ﻿using System.Data;
-using AuthServer.Data.Models.Requests;
+using AuthServer.Data.Requests;
 using FluentValidation;
 
 namespace AuthServer.Features.Commands.RegisterCommands;

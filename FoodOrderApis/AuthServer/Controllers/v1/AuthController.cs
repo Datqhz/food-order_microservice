@@ -1,9 +1,9 @@
 ﻿using System.Net;
-using AuthServer.Data.Dtos.Inputs;
-using AuthServer.Data.Models.Requests;
+using AuthServer.Data.Requests;
 using AuthServer.Features.Commands;
 using AuthServer.Features.Commands.LoginCommands;
 using AuthServer.Features.Commands.RegisterCommands;
+using FoodOrderApis.Common.Helpers;
 using FoodOrderApis.Common.MassTransit.Consumers;
 using IdentityModel.Client;
 using MassTransit;
@@ -27,12 +27,14 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
-        return await _mediator.Send(new RegisterCommand { Payload = request });
+        var result = await _mediator.Send(new RegisterCommand { Payload = request });
+        return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
     }
     [HttpPost("login")]
     public async Task<IActionResult> GetToken([FromBody] LoginRequest request)
     {
-        return await _mediator.Send(new LoginCommand { Payload = request });
+        var result = await _mediator.Send(new LoginCommand { Payload = request });
+        return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data);
     }
     
 }
