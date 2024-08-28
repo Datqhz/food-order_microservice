@@ -5,8 +5,7 @@ namespace CustomerService.Repositories;
 
 public interface IUnitOfRepository
 {
-    ICustomerRepository Customer { get; }
-    IAccountRepository Account { get; }
+    IUserInfoRepository User { get; }
     Task CompleteAsync();
     Task<IDbContextTransaction> OpenTransactionAsync();
     Task CommitAsync();

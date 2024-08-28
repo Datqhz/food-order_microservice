@@ -2,11 +2,10 @@
 using AuthServer.Data.Models;
 using AuthServer.Repositories;
 using FoodOrderApis.Common.Helpers;
-using FoodOrderApis.Common.MassTransit.Consumers;
+using FoodOrderApis.Common.MassTransit;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthServer.Features.Commands.RegisterCommands;
@@ -16,8 +15,9 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
     private readonly IUnitOfRepository _unitOfRepository;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly UserManager<User> _userManager;
+    private readonly IBusControl _busControl;
 
-    public RegisterHandler(IUnitOfRepository unitOfRepository, IPublishEndpoint publishEndpoint, UserManager<User> userManager)
+    public RegisterHandler(IUnitOfRepository unitOfRepository, IPublishEndpoint publishEndpoint, UserManager<User> userManager, IBusControl busControl)
     {
         _unitOfRepository = unitOfRepository;
         _publishEndpoint = publishEndpoint;
@@ -69,11 +69,14 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
                 response.ErrorMessage = createResult.Errors.ToString();
                 return response;
             }
-            _publishEndpoint.Publish(new CreateAccount
+            await _publishEndpoint.Publish(new CreateUserInfo
             {
-                AccountId = userId,
-                Username = payload.Username,
+                UserId = userId,
+                UserName= payload.Username,
                 CreatedDate = DateTime.Now,
+                IsActive = true,
+                ClientId = clientId,
+                DisplayName = payload.Displayname,
                 PhoneNumber = payload.PhoneNumber,
             });
             response.StatusText = "Created";

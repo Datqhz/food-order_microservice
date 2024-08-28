@@ -16,7 +16,7 @@ public class AuthDbContext : IdentityDbContext
     public DbSet<ApiResourceScope> ApiResourceScope { get; set; }
     public AuthDbContext(){}
     public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options){}
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
         {
@@ -24,7 +24,7 @@ public class AuthDbContext : IdentityDbContext
             //optionsBuilder.UseNpgsql("Host=db; port=5432; Database=db_test; Username=myuser; Password=123456");
             optionsBuilder.EnableSensitiveDataLogging(true);
         }
-    }
+    }*/
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

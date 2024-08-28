@@ -1,5 +1,5 @@
 ﻿
-using FoodOrderApis.Common.MassTransit.Consumers;
+using FoodOrderApis.Common.MassTransit;
 
 namespace AuthServer.Test;
 

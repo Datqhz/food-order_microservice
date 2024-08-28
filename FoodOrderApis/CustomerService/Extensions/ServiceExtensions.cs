@@ -62,7 +62,6 @@ public class ServiceExtensions
 
     public void ConfigureDependencyInjection(IServiceCollection services)
     {
-        services.AddTransient<ICustomerRepository, CustomerRepository>();
         services.AddScoped<IUnitOfRepository, UnitOfRepository>();
         services.AddLogging();
     }
@@ -108,7 +107,8 @@ public class ServiceExtensions
     {
         services.AddMassTransit(x =>
         {
-            x.AddConsumers(Assembly.GetEntryAssembly());
+            //x.AddConsumers(Assembly.GetEntryAssembly());
+            x.AddConsumer<CreateUserConsumer>();
             x.SetKebabCaseEndpointNameFormatter();
             x.UsingRabbitMq((context, cfg) =>
             {
@@ -117,7 +117,11 @@ public class ServiceExtensions
                     h.Username("guest");
                     h.Password("guest");
                 });
-                cfg.ConfigureEndpoints(context);
+                cfg.ReceiveEndpoint("customer_service_create_user", e =>
+                {
+                    e.ConfigureConsumer<CreateUserConsumer>(context);
+                });
+                /*cfg.ConfigureEndpoints(context);*/
                 
             });
         });

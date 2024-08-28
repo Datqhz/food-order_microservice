@@ -8,7 +8,7 @@ public static class EncodeHelper
     public static RsaSecurityKey CreateRsaKey()
     {
         string publicKey =
-            "x5VNfbyqcld4Wn_IczjOnsZjTcisaCN1ttoqAxRHXZwiAj-qY-SU-cGiOslduEfUsIbqY6dtQJhnsP32yHiPqZDYyC2PNGavD4VANzewyXGaptO3-ojMv9n0G7y8pn031DXw14tP3t1mjPqqcU-aDvTfvEOY0vJ5fqfov5Odqf4jX264LbeKk9Njuz3VWGlFhtVCaQ7ySNAzx_WWln6aE_QC4Vq9ycqvi7y1jce1PJvoK6mYlzXkeAR-yix9XjropgsTklBmx-a0pSzT7vBKVri0asBME4tkwpG-byomDp_XP8jne2Wc8_eIwTrbmEV18KMxZI-7V_voYeF36lUe4w";
+            "nUSGxUGoDNcKruJyLxG-UHy0P16d_J-DW2VX8VJGg_yjThhAFF-Hvbr1ImnCX9e8A8C522FNffy_PAXZsX7iAnY1vQniYTJL4V-LHA00o2EK42eAqhHRZxn4f8dciHAbHTA6mTLU2eP07L24r4sqN1PWWWiag81c7HCCwsiH6Vc-b6IrTV8N8a7iLCrIbzNVv4yqj4e-oEQa5-ecvSbL41rkXmqwz0JbFCqB3y94hLLGRb_XUBarcI0nahO4HcrFwCxr_7ae5XHnEJKtJpxzCNBnCYtB56fFdRGTonAPEBpOKQI5NJZUXQOshjZuNGz_X8nmbfrFbVA2x6KOI6Krmw";
         string exponent = "AQAB";
         var publicKeyAsBytes = Base64UrlEncoder.DecodeBytes(publicKey);
         var exponentBytes = Base64UrlEncoder.DecodeBytes(exponent);

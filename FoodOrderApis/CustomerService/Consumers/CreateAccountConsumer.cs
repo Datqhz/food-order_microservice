@@ -1,23 +1,33 @@
-﻿using CustomerService.Features.Commands.AccountCommands.CreateAccountCommand;
+﻿using CustomerService.Data.Requests;
+using CustomerService.Features.Commands.UserInfoCommands.CreateUserInfo;
 using CustomerService.Repositories;
-using FoodOrderApis.Common.MassTransit.Consumers;
+using FoodOrderApis.Common.MassTransit;
 using MassTransit;
 using MediatR;
 
 namespace CustomerService.Consumers;
 
-public class CreateAccountConsumer : IConsumer<CreateAccount>
+public class CreateUserConsumer : IConsumer<CreateUserInfo>
 {
     private readonly IMediator _mediator;
 
-    public CreateAccountConsumer(IMediator mediator)
+    public CreateUserConsumer(IMediator mediator)
     {
         _mediator = mediator;
     }
     
-    public async Task Consume(ConsumeContext<CreateAccount> context)
+    public async Task Consume(ConsumeContext<CreateUserInfo> context)
     {
-        var newAccount = context.Message;
-        await _mediator.Send(new CreateAccountRequest{Data = newAccount});
+        var newUser = context.Message;
+        await _mediator.Send(new CreateUserCommand{Payload = new CreateUserInfoInput
+        {
+            UserId = newUser.UserId,
+            UserName = newUser.UserName,
+            ClientId = newUser.ClientId,
+            CreatedDate = newUser.CreatedDate,
+            IsActive = newUser.IsActive,
+            DisplayName = newUser.DisplayName,
+            PhoneNumber = newUser.PhoneNumber
+        }});
     }
 }

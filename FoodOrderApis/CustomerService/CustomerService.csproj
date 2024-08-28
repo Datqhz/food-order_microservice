@@ -36,8 +36,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Data\Models\Dtos\Outputs\" />
-      <Folder Include="Features\Queries\" />
+      <Folder Include="Data\Context\Migrations\" />
+      <Folder Include="Data\Models\Dtos\" />
       <Folder Include="Handler\" />
     </ItemGroup>
 

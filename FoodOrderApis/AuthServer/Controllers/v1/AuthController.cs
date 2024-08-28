@@ -1,11 +1,7 @@
-﻿using System.Net;
-using AuthServer.Data.Requests;
-using AuthServer.Features.Commands;
+﻿using AuthServer.Data.Requests;
 using AuthServer.Features.Commands.LoginCommands;
 using AuthServer.Features.Commands.RegisterCommands;
 using FoodOrderApis.Common.Helpers;
-using FoodOrderApis.Common.MassTransit.Consumers;
-using IdentityModel.Client;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

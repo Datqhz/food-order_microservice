@@ -12,8 +12,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.IsActive).HasDefaultValue(true);
         builder.Property(x => x.CreatedDate)
             .HasConversion(
-            v => v.ToUniversalTime(), // Convert to UTC before saving
-            v => DateTime.SpecifyKind(v, DateTimeKind.Utc) // Specify kind when reading
+            v => v.ToUniversalTime(),
+            v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
         );
     }
 }

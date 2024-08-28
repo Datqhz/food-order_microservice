@@ -9,14 +9,12 @@ public class UnitOfRepository : IUnitOfRepository
 {
     private readonly CustomerDbContext _context;
     private IDbContextTransaction _transaction;
-    public ICustomerRepository Customer { get; private set; }
-    public IAccountRepository Account { get; private set; }
+    public IUserInfoRepository User { get; private set; }
 
     public UnitOfRepository(CustomerDbContext customerDbContext)
     {
         _context = customerDbContext;
-        Customer = new CustomerRepository(_context);
-        Account  = new AccountRepository(_context);
+        User = new UserInfoRepository(_context);
     }
     public async Task CompleteAsync()
     {

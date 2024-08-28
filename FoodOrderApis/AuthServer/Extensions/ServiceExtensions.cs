@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using System.Text;
-using AuthServer.Config;
 using AuthServer.Core;
 using AuthServer.Data.Context;
 using AuthServer.Data.Models;
@@ -34,14 +33,9 @@ public class ServiceExtensions
             .AddDefaultTokenProviders();
         services.AddIdentityServer()
             .AddDeveloperSigningCredential()
-            /*.AddClientStore<ClientStore>() 
-            .AddResourceStore<ResourceStore>()*/ 
             .AddClientStoreCache<ClientStore>() 
             .AddResourceStoreCache<ResourceStore>() 
             .AddAspNetIdentity<User>();
-        /*.AddInMemoryApiScopes(AuthServerConfig.ApiScopes)
-        .AddInMemoryClients(AuthServerConfig.Clients)
-        .AddTestUsers(AuthServerConfig.UserTests);*/
     }
 
     public void AddCors(IServiceCollection services)
@@ -82,10 +76,10 @@ public class ServiceExtensions
 
     public void ConfigureDbContext(IServiceCollection services)
     {
-        /*var connectionString = _configuration.GetValue<string>("DatabaseSettings:ConnectionString");
+        var connectionString = _configuration.GetValue<string>("DatabaseSettings:ConnectionString");
         services.AddDbContext<AuthDbContext>(options => options.UseNpgsql(connectionString,
-            o => { o.EnableRetryOnFailure();}));*/
-        services.AddDbContext<AuthDbContext>();
+            o => { o.EnableRetryOnFailure();}));
+        /*services.AddDbContext<AuthDbContext>();*/
     }
 
     public void ConfigureDependencyInjection(IServiceCollection services)
