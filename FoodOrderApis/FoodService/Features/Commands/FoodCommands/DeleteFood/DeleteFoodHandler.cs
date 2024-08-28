@@ -40,14 +40,13 @@ public class DeleteFoodHandler : IRequestHandler<DeleteFoodCommand, DeleteFoodRe
             {
                 response.StatusCode = (int)ResponseStatusCode.OK;
                 response.StatusText = $"Food with ID {request.Id} has been deleted";
-                return response;
             }
             else
             {
                 response.StatusCode = (int)ResponseStatusCode.BadRequest;
                 response.StatusText = $"Food with ID {request.Id} has not been deleted";
-                return response;
             }
+            return response;
         }
         catch (Exception ex)
         {

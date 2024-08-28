@@ -240,3 +240,9 @@ C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\CustomerServ
 C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\CustomerService\obj\Debug\net8.0\CustomerService.pdb
 C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\CustomerService\obj\Debug\net8.0\CustomerService.genruntimeconfig.cache
 C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\CustomerService\obj\Debug\net8.0\ref\CustomerService.dll
+C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\CustomerService\bin\Debug\net8.0\MassTransit.dll
+C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\CustomerService\bin\Debug\net8.0\MassTransit.Abstractions.dll
+C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\CustomerService\bin\Debug\net8.0\MassTransit.RabbitMqTransport.dll
+C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\CustomerService\bin\Debug\net8.0\RabbitMQ.Client.dll
+C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\CustomerService\bin\Debug\net8.0\FoodOrderApis.Common.dll
+C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\CustomerService\bin\Debug\net8.0\FoodOrderApis.Common.pdb

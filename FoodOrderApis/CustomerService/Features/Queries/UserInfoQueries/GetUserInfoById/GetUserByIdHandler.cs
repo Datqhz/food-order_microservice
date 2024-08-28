@@ -22,7 +22,7 @@ public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, GetUserInfoB
             var validateResult = validator.Validate(request);
             if (!validateResult.IsValid)
             {
-                response.StatusText = validateResult.Errors.ToString();
+                response.StatusText = validateResult.Errors.First().ErrorMessage;
                 return response;
             }
 
@@ -31,15 +31,14 @@ public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, GetUserInfoB
             {
                 response.StatusCode = (int)ResponseStatusCode.NotFound;
                 response.StatusText = "User does not exist";
-                return response;
             }
             else
             {
                 response.StatusCode = (int)ResponseStatusCode.OK;
                 response.StatusText = "User retrieved";
                 response.Data = user;
-                return response;
             }
+            return response;
         }
         catch (Exception ex)
         {

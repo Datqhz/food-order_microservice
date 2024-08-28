@@ -97,19 +97,18 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
                 loginResponse.StatusCode = (int)ResponseStatusCode.OK;
                 loginResponse.Data = new LoginDto
                 {
-                    AccessToken = response.AccessToken, 
-                    Scope= response.Scope,
+                    AccessToken = response.AccessToken,
+                    Scope = response.Scope,
                     Expired = response.ExpiresIn
                 };
-                return loginResponse;
             }
             else
             {
                 loginResponse.StatusCode = (int)ResponseStatusCode.InternalServerError;
                 loginResponse.StatusText = "Internal server error";
                 loginResponse.ErrorMessage = response.ErrorDescription;
-                return loginResponse;
             }
+            return loginResponse;
         }
         catch (Exception ex)
         {

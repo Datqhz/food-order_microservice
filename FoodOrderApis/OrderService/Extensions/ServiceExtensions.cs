@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OrderService.Consumers;
 using OrderService.Data.Context;
+using OrderService.Repositories;
 
 namespace OrderService.Extensions;
 
@@ -54,13 +55,14 @@ public class ServiceExtensions
         var connectionString = _configuration.GetValue<string>("DatabaseSettings:ConnectionString");
         services.AddDbContext<OrderDbContext>(options => options.UseNpgsql(connectionString,
             o => { o.EnableRetryOnFailure();}));
+        //services.AddDbContext<OrderDbContext>();
     }
 
-    /*public void ConfigureDependencyInjection(IServiceCollection services)
+    public void ConfigureDependencyInjection(IServiceCollection services)
     {
         services.AddScoped<IUnitOfRepository, UnitOfRepository>();
         services.AddLogging();
-    }*/
+    }
     
     public void AddMediatorPattern(IServiceCollection services)
     {

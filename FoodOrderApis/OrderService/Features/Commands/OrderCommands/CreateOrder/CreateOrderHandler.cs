@@ -39,15 +39,14 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, CreateOrde
             if (addResult is null)
             {
                 response.StatusText = "Order could not be added";
-                return response;
             }
             else
             {
                 await _unitOfRepository.CompleteAsync();
                 response.StatusCode = (int)ResponseStatusCode.Created;
                 response.StatusText = "Order added";
-                return response;
             }
+            return response;
         }
         catch (Exception ex)
         {

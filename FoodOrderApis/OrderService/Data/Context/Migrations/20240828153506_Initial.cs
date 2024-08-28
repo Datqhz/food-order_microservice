@@ -40,8 +40,8 @@ namespace OrderService.Data.Context.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     OrderedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     OrderStatus = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    EaterId = table.Column<string>(type: "text", nullable: false),
-                    MerchantId = table.Column<string>(type: "text", nullable: false)
+                    EaterId = table.Column<int>(type: "integer", nullable: false),
+                    MerchantId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {

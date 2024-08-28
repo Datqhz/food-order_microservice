@@ -1,6 +1,6 @@
 ﻿namespace OrderService.Data.Requests;
 
-public class UpdateOrdeDetail
+public class UpdateOrderDetailInput
 {
     public int OrderDetailId { get; set; }
     public int Quantity { get; set; }

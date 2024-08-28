@@ -1,5 +1,5 @@
 ﻿using CustomerService.Data.Requests;
-using CustomerService.Features.Commands.UserInfoCommands.CreateUserInfo;
+using CustomerService.Features.Commands.UserInfoCommands.CreateUser;
 using CustomerService.Features.Commands.UserInfoCommands.UpdateUser;
 using CustomerService.Features.Queries.UserInfoQueries.GetAllUserInfo;
 using CustomerService.Features.Queries.UserInfoQueries.GetUserInfoById;

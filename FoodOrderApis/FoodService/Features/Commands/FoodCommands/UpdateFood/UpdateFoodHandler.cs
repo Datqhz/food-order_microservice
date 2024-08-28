@@ -45,14 +45,13 @@ public class UpdateFoodHandler : IRequestHandler<UpdateFoodCommand, UpdateFoodRe
             {
                 response.StatusCode = (int)ResponseStatusCode.OK;
                 response.StatusText = "Food updated";
-                return response;
             }
             else
             {
                 response.StatusCode = (int)ResponseStatusCode.BadRequest;
                 response.StatusText = "Failed to update food";
-                return response;
             }
+            return response;
         }
         catch (Exception ex)
         {

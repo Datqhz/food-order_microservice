@@ -36,11 +36,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Data\Context\Migrations\" />
+      <ProjectReference Include="..\FoodOrderApis.Common\FoodOrderApis.Common.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\FoodOrderApis.Common\FoodOrderApis.Common.csproj" />
+      <Folder Include="Data\Context\Migrations\" />
     </ItemGroup>
 
 </Project>

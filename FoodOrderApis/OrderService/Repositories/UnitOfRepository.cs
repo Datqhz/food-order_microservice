@@ -7,13 +7,13 @@ using OrderService.Repositories.Interfaces;
 
 namespace OrderService.Repositories;
 
-public class UnitOfRepository
+public class UnitOfRepository : IUnitOfRepository
 {
     private readonly OrderDbContext _context;
     private IDbContextTransaction _transaction;
-    public IFoodRepository Food { get; }
-    public IOrderRepository Order { get; }
-    public IOrderDetailRepository OrderDetail { get; }
+    public IFoodRepository Food { get; set; }
+    public IOrderRepository Order { get; set; }
+    public IOrderDetailRepository OrderDetail { get; set; }
 
     public UnitOfRepository(OrderDbContext context)
     {

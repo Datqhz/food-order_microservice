@@ -768,6 +768,7 @@
       "FoodOrderApis.Common/1.0.0": {
         "dependencies": {
           "BCrypt.Net-Next": "4.0.3",
+          "MassTransit.RabbitMQ": "8.2.5",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.8"
         },
         "runtime": {

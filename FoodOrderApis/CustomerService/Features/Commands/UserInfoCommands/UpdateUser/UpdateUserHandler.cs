@@ -56,14 +56,14 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserIn
                 }, cancellationToken);
                 response.StatusCode = (int)ResponseStatusCode.OK;
                 response.StatusText = "User updated";
-                return response;
             }
             else
             {
                 response.StatusCode = (int)ResponseStatusCode.InternalServerError;
                 response.StatusText = "Internal Server Error";
-                return response;
             }
+            return response;
+            
         }
         catch (Exception ex)
         {

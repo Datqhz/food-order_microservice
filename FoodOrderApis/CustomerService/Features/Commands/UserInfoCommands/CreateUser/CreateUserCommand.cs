@@ -3,7 +3,7 @@ using CustomerService.Data.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CustomerService.Features.Commands.UserInfoCommands.CreateUserInfo;
+namespace CustomerService.Features.Commands.UserInfoCommands.CreateUser;
 
 public class CreateUserCommand : IRequest<CreateUserInfoResponse>
 {

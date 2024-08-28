@@ -1,5 +1,5 @@
 ﻿using CustomerService.Data.Requests;
-using CustomerService.Features.Commands.UserInfoCommands.CreateUserInfo;
+using CustomerService.Features.Commands.UserInfoCommands.CreateUser;
 using CustomerService.Repositories;
 using FoodOrderApis.Common.MassTransit;
 using MassTransit;

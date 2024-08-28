@@ -42,14 +42,13 @@ public class CreateFoodHandler : IRequestHandler<CreateFoodCommand, CreateFoodRe
             {
                 response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 response.StatusText = "Internal Server Error";
-                return response;
             }
             else
             {
                 response.StatusCode = (int)HttpStatusCode.Created;
                 response.StatusText = "Food created successfully";
-                return response;
             }
+            return response;
         }
         catch (Exception ex)
         {

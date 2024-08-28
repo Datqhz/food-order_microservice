@@ -13,7 +13,6 @@ namespace AuthServer.Controllers.v1;
 public class AuthController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private readonly IPublishEndpoint _publishEndpoint;
 
     public AuthController(IMediator mediator)
     {

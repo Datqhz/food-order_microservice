@@ -67,20 +67,22 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
                 response.StatusCode = (int)ResponseStatusCode.InternalServerError;
                 response.StatusText = "Internal server error";
                 response.ErrorMessage = createResult.Errors.ToString();
-                return response;
             }
-            await _publishEndpoint.Publish(new CreateUserInfo
+            else
             {
-                UserId = userId,
-                UserName= payload.Username,
-                CreatedDate = DateTime.Now,
-                IsActive = true,
-                ClientId = clientId,
-                DisplayName = payload.Displayname,
-                PhoneNumber = payload.PhoneNumber,
-            });
-            response.StatusText = "Created";
-            response.StatusCode = (int)ResponseStatusCode.Created;
+                await _publishEndpoint.Publish(new CreateUserInfo
+                {
+                    UserId = userId,
+                    UserName= payload.Username,
+                    CreatedDate = DateTime.Now,
+                    IsActive = true,
+                    ClientId = clientId,
+                    DisplayName = payload.Displayname,
+                    PhoneNumber = payload.PhoneNumber,
+                });
+                response.StatusText = "Created";
+                response.StatusCode = (int)ResponseStatusCode.Created;
+            }
             return response;
         }
         catch (Exception ex)

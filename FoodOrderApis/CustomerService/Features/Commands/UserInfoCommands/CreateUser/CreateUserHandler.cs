@@ -4,7 +4,7 @@ using CustomerService.Repositories;
 using FoodOrderApis.Common.Helpers;
 using MediatR;
 
-namespace CustomerService.Features.Commands.UserInfoCommands.CreateUserInfo;
+namespace CustomerService.Features.Commands.UserInfoCommands.CreateUser;
 
 public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserInfoResponse>
 {
@@ -25,12 +25,11 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserIn
             var payload = request.Payload;
             if (!validationResult.IsValid)
             {
-                response.StatusText = validationResult.Errors.ToString();
-                return response;
+                response.StatusText = validationResult.Errors.First().ToString();
             }
             else
             {
-                var customerCreated = await _unitOfRepository.User.Add(new UserInfo
+                await _unitOfRepository.User.Add(new UserInfo
                 {
                     Id = payload.UserId,
                     ClientId = payload.ClientId,
@@ -43,8 +42,8 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserIn
                 await _unitOfRepository.CompleteAsync();
                 response.StatusCode = (int)ResponseStatusCode.Created;
                 response.StatusText = "Create user successfully";
-                return response;
             }
+            return response;
         }
         catch (Exception ex)
         {

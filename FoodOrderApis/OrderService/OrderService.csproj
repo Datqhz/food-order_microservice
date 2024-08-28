@@ -36,12 +36,7 @@
 
     <ItemGroup>
       <Folder Include="Data\Context\Migrations\" />
-      <Folder Include="Features\Commands\OrderDetailCommands\CreateOrderDetail\" />
-      <Folder Include="Features\Commands\OrderDetailCommands\DeleteOrderDetaol\" />
-      <Folder Include="Features\Commands\OrderDetailCommands\UpdateMultipleOrderDetail\" />
-      <Folder Include="Features\Commands\OrderDetailCommands\UpdateOrderDetail\" />
       <Folder Include="Features\Queries\OrderDetailQueries\" />
-      <Folder Include="Features\Queries\OrderQueries\" />
     </ItemGroup>
 
     <ItemGroup>

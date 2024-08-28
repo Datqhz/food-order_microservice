@@ -23,15 +23,14 @@ public class GetFoodByIdHandler : IRequestHandler<GetFoodByIdQuery, GetFoodByIdR
             if (food == null)
             {
                 response.StatusText = "Food not found";
-                return response;
             }
             else
             {
                 response.StatusCode = (int)ResponseStatusCode.OK;
                 response.StatusText = "Food retrieved";
                 response.Data = food.AsDto();
-                return response;
             }
+            return response;
         }
         catch (Exception ex)
         {

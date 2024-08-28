@@ -42,13 +42,12 @@ public class UpdateOrderHandler : IRequestHandler<UpdateOrderCommand, UpdateOrde
                 await _unitOfRepository.CompleteAsync();
                 response.StatusCode = (int)ResponseStatusCode.OK;
                 response.StatusText = "Order successfully updated";
-                return response;
             }
             else
             {
                 response.StatusText = "Order not updated";
-                return response;
             }
+            return response;
         }
         catch (Exception ex)
         {

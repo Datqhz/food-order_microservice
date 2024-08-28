@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 ServiceExtensions serviceExtensions = new ServiceExtensions(builder.Configuration);
 serviceExtensions.AddAuthentication(builder.Services);
 serviceExtensions.ConfigureDbContext(builder.Services);
-//serviceExtensions.ConfigureDependencyInjection(builder.Services);
+serviceExtensions.ConfigureDependencyInjection(builder.Services);
 serviceExtensions.AddMediatorPattern(builder.Services);
 serviceExtensions.AddCors(builder.Services);
 serviceExtensions.AddMassTransitRabbitMq(builder.Services);
@@ -23,6 +23,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
 //app.UseHttpsRedirection();
 
 app.Run();
