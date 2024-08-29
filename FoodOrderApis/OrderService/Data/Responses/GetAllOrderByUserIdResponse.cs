@@ -5,5 +5,5 @@ namespace OrderService.Data.Responses;
 
 public class GetAllOrderByUserIdResponse : BaseResponse
 {
-    public List<OrderDto> Data { get; set; }
+    public List<OrderDto> Data;
 }

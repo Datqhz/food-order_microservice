@@ -36,7 +36,8 @@
 
     <ItemGroup>
       <Folder Include="Data\Context\Migrations\" />
-      <Folder Include="Features\Queries\OrderDetailQueries\" />
+      <Folder Include="Features\Commands\FoodCommands\DeleteFood\" />
+      <Folder Include="InternalController\" />
     </ItemGroup>
 
     <ItemGroup>

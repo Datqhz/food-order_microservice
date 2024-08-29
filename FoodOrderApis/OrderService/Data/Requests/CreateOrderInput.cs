@@ -2,6 +2,6 @@
 
 public class CreateOrderInput
 {
-    public int EaterId { get; set; }
-    public int MerchantId { get; set; }
+    public string EaterId { get; set; }
+    public string MerchantId { get; set; }
 }

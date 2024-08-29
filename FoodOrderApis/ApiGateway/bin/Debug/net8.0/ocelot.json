@@ -1,0 +1,142 @@
+﻿{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/v1/auth/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localht",
+          "Port": "5092"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/auth/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST"
+      ],
+      "SwaggerKey": "authserver",
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 30.0,
+        "Limit": 1
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/customer/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localht",
+          "Port": "5204"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/customer/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKeys": ["Bearer"],
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "customerservice"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/food/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localht",
+          "Port": "5107"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/food/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKeys": ["Bearer"],
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "foodservice"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localht",
+          "Port": "5149"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKeys": ["Bearer"],
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "orderservice"
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localht:5084"
+  },
+  "SwaggerEndPoints": [
+    {
+      "key": "authserver",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "AuthServer.Api",
+          "Version": "1.0",
+          "Url": "http://authserver:5092/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "key": "customerservice",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "CustomerService.Api",
+          "Version": "1.0",
+          "Url": "http://customerservice:5204/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "key": "foodservice",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "FoodService.Api",
+          "Version": "1.0",
+          "Url": "http://foodservice:5107/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "key": "orderservice",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "OrderService.Api",
+          "Version": "1.0",
+          "Url": "http://orderservice:5149/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ]
+}

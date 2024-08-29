@@ -56,11 +56,13 @@ namespace OrderService.Data.Context.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("EaterId")
-                        .HasColumnType("integer");
+                    b.Property<string>("EaterId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.Property<int>("MerchantId")
-                        .HasColumnType("integer");
+                    b.Property<string>("MerchantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("OrderStatus")
                         .ValueGeneratedOnAdd()

@@ -25,7 +25,7 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserIn
             var payload = request.Payload;
             if (!validationResult.IsValid)
             {
-                response.StatusText = validationResult.Errors.First().ToString();
+                response.StatusText = validationResult.ToString("~");
             }
             else
             {

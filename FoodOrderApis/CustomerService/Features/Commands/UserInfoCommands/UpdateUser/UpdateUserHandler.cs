@@ -2,7 +2,7 @@
 using CustomerService.Data.Responses;
 using CustomerService.Repositories;
 using FoodOrderApis.Common.Helpers;
-using FoodOrderApis.Common.MassTransit;
+using FoodOrderApis.Common.MassTransit.Contracts;
 using MassTransit;
 using MediatR;
 
@@ -28,7 +28,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserIn
             var payload = request.Payload;
             if (!validationResult.IsValid)
             {
-                response.StatusText = validationResult.Errors.First().ErrorMessage;
+                response.StatusText = validationResult.ToString("~");
                 return response;
             }
 

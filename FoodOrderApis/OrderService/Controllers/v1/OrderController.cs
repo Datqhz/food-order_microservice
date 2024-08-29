@@ -1,6 +1,13 @@
-﻿using MediatR;
+﻿using FoodOrderApis.Common.Helpers;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OrderService.Data.Requests;
+using OrderService.Features.Commands.OrderCommands.CreateOrder;
+using OrderService.Features.Commands.OrderCommands.UpdateOrder;
+using OrderService.Features.Commands.OrderDetailCommands.CreateOrderDetail;
+using OrderService.Features.Commands.OrderDetailCommands.UpdateOrderDetail;
+using OrderService.Features.Queries.OrderQueries.GetAllOrderByUserId;
 
 namespace OrderService.Controllers.v1;
 
@@ -16,5 +23,34 @@ public class OrderController
         _mediator = mediator;
     }
     
+    [HttpGet("get-by-user")]
+    public async Task<IActionResult> GetOrderDetailByOrderIdAsync([FromQuery] string? eaterId = null, [FromQuery] string? merchantId = null)
+    {
+        var result = await _mediator.Send(new GetAllOrderByUserIdQuery
+        {
+            EaterId = eaterId,
+            MerchantId = merchantId
+        });
+        return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data);
+    }
 
+    [HttpPost]
+    public async Task<IActionResult> CreateOrder([FromBody] CreateOrderInput input)
+    {
+        var result = await _mediator.Send(new CreateOrderCommand
+        {
+            Payload = input
+        });
+        return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateOrderDetail([FromBody] UpdateOrderInput input)
+    {
+        var result = await _mediator.Send(new UpdateOrderCommand
+        {
+            Payload = input
+        });
+        return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
+    }
 }

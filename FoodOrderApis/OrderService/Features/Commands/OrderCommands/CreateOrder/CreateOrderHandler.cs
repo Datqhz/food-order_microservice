@@ -23,7 +23,7 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, CreateOrde
             var validationResult = await validator.ValidateAsync(request);
             if (!validationResult.IsValid)
             {
-                response.StatusText = validationResult.Errors.First().ToString();
+                response.StatusText = validationResult.ToString("~");
                 return response;
             }
 

@@ -16,4 +16,23 @@ public static class DtoExtensions
             OrderStatus = order.OrderStatus,
         };
     }
+
+    public static OrderDetailDto AsDto(this OrderDetail orderDetail)
+    {
+        return new OrderDetailDto
+        {
+            Id = orderDetail.Id,
+            OrderId = orderDetail.OrderId,
+            Food = orderDetail.Food.AsDto(),
+        };
+    }
+    public static FoodDto AsDto(this Food food)
+    {
+        return new FoodDto()
+        {
+            Id = food.Id,
+            Name = food.Name,
+            ImageUrl = food.ImageUrl
+        };
+    }
 }

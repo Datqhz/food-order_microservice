@@ -14,7 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 serviceExtensions.ConfigureSwagger(builder.Services);
 
 var app = builder.Build();
-serviceExtensions.InitializeDatabase(app);
+//serviceExtensions.InitializeDatabase(app);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

@@ -34,7 +34,7 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
             if (!validateResult.IsValid)
             {
                 loginResponse.StatusText = "Bad Request";
-                loginResponse.ErrorMessage = "Invalid information";
+                loginResponse.ErrorMessage = validateResult.ToString("~");
                 return loginResponse;
             }
 
@@ -91,6 +91,7 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
                 UserName = payload.Username,
                 Password = payload.Password
             });
+            
             if (response.HttpStatusCode == HttpStatusCode.OK)
             {
                 loginResponse.StatusText = "OK";

@@ -108,6 +108,7 @@ public class ServiceExtensions
             //x.AddConsumers(Assembly.GetEntryAssembly());
             x.AddConsumer<CreateFoodConsumer>();
             x.AddConsumer<UpdateFoodConsumer>();
+            x.AddConsumer<CreateUserConsumer>();
             x.SetKebabCaseEndpointNameFormatter();
             x.UsingRabbitMq((context, cfg) =>
             {
@@ -124,6 +125,10 @@ public class ServiceExtensions
                 cfg.ReceiveEndpoint("order_service_update_food", e =>
                 {
                     e.ConfigureConsumer<UpdateFoodConsumer>(context);
+                });
+                cfg.ReceiveEndpoint("order_service_test", e =>
+                {
+                    e.ConfigureConsumer<CreateUserConsumer>(context);
                 });
             });
         });

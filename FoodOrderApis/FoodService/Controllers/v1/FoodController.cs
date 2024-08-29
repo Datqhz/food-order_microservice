@@ -1,8 +1,8 @@
 ﻿using FoodOrderApis.Common.Helpers;
 using FoodService.Data.Requests;
-using FoodService.Features.Commands.FoodCommands.CreateFood;
-using FoodService.Features.Commands.FoodCommands.DeleteFood;
-using FoodService.Features.Commands.FoodCommands.UpdateFood;
+using FoodService.Features.Commands.FoodCommands.CreateFoodCommands;
+using FoodService.Features.Commands.FoodCommands.DeleteFoodCommands;
+using FoodService.Features.Commands.FoodCommands.UpdateFoodCommands;
 using FoodService.Features.Queries.FoodQueries.GetAllFoodByUserId;
 using FoodService.Features.Queries.FoodQueries.GetFoodById;
 using MediatR;
@@ -32,7 +32,6 @@ public class FoodController : ControllerBase
         });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data);
     }
-
     [HttpGet("{id}")]
     public async Task<IActionResult> GetFoodById([FromRoute] int id)
     {

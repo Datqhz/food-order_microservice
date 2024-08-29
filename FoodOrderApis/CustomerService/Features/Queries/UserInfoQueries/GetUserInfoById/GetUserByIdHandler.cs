@@ -22,7 +22,7 @@ public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, GetUserInfoB
             var validateResult = validator.Validate(request);
             if (!validateResult.IsValid)
             {
-                response.StatusText = validateResult.Errors.First().ErrorMessage;
+                response.StatusText = validateResult.ToString("~");
                 return response;
             }
 

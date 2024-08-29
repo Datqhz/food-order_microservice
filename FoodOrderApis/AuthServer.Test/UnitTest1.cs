@@ -1,5 +1,6 @@
 namespace AuthServer.Test;
 
+
 public class Tests
 {
     [SetUp]

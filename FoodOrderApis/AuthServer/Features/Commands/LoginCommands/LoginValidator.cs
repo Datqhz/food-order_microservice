@@ -8,7 +8,7 @@ public class LoginValidator : AbstractValidator<LoginCommand>
     {
         RuleFor(command => command.Payload).NotNull().WithMessage("Please provide your infomation");
         RuleFor(command => command.Payload.Username)
-            .NotEmpty().WithMessage("Please provide your username")
+            .NotNull().NotEmpty().WithMessage("Please provide your username")
             .MinimumLength(3).MaximumLength(100).WithMessage("Username must be between 3 and 100 characters");
         RuleFor(command => command.Payload.Password)
             .NotEmpty().WithMessage("Please provide your password")

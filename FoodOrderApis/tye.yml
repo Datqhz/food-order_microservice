@@ -1,0 +1,38 @@
+name: Awesome Application
+services:
+  - name: authserver
+    project: ./AuthServer/AuthServer.csproj
+    tags:
+      - authserver
+    bindings:
+      - protocol: http
+        port: 5092
+
+  - name: customerservice
+    project: ./CustomerService/CustomerService.csproj
+    tags:
+      - customerservice
+    bindings:
+      - protocol: http
+        port: 5204
+  - name: foodservice
+    project: ./FoodService/FoodService.csproj
+    tags:
+      - foodservice
+    bindings:
+      - protocol: http
+        port: 5107
+  - name: orderservice
+    project: ./OrderService/OrderService.csproj
+    tags:
+      - orderservice
+    bindings:
+      - protocol: http
+        port: 5149
+  - name: apigateway
+    project: ./ApiGateway/ApiGateway.csproj
+    tags:
+      - apigateway
+    bindings:
+      - protocol: http
+        port: 5084

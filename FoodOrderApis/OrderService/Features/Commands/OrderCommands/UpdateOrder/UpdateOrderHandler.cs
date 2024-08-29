@@ -24,7 +24,7 @@ public class UpdateOrderHandler : IRequestHandler<UpdateOrderCommand, UpdateOrde
             var validationResult = await validator.ValidateAsync(request);
             if (!validationResult.IsValid)
             {
-                response.StatusText = validationResult.Errors.First().ErrorMessage;
+                response.StatusText = validationResult.ToString("~");
                 return response;
             }
 

@@ -61,7 +61,6 @@ public class ServiceExtensions
     public void ConfigureDependencyInjection(IServiceCollection services)
     {
         services.AddScoped<IUnitOfRepository, UnitOfRepository>();
-        services.AddLogging();
     }
     
     public void AddMediatorPattern(IServiceCollection services)

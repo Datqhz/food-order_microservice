@@ -2,7 +2,7 @@
 using AuthServer.Data.Models;
 using AuthServer.Repositories;
 using FoodOrderApis.Common.Helpers;
-using FoodOrderApis.Common.MassTransit;
+using FoodOrderApis.Common.MassTransit.Contracts;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -15,9 +15,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
     private readonly IUnitOfRepository _unitOfRepository;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly UserManager<User> _userManager;
-    private readonly IBusControl _busControl;
-
-    public RegisterHandler(IUnitOfRepository unitOfRepository, IPublishEndpoint publishEndpoint, UserManager<User> userManager, IBusControl busControl)
+    public RegisterHandler(IUnitOfRepository unitOfRepository, IPublishEndpoint publishEndpoint, UserManager<User> userManager)
     {
         _unitOfRepository = unitOfRepository;
         _publishEndpoint = publishEndpoint;
@@ -34,7 +32,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
             if (!validateResult.IsValid)
             {
                 response.StatusText = "Bad Request";
-                response.ErrorMessage = "Invalid information";
+                response.ErrorMessage = validateResult.ToString("~");
                 return response;
             }
 

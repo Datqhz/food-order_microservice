@@ -1,4 +1,4 @@
-﻿using FoodOrderApis.Common.MassTransit;
+﻿using FoodOrderApis.Common.MassTransit.Contracts;
 using FoodService.Data.Requests;
 using FoodService.Features.Commands.UserCommands.CreateUser;
 using MassTransit;

@@ -1,0 +1,21 @@
+AssemblyInformationalVersion:
+InformationalVersion: 1.0.0+729b9290efc363e23b7dd54d42b97c986501a687
+Version: 1.0.0
+TargetFrameworks:
+RunCommand: C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\ApiGateway\bin\Debug\net8.0\ApiGateway.exe
+RunArguments:
+TargetPath: C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\ApiGateway\bin\Debug\net8.0\ApiGateway.dll
+PublishDir: bin\Debug\net8.0\publish\
+AssemblyName: ApiGateway
+IntermediateOutputPath: obj\Debug\net8.0\
+TargetFramework: net8.0
+_ShortFrameworkIdentifier:
+_ShortFrameworkVersion:
+_TargetFrameworkVersionWithoutV: 8.0
+FrameworkReference: Microsoft.NETCore.App;Microsoft.AspNetCore.App
+ContainerBaseImage:
+ContainerBaseTag:
+MicrosoftNETPlatformLibrary:
+_AspNetCoreAppSharedFxIsEnabled:
+UsingMicrosoftNETSdkWeb: true
+AzureFunctionsVersion:

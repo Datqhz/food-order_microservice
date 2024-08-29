@@ -66,6 +66,28 @@
         "AllowedScopes": []
       },
       "SwaggerKey": "foodservice"
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "5149"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKeys": ["Bearer"],
+        "AllowedScopes": []
+      },
+      "SwaggerKey": "orderservice"
     }
   ],
   "GlobalConfiguration": {
@@ -102,6 +124,17 @@
           "Name": "FoodService.Api",
           "Version": "1.0",
           "Url": "http://foodservice:5107/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "key": "orderservice",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "OrderService.Api",
+          "Version": "1.0",
+          "Url": "http://orderservice:5149/swagger/v1/swagger.json"
         }
       ]
     }
