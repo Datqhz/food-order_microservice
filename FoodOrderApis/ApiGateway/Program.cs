@@ -7,13 +7,28 @@ var builder = WebApplication.CreateBuilder(args);
 
 ServiceExtensions serviceExtensions = new ServiceExtensions(builder.Configuration);
 serviceExtensions.ConfigureAuthentication(builder.Services);
-builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
-builder.Configuration.AddJsonFile("Routes/ocelot.swaggerendpoint.json", optional: false, reloadOnChange: true);
-builder.Configuration.AddOcelotWithSwaggerSupport(options =>
+var currentEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+if (currentEnv == "Development")
 {
-    options.Folder = "Routes";
-    options.PrimaryOcelotConfigFileName = "ocelot.swaggerendpoint.json";
-});
+    builder.Configuration.AddJsonFile("ocelot.development.json", optional: false, reloadOnChange: true);
+    builder.Configuration.AddJsonFile("Routes/ocelot.swaggerendpoint.development.json", optional: false, reloadOnChange: true);
+    builder.Configuration.AddOcelotWithSwaggerSupport(options =>
+    {
+        options.Folder = "Routes";
+        options.PrimaryOcelotConfigFileName = "ocelot.swaggerendpoint.development.json";
+    });
+}
+else
+{
+        builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
+        builder.Configuration.AddJsonFile("Routes/ocelot.swaggerendpoint.json", optional: false, reloadOnChange: true);
+        builder.Configuration.AddOcelotWithSwaggerSupport(options =>
+        {
+            options.Folder = "Routes";
+            options.PrimaryOcelotConfigFileName = "ocelot.swaggerendpoint.json"; 
+        });
+}
+
 builder.Services.AddOcelot(builder.Configuration);
 serviceExtensions.ConfigureSwagger(builder.Services);
 var app = builder.Build();

@@ -58,20 +58,41 @@ public class ServiceExtensions
 
     public void AddMassTransitWithRabbitMq(IServiceCollection services)
     {
-        services.AddMassTransit(x =>
+        var currentEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        if (currentEnv == "Development")
         {
-            x.AddConsumers(Assembly.GetEntryAssembly());
-            x.SetKebabCaseEndpointNameFormatter();
-            x.UsingRabbitMq((context, cfg) =>
+            services.AddMassTransit(x =>
             {
-                cfg.Host("rabbitmq", "/", h =>
+                x.AddConsumers(Assembly.GetEntryAssembly());
+                x.SetKebabCaseEndpointNameFormatter();
+                x.UsingRabbitMq((context, cfg) =>
                 {
-                    h.Username("guest");
-                    h.Password("guest");
+                    cfg.Host("localhost", 5672,"/", h =>
+                    {
+                        h.Username("guest");
+                        h.Password("guest");
+                    });
+                    cfg.ConfigureEndpoints(context); // Auto configure endpoint for consumers
                 });
-                cfg.ConfigureEndpoints(context); // Auto configure endpoint for consumers
             });
-        });
+        }
+        else
+        {
+            services.AddMassTransit(x =>
+            {
+                x.AddConsumers(Assembly.GetEntryAssembly());
+                x.SetKebabCaseEndpointNameFormatter();
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host("rabbitmq","/", h =>
+                    {
+                        h.Username("guest");
+                        h.Password("guest");
+                    });
+                    cfg.ConfigureEndpoints(context); // Auto configure endpoint for consumers
+                });
+            });
+        }
     }
 
     public void ConfigureDbContext(IServiceCollection services)

@@ -1,0 +1,48 @@
+﻿{
+  "SwaggerEndPoints": [
+    {
+      "key": "authserver",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "AuthServer.Api",
+          "Version": "1.0",
+          "Url": "http://localhost:5092/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "key": "customerservice",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "CustomerService.Api",
+          "Version": "1.0",
+          "Url": "http://localhost:5204/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "key": "foodservice",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "FoodService.Api",
+          "Version": "1.0",
+          "Url": "http://localhost:5107/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "key": "orderservice",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "OrderService.Api",
+          "Version": "1.0",
+          "Url": "http://localhost:5149/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ]
+}
