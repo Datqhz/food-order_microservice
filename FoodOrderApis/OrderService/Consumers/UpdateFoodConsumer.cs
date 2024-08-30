@@ -9,6 +9,11 @@ namespace OrderService.Consumers;
 public class UpdateFoodConsumer : IConsumer<UpdateFood>
 {
     private readonly IMediator _mediator;
+
+    public UpdateFoodConsumer(IMediator mediator)
+    {
+        _mediator = mediator;
+    }
     public async Task Consume(ConsumeContext<UpdateFood> context)
     {
         var message = context.Message;

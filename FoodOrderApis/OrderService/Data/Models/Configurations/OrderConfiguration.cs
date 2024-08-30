@@ -23,6 +23,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
         builder.Property(x => x.OrderStatus)
             .HasDefaultValue(1);
-
+        builder.HasOne(x => x.Merchant).WithMany(x => x.OrderReceiveds ).HasForeignKey(x => x.MerchantId);
+        builder.HasOne(x => x.Eater).WithMany(x => x.OrderCreateds).HasForeignKey(x => x.EaterId);
     }
 }

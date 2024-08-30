@@ -12,11 +12,13 @@ public class CreateFoodHandler : IRequestHandler<CreateFoodCommand, CreateFoodRe
 {
     private readonly IUnitOfRepository _unitOfRepository;
     private readonly IPublishEndpoint _publishEndpoint;
+    private readonly IBusControl _bus;
 
-    public CreateFoodHandler(IUnitOfRepository unitOfRepository, IPublishEndpoint publishEndpoint)
+    public CreateFoodHandler(IUnitOfRepository unitOfRepository, IPublishEndpoint publishEndpoint, IBusControl bus)
     {
         _unitOfRepository = unitOfRepository;
         _publishEndpoint = publishEndpoint;
+        _bus = bus;
     }
     public async Task<CreateFoodResponse> Handle(CreateFoodCommand request, CancellationToken cancellationToken)
     {
@@ -51,12 +53,18 @@ public class CreateFoodHandler : IRequestHandler<CreateFoodCommand, CreateFoodRe
             {
                 var message = new CreateFood
                 {
-                    Id = createdFood.Id,
+                    Id = 1,
                     Name = createdFood.Name,
                     Describe = createdFood.Describe,
                     ImageUrl = createdFood.ImageUrl,
                 };
-                await _publishEndpoint.Publish(message);
+                // Send message to topic and queue will be bind on it
+                //wait _publishEndpoint.Publish(message); // auto create exchange(topic) if it doesn't exist
+                var sendEndpoint = await _bus.GetSendEndpoint(new Uri($"queue:create-food"));//create new exchange with name is ...
+                await sendEndpoint.Send(message, cancellationToken);
+                // Send message to queue directly (queue)
+                /*var sendEndpoint = await _bus.GetSendEndpoint(new Uri($"queue:order_service_create_food"));
+                await sendEndpoint.Send<CreateFood>(message, cancellationToken);*/
                 response.StatusCode = (int)HttpStatusCode.Created;
                 response.StatusText = "Food created successfully";
             }

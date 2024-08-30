@@ -76,6 +76,10 @@ namespace OrderService.Data.Context.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EaterId");
+
+                    b.HasIndex("MerchantId");
+
                     b.ToTable("Order", "order");
                 });
 
@@ -108,6 +112,43 @@ namespace OrderService.Data.Context.Migrations
                     b.ToTable("OrderDetail", "order");
                 });
 
+            modelBuilder.Entity("OrderService.Data.Models.User", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("User", "order");
+                });
+
+            modelBuilder.Entity("OrderService.Data.Models.Order", b =>
+                {
+                    b.HasOne("OrderService.Data.Models.User", "Eater")
+                        .WithMany("OrderCreateds")
+                        .HasForeignKey("EaterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OrderService.Data.Models.User", "Merchant")
+                        .WithMany("OrderReceiveds")
+                        .HasForeignKey("MerchantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Eater");
+
+                    b.Navigation("Merchant");
+                });
+
             modelBuilder.Entity("OrderService.Data.Models.OrderDetail", b =>
                 {
                     b.HasOne("OrderService.Data.Models.Food", "Food")
@@ -135,6 +176,13 @@ namespace OrderService.Data.Context.Migrations
             modelBuilder.Entity("OrderService.Data.Models.Order", b =>
                 {
                     b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("OrderService.Data.Models.User", b =>
+                {
+                    b.Navigation("OrderCreateds");
+
+                    b.Navigation("OrderReceiveds");
                 });
 #pragma warning restore 612, 618
         }

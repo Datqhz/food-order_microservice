@@ -197,3 +197,6 @@ C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\ApiGateway\obj\Debu
 C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\ApiGateway\obj\Debug\net8.0\ApiGateway.genruntimeconfig.cache
 C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\ApiGateway\obj\Debug\net8.0\ref\ApiGateway.dll
 C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\ApiGateway\bin\Debug\net8.0\ocelot.swaggerendpoint.development.json
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\ApiGateway\bin\Debug\net8.0\ocelot.development.json
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\ApiGateway\bin\Debug\net8.0\ocelot.swaggerendpoint.development.json
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\ApiGateway\bin\Debug\net8.0\Routes\ocelot.swaggerendpoint.development.json

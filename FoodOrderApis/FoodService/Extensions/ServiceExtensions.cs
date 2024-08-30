@@ -1,9 +1,11 @@
 ﻿using FoodOrderApis.Common.Helpers;
+using FoodOrderApis.Common.MassTransit.Contracts;
 using FoodService.Consumers;
 using FoodService.Data.Context;
 using FoodService.Repositories;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using RabbitMQ.Client;
 
 namespace FoodService.Extensions;
 using System.Reflection;
@@ -107,8 +109,9 @@ public class ServiceExtensions
         {
             services.AddMassTransit(x =>
             {
-                x.AddConsumers(Assembly.GetEntryAssembly());
+                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("food",false));
                 x.SetKebabCaseEndpointNameFormatter();
+                x.AddConsumers(Assembly.GetEntryAssembly());
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.Host("localhost", 5672,"/", h =>
@@ -116,15 +119,16 @@ public class ServiceExtensions
                         h.Username("guest");
                         h.Password("guest");
                     });
-                    cfg.ReceiveEndpoint("food_service_create_user", e =>
+                    /*cfg.ReceiveEndpoint("food_service_create_user", e =>
                     {
                         e.ConfigureConsumer<CreateUserConsumer>(context);
                     });
                     cfg.ReceiveEndpoint("food_service_update_user", e =>
                     {
                         e.ConfigureConsumer<UpdateUserConsumer>(context);
-                    });
+                    });*/
                     // Auto configure endpoint for consumers
+                    cfg.ConfigureEndpoints(context);
                 });
             });
         }
@@ -141,14 +145,24 @@ public class ServiceExtensions
                         h.Username("guest");
                         h.Password("guest");
                     });
-                    cfg.ReceiveEndpoint("food_service_create_user", e =>
+                    /*cfg.Publish<CreateFood>(p =>
                     {
-                        e.ConfigureConsumer<CreateUserConsumer>(context);
+                        p.ExchangeType = ExchangeType.Topic;
+                        p.BindAlternateExchangeQueue("create-food-exchange", "create-food-queue", cf =>
+                        {
+                            cf.ExchangeType = ExchangeType.Topic;
+                        });
+                    });*/
+                    /*cfg.ReceiveEndpoint("food_service_create_user", e =>
+                    {
+                        e.ConfigureConsumer<CreateUserConsumer>
+                        (context);
                     });
                     cfg.ReceiveEndpoint("food_service_update_user", e =>
                     {
                         e.ConfigureConsumer<UpdateUserConsumer>(context);
-                    });
+                    });*/
+                    //cfg.ConfigureEndpoints(context);
                     // Auto configure endpoint for consumers
                 });
             });

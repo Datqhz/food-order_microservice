@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using FoodOrderApis.Common.Helpers;
+using FoodOrderApis.Common.MassTransit.Contracts;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -7,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using OrderService.Consumers;
 using OrderService.Data.Context;
 using OrderService.Repositories;
+using RabbitMQ.Client;
 
 namespace OrderService.Extensions;
 
@@ -108,8 +110,10 @@ public class ServiceExtensions
         {
             services.AddMassTransit(x =>
             {
-                x.AddConsumers(Assembly.GetEntryAssembly());
+                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("order",false));
                 x.SetKebabCaseEndpointNameFormatter();
+                //x.AddConsumer<CreateFoodConsumer>();
+                x.AddConsumers(Assembly.GetEntryAssembly());
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.Host("localhost", 5672,"/", h =>
@@ -117,19 +121,7 @@ public class ServiceExtensions
                         h.Username("guest");
                         h.Password("guest");
                     });
-                    cfg.ReceiveEndpoint("order_service_create_food", e =>
-                    {
-                        e.ConfigureConsumer<CreateFoodConsumer>(context);
-                    });
-                    cfg.ReceiveEndpoint("order_service_update_food", e =>
-                    {
-                        e.ConfigureConsumer<UpdateFoodConsumer>(context);
-                    });
-                    cfg.ReceiveEndpoint("order_service_test", e =>
-                    {
-                        e.ConfigureConsumer<CreateUserConsumer>(context);
-                    });
-                    // Auto configure endpoint for consumers
+                    cfg.ConfigureEndpoints(context);
                 });
             });
         }
@@ -146,7 +138,7 @@ public class ServiceExtensions
                         h.Username("guest");
                         h.Password("guest");
                     });
-                    cfg.ReceiveEndpoint("order_service_create_food", e =>
+                    cfg.ReceiveEndpoint("create-food", e =>
                     {
                         e.ConfigureConsumer<CreateFoodConsumer>(context);
                     });
@@ -158,7 +150,16 @@ public class ServiceExtensions
                     {
                         e.ConfigureConsumer<CreateUserConsumer>(context);
                     });
+                    cfg.ReceiveEndpoint("order_service_create_user", e =>
+                    {
+                        e.ConfigureConsumer<CreateUserConsumer>(context);
+                    });
+                    cfg.ReceiveEndpoint("order_service_update_user", e =>
+                    {
+                        e.ConfigureConsumer<CreateUserConsumer>(context);
+                    });
                     // Auto configure endpoint for consumers
+                    cfg.ConfigureEndpoints(context);
                 });
             });
         }

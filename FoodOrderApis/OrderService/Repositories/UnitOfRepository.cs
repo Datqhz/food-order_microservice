@@ -13,6 +13,7 @@ public class UnitOfRepository : IUnitOfRepository
     private IDbContextTransaction _transaction;
     public IFoodRepository Food { get; set; }
     public IOrderRepository Order { get; set; }
+    public IUserRepository User { get; set; }
     public IOrderDetailRepository OrderDetail { get; set; }
 
     public UnitOfRepository(OrderDbContext context)
@@ -21,6 +22,7 @@ public class UnitOfRepository : IUnitOfRepository
         Food = new FoodRepository(context);
         Order = new OrderRepository(context);
         OrderDetail = new OrderDetailRepository(context);
+        User = new UserRepository(context);
     }
     public async Task CompleteAsync()
     {

@@ -21,6 +21,28 @@
           "Url": "http://customerservice:5204/swagger/v1/swagger.json"
         }
       ]
+    },
+    {
+      "key": "foodservice",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "FoodService.Api",
+          "Version": "1.0",
+          "Url": "http://foodservice:5107/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "key": "orderservice",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "OrderService.Api",
+          "Version": "1.0",
+          "Url": "http://orderservice:5149/swagger/v1/swagger.json"
+        }
+      ]
     }
   ]
 }

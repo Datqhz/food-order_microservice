@@ -1,10 +1,10 @@
 AssemblyInformationalVersion:
-InformationalVersion: 1.0.0+ebfe07da1c1a51349ec2ca6ebdca3df85a558eb3
+InformationalVersion: 1.0.0+1736c14e51777f4e67739686a8fe787b2f6e144c
 Version: 1.0.0
 TargetFrameworks:
-RunCommand: C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\ApiGateway\bin\Debug\net8.0\ApiGateway.exe
+RunCommand: C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\ApiGateway\bin\Debug\net8.0\ApiGateway.exe
 RunArguments:
-TargetPath: C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\ApiGateway\bin\Debug\net8.0\ApiGateway.dll
+TargetPath: C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\ApiGateway\bin\Debug\net8.0\ApiGateway.dll
 PublishDir: bin\Debug\net8.0\publish\
 AssemblyName: ApiGateway
 IntermediateOutputPath: obj\Debug\net8.0\
