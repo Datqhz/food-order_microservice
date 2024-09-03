@@ -113,15 +113,15 @@
           }
         }
       },
-      "FluentValidation/11.8.0": {
+      "FluentValidation/11.9.2": {
         "type": "package",
         "compile": {
-          "lib/net7.0/FluentValidation.dll": {
+          "lib/net8.0/FluentValidation.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net7.0/FluentValidation.dll": {
+          "lib/net8.0/FluentValidation.dll": {
             "related": ".xml"
           }
         }
@@ -2318,6 +2318,7 @@
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
           "BCrypt.Net-Next": "4.0.3",
+          "FluentValidation": "11.9.2",
           "MassTransit.RabbitMQ": "8.2.5",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.8"
         },
@@ -2443,16 +2444,16 @@
         "lib/netstandard2.0/CacheManager.Microsoft.Extensions.Logging.xml"
       ]
     },
-    "FluentValidation/11.8.0": {
-      "sha512": "TiEaaYqSIAS+wXQv46LRm8Mca092XYNePD0n231Hqlkmm5FuToZoWnjI1ef/vJUxBzqR7/k2vaVQXxijNgVKRQ==",
+    "FluentValidation/11.9.2": {
+      "sha512": "XeHp9LvFvu1fsQ/NvDCymV02GOCB1nz7ZUhfpI3uMhCcHTkV1K5bMkv+Nc/kuNYyAsX5+5bcmUanIEMd5QN+Eg==",
       "type": "package",
-      "path": "fluentvalidation/11.8.0",
+      "path": "fluentvalidation/11.9.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "README.md",
         "fluent-validation-icon.png",
-        "fluentvalidation.11.8.0.nupkg.sha512",
+        "fluentvalidation.11.9.2.nupkg.sha512",
         "fluentvalidation.nuspec",
         "lib/net5.0/FluentValidation.dll",
         "lib/net5.0/FluentValidation.xml",
@@ -2460,6 +2461,8 @@
         "lib/net6.0/FluentValidation.xml",
         "lib/net7.0/FluentValidation.dll",
         "lib/net7.0/FluentValidation.xml",
+        "lib/net8.0/FluentValidation.dll",
+        "lib/net8.0/FluentValidation.xml",
         "lib/netstandard2.0/FluentValidation.dll",
         "lib/netstandard2.0/FluentValidation.xml",
         "lib/netstandard2.1/FluentValidation.dll",
@@ -6950,23 +6953,26 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {},
+    "C:\\Users\\baam0\\.nuget\\packages\\": {},
+    "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Admin\\Documents\\Task\\food-order_microservice\\FoodOrderApis\\ApiGateway\\ApiGateway.csproj",
+      "projectUniqueName": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\FoodOrderApis\\ApiGateway\\ApiGateway.csproj",
       "projectName": "ApiGateway",
-      "projectPath": "C:\\Users\\Admin\\Documents\\Task\\food-order_microservice\\FoodOrderApis\\ApiGateway\\ApiGateway.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Admin\\Documents\\Task\\food-order_microservice\\FoodOrderApis\\ApiGateway\\obj\\",
+      "projectPath": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\FoodOrderApis\\ApiGateway\\ApiGateway.csproj",
+      "packagesPath": "C:\\Users\\baam0\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\FoodOrderApis\\ApiGateway\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
+        "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages",
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\baam0\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 22.2.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -6975,15 +6981,18 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\DevExpress 22.2\\Components\\System\\Components\\Packages": {},
         "C:\\Program Files\\dotnet\\library-packs": {},
+        "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\Microservices\\packages": {},
+        "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\packages": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\Admin\\Documents\\Task\\food-order_microservice\\FoodOrderApis\\FoodOrderApis.Common\\FoodOrderApis.Common.csproj": {
-              "projectPath": "C:\\Users\\Admin\\Documents\\Task\\food-order_microservice\\FoodOrderApis\\FoodOrderApis.Common\\FoodOrderApis.Common.csproj"
+            "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\FoodOrderApis\\FoodOrderApis.Common\\FoodOrderApis.Common.csproj": {
+              "projectPath": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\FoodOrder\\FoodOrderApis\\FoodOrderApis.Common\\FoodOrderApis.Common.csproj"
             }
           }
         }
@@ -7055,7 +7064,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

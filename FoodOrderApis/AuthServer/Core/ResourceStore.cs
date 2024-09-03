@@ -57,7 +57,7 @@ public class ResourceStore : IResourceStore
         foreach (var name in scopeNames)
         {
             var matchApiResource = groupedAPIResoruceScopes.FirstOrDefault(_ => _.Scopes.Any(s => s.ToLower() == name.ToLower()));
-            if (matchApiResource != null)
+            if (matchApiResource != null && !result.Contains(matchApiResource))
             {
                 result.Add(matchApiResource);
             }

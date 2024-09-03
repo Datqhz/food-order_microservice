@@ -10,15 +10,17 @@ namespace OrderService.Consumers;
 public class CreateFoodConsumer : IConsumer<CreateFood>
 {
     private readonly IMediator _mediator;
+    private readonly ILogger<CreateFoodConsumer> _logger;
 
-    public CreateFoodConsumer(IMediator mediator)
+    public CreateFoodConsumer(IMediator mediator, ILogger<CreateFoodConsumer> logger)
     {
         _mediator = mediator;
+        _logger = logger;
     }
     public async Task Consume(ConsumeContext<CreateFood> context)
     {
         var message = context.Message;
-        Console.WriteLine(JsonSerializer.Serialize(message));
+        _logger.LogInformation(JsonSerializer.Serialize(message));
         try
         {
             var input = new ModifyFoodInput

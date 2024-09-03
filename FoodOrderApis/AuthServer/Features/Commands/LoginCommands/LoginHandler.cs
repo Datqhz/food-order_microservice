@@ -62,16 +62,14 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
             }
             var clientSecret = await _unitOfRepository.ClientSecret.Where(cs => cs.ClientId == client.Id)
                 .Select(_ => _.SecretName).FirstOrDefaultAsync(cancellationToken);
-            var scopes = payload.Scope.Split(' ');
             var clientScopes = await _unitOfRepository.ClientScope.Where(sc => sc.ClientId == client.Id)
                 .Select(cs => cs.Scope).ToListAsync();
-            foreach (var scope in scopes)
-                if (clientScopes.All(cs => cs.ToLower() != scope.ToLower()))
-                {
-                    loginResponse.StatusText = "Bad Request";
-                    loginResponse.ErrorMessage = "Invalid information";
-                    return loginResponse;
-                }
+            var requestScopes = "";
+            foreach (var scope in clientScopes)
+            {
+                requestScopes += " " + scope;
+            }
+            
             var httpClient = new HttpClient();
             var discovery = await httpClient.GetDiscoveryDocumentAsync("http://localhost:5092");
             if (discovery.IsError)
@@ -87,7 +85,7 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
                 Address = discovery.TokenEndpoint,
                 ClientId = client.ClientId,
                 ClientSecret = clientSecret,
-                Scope = payload.Scope,
+                Scope = requestScopes.Trim(),
                 UserName = payload.Username,
                 Password = payload.Password
             });

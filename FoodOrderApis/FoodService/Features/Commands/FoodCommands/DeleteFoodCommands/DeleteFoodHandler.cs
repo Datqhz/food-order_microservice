@@ -33,7 +33,6 @@ public class DeleteFoodHandler : IRequestHandler<DeleteFoodCommand, DeleteFoodRe
                 response.StatusText = $"Food with ID {request.Id} does not exist";
                 return response;
             }
-
             var deleteResult = _unitOfRepository.Food.Delete(food);
             await _unitOfRepository.CompleteAsync();
             if (deleteResult)

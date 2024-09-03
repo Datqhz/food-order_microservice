@@ -1,4 +1,5 @@
-﻿using FoodOrderApis.Common.MassTransit.Contracts;
+﻿using System.Text.Json;
+using FoodOrderApis.Common.MassTransit.Contracts;
 using FoodService.Data.Requests;
 using FoodService.Features.Commands.UserCommands.CreateUser;
 using MassTransit;
@@ -9,15 +10,17 @@ namespace FoodService.Consumers;
 public class CreateUserConsumer : IConsumer<CreateUserInfo>
 {
     private readonly IMediator _mediator;
+    private readonly ILogger<CreateUserConsumer> _logger;
 
-    public CreateUserConsumer(IMediator mediator)
+    public CreateUserConsumer(IMediator mediator, ILogger<CreateUserConsumer> logger)
     {
         _mediator = mediator;
+        _logger = logger;
     }
     public async Task Consume(ConsumeContext<CreateUserInfo> context)
     {
-        Console.WriteLine("CreateUserConsumer");
         var message = context.Message;
+        _logger.LogInformation(JsonSerializer.Serialize(context.Message));
         await _mediator.Send(new CreateUserCommand
         {
             Payload = new ModifyUserInput

@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Text;
+using AuthServer.Config;
 using AuthServer.Core;
 using AuthServer.Data.Context;
 using AuthServer.Data.Models;
@@ -8,6 +9,7 @@ using FoodOrderApis.Common.Helpers;
 using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Stores;
+using IdentityServer4.Test;
 using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +28,9 @@ public class ServiceExtensions
     }
     public void AddAuthenticationSettings(IServiceCollection services)
     {
+        
+        
+        
         services.AddMemoryCache();
         services.AddTransient(typeof(IdentityServer4.Services.ICache<>), typeof(IdentityServer4.Services.DefaultCache<>));
         services.AddIdentity<User, IdentityRole>()
@@ -33,9 +38,14 @@ public class ServiceExtensions
             .AddDefaultTokenProviders();
         services.AddIdentityServer()
             .AddDeveloperSigningCredential()
-            .AddClientStoreCache<ClientStore>() 
-            .AddResourceStoreCache<ResourceStore>() 
+            .AddClientStoreCache<ClientStore>()
+            .AddResourceStoreCache<ResourceStore>()
             .AddAspNetIdentity<User>();
+            /*.AddInMemoryIdentityResources(IdentityConfig.IdentityResources)
+            .AddInMemoryApiResources(IdentityConfig.ApiResources)
+            .AddInMemoryApiScopes(IdentityConfig.Scopes)
+            .AddInMemoryClients(IdentityConfig.Clients)
+            .AddTestUsers(IdentityConfig.Users);*/
     }
 
     public void AddCors(IServiceCollection services)
@@ -108,5 +118,6 @@ public class ServiceExtensions
         services.AddScoped<IUnitOfRepository, UnitOfRepository>();
     }
     
+   
 }
 
