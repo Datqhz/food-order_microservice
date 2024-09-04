@@ -3,6 +3,7 @@ using System.Security.Claims;
 using AuthServer.Data.Models;
 using AuthServer.Data.Responses;
 using AuthServer.Repositories;
+using FoodOrderApis.Common.Helpers;
 using FoodOrderApis.Common.MassTransit.Contracts;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -50,7 +51,14 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
             }
             else
             {
-                var newHashedPassword = new PasswordHasher<User>().HashPassword(user, payload.Password);
+                var checkPassword = await _userManager.CheckPasswordAsync(user, payload.OldPassword);
+                if (!checkPassword)
+                {
+                    response.StatusCode = (int)ResponseStatusCode.BadRequest;
+                    response.StatusText = "Old password incorrect";
+                    return response;
+                }
+                var newHashedPassword = new PasswordHasher<User>().HashPassword(user, payload.NewPassword);
                 user.PasswordHash = newHashedPassword;
                 var updateResult = await _userManager.UpdateAsync(user);
                 if (updateResult.Succeeded)

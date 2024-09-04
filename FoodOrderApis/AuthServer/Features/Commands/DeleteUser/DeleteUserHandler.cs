@@ -11,18 +11,18 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
 {
 
     private readonly IUnitOfRepository _unitOfRepository;
-    /*private readonly ClaimsPrincipal _user;*/
+    private readonly IHttpContextAccessor _httpContext;
 
-    public DeleteUserHandler(IUnitOfRepository unitOfRepository)
+    public DeleteUserHandler(IUnitOfRepository unitOfRepository, IHttpContextAccessor httpContext)
     {
         _unitOfRepository = unitOfRepository;
-        /*_user = user;*/
+        _httpContext = httpContext;
     }
     public async Task<DeleteUserResponse> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
         var response = new DeleteUserResponse(){StatusCode = (int)ResponseStatusCode.BadRequest};
         var userId = request.UserId;
-        /*var userIdRequest = _user.FindFirst("sub")?.Value;*/
+        var userIdRequest = _httpContext.HttpContext.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
         try
         {
             var validator = new DeleteUserValidator();
@@ -32,12 +32,12 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
                 response.StatusText = validationResult.ToString("-");
                 return response;
             }
-            /*if (userIdRequest != userId)
+            if (userIdRequest != userId)
             {
                 response.StatusCode = (int)ResponseStatusCode.Forbidden;
                 response.StatusText = "You don't have permission to delete this user";
                 return response;
-            }*/
+            }
             var user = await _unitOfRepository.User.GetById(userId);
             if (user == null)
             {
@@ -50,20 +50,22 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
             {
                 response.StatusText = "This user is already deleted";
             }
-
-            user.IsActive = false;
-            var updateResult = _unitOfRepository.User.Update(user);
-            if (updateResult)
-            {
-                await _unitOfRepository.CompleteAsync();
-                response.StatusCode = (int)ResponseStatusCode.OK;
-                response.StatusText = $"User updated";
-                ;
-            }
             else
             {
-                response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                response.StatusText = "Can't delete user";
+                user.IsActive = false;
+                var updateResult = _unitOfRepository.User.Update(user);
+                if (updateResult)
+                {
+                    await _unitOfRepository.CompleteAsync();
+                    response.StatusCode = (int)ResponseStatusCode.OK;
+                    response.StatusText = $"User deleted";
+                    ;
+                }
+                else
+                {
+                    response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    response.StatusText = "Can't delete user";
+                }
             }
 
             return response;

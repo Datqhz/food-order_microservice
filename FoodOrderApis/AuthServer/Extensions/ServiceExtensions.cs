@@ -12,6 +12,7 @@ using IdentityServer4.Models;
 using IdentityServer4.Stores;
 using IdentityServer4.Test;
 using MassTransit;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -41,23 +42,20 @@ public class ServiceExtensions
             .AddClientStoreCache<ClientStore>()
             .AddResourceStoreCache<ResourceStore>()
             .AddAspNetIdentity<User>();
-        /*.AddInMemoryIdentityResources(IdentityConfig.IdentityResources)
-        .AddInMemoryApiResources(IdentityConfig.ApiResources)
-        .AddInMemoryApiScopes(IdentityConfig.Scopes)
-        .AddInMemoryClients(IdentityConfig.Clients)
-        .AddTestUsers(IdentityConfig.Users);*/
-    }
-    public void AddAuthenticationSettings(IServiceCollection services)
-    {
+        
+        
         services
-            .AddAuthentication("Bearer")
-            .AddJwtBearer("Bearer", options =>
+            .AddAuthentication(options =>
             {
-                options.Authority = "http://localhost:5092";
-                options.RequireHttpsMetadata = false;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            {
+                // options.Authority = "http://localhost:5092";
+                //options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateIssuerSigningKey = true,
@@ -68,12 +66,11 @@ public class ServiceExtensions
             });
         services.AddTransient<ClaimsPrincipal>(provider =>
             provider.GetService<IHttpContextAccessor>().HttpContext?.User);
-        services.AddAuthorization(options =>
+        /*services.AddAuthorization(options =>
         {
             options.AddPolicy("ApiScope", policy => policy.RequireClaim("scope"));
-        });
+        });*/
     }
-
     public void AddCors(IServiceCollection services)
     {
         services.AddCors(options =>
