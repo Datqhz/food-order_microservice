@@ -1,4 +1,5 @@
 using CustomerService.Extensions;
+using FoodOrderApis.Common.MassTransit.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,8 @@ serviceExtensions.ConfigureDbContext(builder.Services);
 serviceExtensions.ConfigureDependencyInjection(builder.Services);
 serviceExtensions.AddMediatorPattern(builder.Services);
 serviceExtensions.AddCors(builder.Services);
-serviceExtensions.AddMassTransitRabbitMq(builder.Services);
+//serviceExtensions.AddMassTransitRabbitMq(builder.Services);
+builder.Services.AddMassTransitRegistration("customer");
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 serviceExtensions.ConfigureSwagger(builder.Services);

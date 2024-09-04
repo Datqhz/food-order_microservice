@@ -103,11 +103,11 @@
           }
         }
       },
-      "FluentValidation/11.8.0": {
+      "FluentValidation/11.9.2": {
         "runtime": {
-          "lib/net7.0/FluentValidation.dll": {
+          "lib/net8.0/FluentValidation.dll": {
             "assemblyVersion": "11.0.0.0",
-            "fileVersion": "11.8.0.0"
+            "fileVersion": "11.9.2.0"
           }
         }
       },
@@ -557,7 +557,7 @@
       },
       "Ocelot/23.3.3": {
         "dependencies": {
-          "FluentValidation": "11.8.0",
+          "FluentValidation": "11.9.2",
           "IPAddressRange": "6.0.0",
           "Microsoft.AspNetCore.MiddlewareAnalysis": "8.0.0",
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "8.0.0",
@@ -1214,6 +1214,7 @@
       "FoodOrderApis.Common/1.0.0": {
         "dependencies": {
           "BCrypt.Net-Next": "4.0.3",
+          "FluentValidation": "11.9.2",
           "MassTransit.RabbitMQ": "8.2.5",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.8"
         },
@@ -1274,12 +1275,12 @@
       "path": "cachemanager.microsoft.extensions.logging/2.0.0-beta-1629",
       "hashPath": "cachemanager.microsoft.extensions.logging.2.0.0-beta-1629.nupkg.sha512"
     },
-    "FluentValidation/11.8.0": {
+    "FluentValidation/11.9.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-TiEaaYqSIAS+wXQv46LRm8Mca092XYNePD0n231Hqlkmm5FuToZoWnjI1ef/vJUxBzqR7/k2vaVQXxijNgVKRQ==",
-      "path": "fluentvalidation/11.8.0",
-      "hashPath": "fluentvalidation.11.8.0.nupkg.sha512"
+      "sha512": "sha512-XeHp9LvFvu1fsQ/NvDCymV02GOCB1nz7ZUhfpI3uMhCcHTkV1K5bMkv+Nc/kuNYyAsX5+5bcmUanIEMd5QN+Eg==",
+      "path": "fluentvalidation/11.9.2",
+      "hashPath": "fluentvalidation.11.9.2.nupkg.sha512"
     },
     "IPAddressRange/6.0.0": {
       "type": "package",

@@ -20,7 +20,7 @@
         "EnableRateLimiting": true,
         "Period": "10s",
         "PeriodTimespan": 30.0,
-        "Limit": 1
+        "Limit": 30
       }
     },
     {

@@ -27,7 +27,7 @@ public class CreateFoodValidatorTests
             Price = 10,
             UserId = "aaa"
         };
-        
+
     }
 
     #region Setup Test Cases
@@ -39,7 +39,7 @@ public class CreateFoodValidatorTests
         yield return new TestCaseData(string.Empty)
             .SetName("Name field is required");
     }
-    
+
     private static IEnumerable<TestCaseData> InvalidImageUrlTestCases()
     {
         yield return new TestCaseData(null)
@@ -54,7 +54,7 @@ public class CreateFoodValidatorTests
         yield return new TestCaseData(-1)
             .SetName("Food price must be greater than or equal to 0");
     }
-    
+
     private static IEnumerable<TestCaseData> InvalidUserIdTestCases()
     {
         yield return new TestCaseData(null)
@@ -74,7 +74,7 @@ public class CreateFoodValidatorTests
         {
             Payload = _validRequest
         };
-        
+
         var actual = await _validator.ValidateAsync(command);
 
         actual.IsValid.Should().BeTrue();
@@ -98,7 +98,7 @@ public class CreateFoodValidatorTests
         var actual = await _validator.ValidateAsync(command);
         actual.IsValid.Should().BeFalse();
     }
-    
+
     [Test, TestCaseSource(nameof(InvalidImageUrlTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_ImageUrl(string invalidImageUrl)
     {
@@ -117,7 +117,7 @@ public class CreateFoodValidatorTests
         var actual = await _validator.ValidateAsync(command);
         actual.IsValid.Should().BeFalse();
     }
-    
+
     [Test, TestCaseSource(nameof(InvalidUserIdTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_(string invalidUserId)
     {
@@ -157,6 +157,6 @@ public class CreateFoodValidatorTests
         actual.IsValid.Should().BeFalse();
     }
     #endregion
-    
-    
+
+
 }

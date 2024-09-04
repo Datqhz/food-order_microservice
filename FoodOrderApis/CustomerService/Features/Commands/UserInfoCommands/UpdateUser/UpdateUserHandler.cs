@@ -3,6 +3,7 @@ using CustomerService.Data.Responses;
 using CustomerService.Repositories;
 using FoodOrderApis.Common.Helpers;
 using FoodOrderApis.Common.MassTransit.Contracts;
+using FoodOrderApis.Common.MassTransit.Core;
 using MassTransit;
 using MediatR;
 
@@ -11,12 +12,12 @@ namespace CustomerService.Features.Commands.UserInfoCommands.UpdateUser;
 public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserInfoResponse>
 {
     private readonly IUnitOfRepository _unitOfRepository;
-    private readonly IPublishEndpoint _publishEndpoint;
+    private readonly ISendEndpointCustomProvider _sendEndpoint;
 
-    public UpdateUserHandler(IUnitOfRepository unitOfRepository, IPublishEndpoint publishEndpoint)
+    public UpdateUserHandler(IUnitOfRepository unitOfRepository, ISendEndpointCustomProvider sendEndpoint)
     {
         _unitOfRepository = unitOfRepository;
-        _publishEndpoint = publishEndpoint;
+        _sendEndpoint = sendEndpoint;
     }
     public async Task<UpdateUserInfoResponse> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
@@ -47,13 +48,13 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserIn
             await _unitOfRepository.CompleteAsync();
             if (updateResult)
             {
-                await _publishEndpoint.Publish(new UpdateUserInfo
+                await _sendEndpoint.SendMessage<UpdateUserInfo>(new UpdateUserInfo
                 {
                     UserId = user.Id,
                     DisplayName = user.DisplayName,
                     IsActive = user.IsActive,
                     PhoneNumber = user.PhoneNumber
-                }, cancellationToken);
+                }, cancellationToken, null);
                 response.StatusCode = (int)ResponseStatusCode.OK;
                 response.StatusText = "User updated";
             }
@@ -61,6 +62,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserIn
             {
                 response.StatusCode = (int)ResponseStatusCode.InternalServerError;
                 response.StatusText = "Internal Server Error";
+                response.ErrorMessage = "Something wrong happened";
             }
             return response;
             

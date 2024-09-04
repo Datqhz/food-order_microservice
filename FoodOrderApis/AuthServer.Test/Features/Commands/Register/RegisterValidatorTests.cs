@@ -9,7 +9,7 @@ namespace AuthServer.Test.Features.Commands.Register;
 public class RegisterValidatorTests
 {
     private readonly RegisterValidator _validator;
-    private RegisterRequest _validRequest = new ();
+    private RegisterInput _validInput = new ();
 
     public RegisterValidatorTests()
     {
@@ -18,7 +18,7 @@ public class RegisterValidatorTests
     [SetUp]
     public void Setup()
     {
-        _validRequest = new RegisterRequest
+        _validInput = new RegisterInput
         {
             Displayname = "Yamato",
             Username = "yamato",
@@ -90,7 +90,7 @@ public class RegisterValidatorTests
     {
         var command = new RegisterCommand
         {
-            Payload = _validRequest
+            Payload = _validInput
         };
         
         var actual = await _validator.ValidateAsync(command);
@@ -101,13 +101,13 @@ public class RegisterValidatorTests
     [Test, TestCaseSource(nameof(InvalidDisplayNameTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_DisplayName(string invalidDisplayName)
     {
-        var request = new RegisterRequest
+        var request = new RegisterInput
         {
             Displayname = invalidDisplayName,
-            Username = _validRequest.Username,
-            ClientId = _validRequest.ClientId,
-            PhoneNumber = _validRequest.PhoneNumber,
-            Password = _validRequest.Password,
+            Username = _validInput.Username,
+            ClientId = _validInput.ClientId,
+            PhoneNumber = _validInput.PhoneNumber,
+            Password = _validInput.Password,
         };
         var command = new RegisterCommand
         {
@@ -120,13 +120,13 @@ public class RegisterValidatorTests
     [Test, TestCaseSource(nameof(InvalidUsernameTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_UserName(string invalidUserName)
     {
-        var request = new RegisterRequest
+        var request = new RegisterInput
         {
-            Displayname = _validRequest.Displayname,
+            Displayname = _validInput.Displayname,
             Username = invalidUserName,
-            ClientId = _validRequest.ClientId,
-            PhoneNumber = _validRequest.PhoneNumber,
-            Password = _validRequest.Password,
+            ClientId = _validInput.ClientId,
+            PhoneNumber = _validInput.PhoneNumber,
+            Password = _validInput.Password,
         };
         var command = new RegisterCommand
         {
@@ -138,12 +138,12 @@ public class RegisterValidatorTests
     [Test, TestCaseSource(nameof(InvalidPasswordTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_Password(string invalidPassword)
     {
-        var request = new RegisterRequest
+        var request = new RegisterInput
         {
-            Displayname =  _validRequest.Displayname,
-            Username = _validRequest.Username,
-            ClientId = _validRequest.ClientId,
-            PhoneNumber = _validRequest.PhoneNumber,
+            Displayname =  _validInput.Displayname,
+            Username = _validInput.Username,
+            ClientId = _validInput.ClientId,
+            PhoneNumber = _validInput.PhoneNumber,
             Password = invalidPassword,
         };
         var command = new RegisterCommand
@@ -156,13 +156,13 @@ public class RegisterValidatorTests
     [Test, TestCaseSource(nameof(InvalidPhoneNumberTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_PhoneNumber(string invalidPhoneNumber)
     {
-        var request = new RegisterRequest
+        var request = new RegisterInput
         {
-            Displayname =  _validRequest.Displayname,
-            Username = _validRequest.Username,
-            ClientId = _validRequest.ClientId,
+            Displayname =  _validInput.Displayname,
+            Username = _validInput.Username,
+            ClientId = _validInput.ClientId,
             PhoneNumber = invalidPhoneNumber,
-            Password = _validRequest.Password,
+            Password = _validInput.Password,
         };
         var command = new RegisterCommand
         {

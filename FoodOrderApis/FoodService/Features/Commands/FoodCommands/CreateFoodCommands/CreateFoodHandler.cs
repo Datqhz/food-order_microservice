@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using FoodOrderApis.Common.MassTransit.Contracts;
+using FoodOrderApis.Common.MassTransit.Core;
 using FoodService.Data.Models;
 using FoodService.Data.Responses;
 using FoodService.Repositories;
@@ -11,14 +12,12 @@ namespace FoodService.Features.Commands.FoodCommands.CreateFoodCommands;
 public class CreateFoodHandler : IRequestHandler<CreateFoodCommand, CreateFoodResponse>
 {
     private readonly IUnitOfRepository _unitOfRepository;
-    private readonly IPublishEndpoint _publishEndpoint;
-    private readonly IBusControl _bus;
+    private readonly ISendEndpointCustomProvider _sendEndpoint;
 
-    public CreateFoodHandler(IUnitOfRepository unitOfRepository, IPublishEndpoint publishEndpoint, IBusControl bus)
+    public CreateFoodHandler(IUnitOfRepository unitOfRepository,  ISendEndpointCustomProvider sendEndpoint)
     {
         _unitOfRepository = unitOfRepository;
-        _publishEndpoint = publishEndpoint;
-        _bus = bus;
+        _sendEndpoint = sendEndpoint;
     }
     public async Task<CreateFoodResponse> Handle(CreateFoodCommand request, CancellationToken cancellationToken)
     {
@@ -32,8 +31,14 @@ public class CreateFoodHandler : IRequestHandler<CreateFoodCommand, CreateFoodRe
                 response.StatusText = validationResult.ToString("~");
                 return response;
             }
-
             var payload = request.Payload;
+            var user = await _unitOfRepository.User.GetById(payload.UserId);
+            if (user == null)
+            {
+                response.StatusCode = (int)HttpStatusCode.NotFound;
+                response.StatusText = "User does not exist";
+                return response;
+            }
             var food = new Food
             {
                 Name = payload.Name,
@@ -53,18 +58,12 @@ public class CreateFoodHandler : IRequestHandler<CreateFoodCommand, CreateFoodRe
             {
                 var message = new CreateFood
                 {
-                    Id = 1,
+                    Id = createdFood.Id,
                     Name = createdFood.Name,
                     Describe = createdFood.Describe,
                     ImageUrl = createdFood.ImageUrl,
                 };
-                // Send message to topic and queue will be bind on it
-                //wait _publishEndpoint.Publish(message); // auto create exchange(topic) if it doesn't exist
-                var sendEndpoint = await _bus.GetSendEndpoint(new Uri($"queue:create-food"));//create new exchange with name is ...
-                await sendEndpoint.Send(message, cancellationToken);
-                // Send message to queue directly (queue)
-                /*var sendEndpoint = await _bus.GetSendEndpoint(new Uri($"queue:order_service_create_food"));
-                await sendEndpoint.Send<CreateFood>(message, cancellationToken);*/
+                await _sendEndpoint.SendMessage<CreateFood>(message, cancellationToken, "order-create-food");
                 response.StatusCode = (int)HttpStatusCode.Created;
                 response.StatusText = "Food created successfully";
             }

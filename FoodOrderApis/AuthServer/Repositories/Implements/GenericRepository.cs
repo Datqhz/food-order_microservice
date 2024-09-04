@@ -20,7 +20,7 @@ public abstract class GenericRepository<T> : IGenericRepository<T> where T : cla
         return _dbSet;
     }
 
-    public async Task<T> GetById(int id)
+    public async Task<T> GetById(object id)
     {
         return await _dbSet.FindAsync(id);
     }

@@ -1,10 +1,10 @@
 AssemblyInformationalVersion:
-InformationalVersion: 1.0.0+4faf388a3fd1a63b0aaa96249e28062bc54ace43
+InformationalVersion: 1.0.0+4daa64c562213f6a399a6d7e49e9f4bf013417ae
 Version: 1.0.0
 TargetFrameworks:
-RunCommand: C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\FoodService\bin\Debug\net8.0\FoodService.exe
+RunCommand: C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\FoodService\bin\Debug\net8.0\FoodService.exe
 RunArguments:
-TargetPath: C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\FoodService\bin\Debug\net8.0\FoodService.dll
+TargetPath: C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\FoodService\bin\Debug\net8.0\FoodService.dll
 PublishDir: bin\Debug\net8.0\publish\
 AssemblyName: FoodService
 IntermediateOutputPath: obj\Debug\net8.0\

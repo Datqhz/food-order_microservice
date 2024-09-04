@@ -1,6 +1,7 @@
 ﻿using CustomerService.Data.Requests;
 using CustomerService.Features.Commands.UserInfoCommands.CreateUser;
 using CustomerService.Features.Commands.UserInfoCommands.UpdateUser;
+using CustomerService.Features.Queries.UserInfoQueries.GetAllMerchant;
 using CustomerService.Features.Queries.UserInfoQueries.GetAllUserInfo;
 using CustomerService.Features.Queries.UserInfoQueries.GetUserInfoById;
 using FoodOrderApis.Common.Helpers;
@@ -47,5 +48,12 @@ public class CustomerController : ControllerBase
     {
         var result = await _mediator.Send(new UpdateUserCommand(){Payload = input});
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
+    }
+
+    [HttpGet("all-merchants")]
+    public async Task<IActionResult> GetAllMerchants()
+    {
+        var result = await _mediator.Send(new GetAllMerchantQuery());
+        return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data);
     }
 }

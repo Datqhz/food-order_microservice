@@ -1,5 +1,6 @@
 ﻿using FoodOrderApis.Common.Helpers;
 using FoodOrderApis.Common.MassTransit.Contracts;
+using FoodOrderApis.Common.MassTransit.Core;
 using FoodService.Data.Responses;
 using FoodService.Repositories;
 using MassTransit;
@@ -10,14 +11,12 @@ namespace FoodService.Features.Commands.FoodCommands.UpdateFoodCommands;
 public class UpdateFoodHandler : IRequestHandler<UpdateFoodCommand, UpdateFoodResponse>
 {
     private readonly IUnitOfRepository _unitOfRepository;
-    private readonly IPublishEndpoint _publishEndpoint;
-    private readonly IBusControl _bus;
+    private readonly ISendEndpointCustomProvider _sendEndpoint;
 
-    public UpdateFoodHandler(IUnitOfRepository unitOfRepository, IPublishEndpoint publishEndpoint, IBusControl bus)
+    public UpdateFoodHandler(IUnitOfRepository unitOfRepository, ISendEndpointCustomProvider sendEndpoint)
     {
         _unitOfRepository = unitOfRepository;
-        _publishEndpoint = publishEndpoint;
-        _bus = bus;
+        _sendEndpoint = sendEndpoint;
     }
     public async Task<UpdateFoodResponse> Handle(UpdateFoodCommand request, CancellationToken cancellationToken)
     {
@@ -49,15 +48,14 @@ public class UpdateFoodHandler : IRequestHandler<UpdateFoodCommand, UpdateFoodRe
             await _unitOfRepository.CompleteAsync();
             if (updateResult)
             {
-                var endpoint = await _bus.GetSendEndpoint(new Uri("queue:update-food"));
-                await endpoint.Send(new UpdateFood
+                await _sendEndpoint.SendMessage<UpdateFood>(new UpdateFood
                 {
                     Id = food.Id,
                     Name = food.Name,
                     Describe = food.Describe,
                     ImageUrl = food.ImageUrl,
-                });
-                /*await _publishEndpoint.Publish(, cancellationToken);*/
+                }, cancellationToken, "order-update-food");
+                
                 response.StatusCode = (int)ResponseStatusCode.OK;
                 response.StatusText = "Food updated";
             }

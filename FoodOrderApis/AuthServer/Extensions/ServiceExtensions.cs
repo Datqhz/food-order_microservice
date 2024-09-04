@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Security.Claims;
 using System.Text;
 using AuthServer.Config;
 using AuthServer.Core;
@@ -14,6 +15,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace AuthServer.Extensions;
 
@@ -26,11 +28,9 @@ public class ServiceExtensions
     {
         _configuration = configuration;
     }
-    public void AddAuthenticationSettings(IServiceCollection services)
+
+    public void ConfigureIdentityServer(IServiceCollection services)
     {
-        
-        
-        
         services.AddMemoryCache();
         services.AddTransient(typeof(IdentityServer4.Services.ICache<>), typeof(IdentityServer4.Services.DefaultCache<>));
         services.AddIdentity<User, IdentityRole>()
@@ -41,11 +41,37 @@ public class ServiceExtensions
             .AddClientStoreCache<ClientStore>()
             .AddResourceStoreCache<ResourceStore>()
             .AddAspNetIdentity<User>();
-            /*.AddInMemoryIdentityResources(IdentityConfig.IdentityResources)
-            .AddInMemoryApiResources(IdentityConfig.ApiResources)
-            .AddInMemoryApiScopes(IdentityConfig.Scopes)
-            .AddInMemoryClients(IdentityConfig.Clients)
-            .AddTestUsers(IdentityConfig.Users);*/
+        /*.AddInMemoryIdentityResources(IdentityConfig.IdentityResources)
+        .AddInMemoryApiResources(IdentityConfig.ApiResources)
+        .AddInMemoryApiScopes(IdentityConfig.Scopes)
+        .AddInMemoryClients(IdentityConfig.Clients)
+        .AddTestUsers(IdentityConfig.Users);*/
+    }
+    public void AddAuthenticationSettings(IServiceCollection services)
+    {
+        services
+            .AddAuthentication("Bearer")
+            .AddJwtBearer("Bearer", options =>
+            {
+                options.Authority = "http://localhost:5092";
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey = true,
+                    RequireExpirationTime = true,
+                    ValidateLifetime = true,
+                    IssuerSigningKey = EncodeHelper.CreateRsaKey()
+                };
+            });
+        services.AddTransient<ClaimsPrincipal>(provider =>
+            provider.GetService<IHttpContextAccessor>().HttpContext?.User);
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("ApiScope", policy => policy.RequireClaim("scope"));
+        });
     }
 
     public void AddCors(IServiceCollection services)
@@ -66,45 +92,6 @@ public class ServiceExtensions
             configure.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
     }
 
-    public void AddMassTransitWithRabbitMq(IServiceCollection services)
-    {
-        var currentEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-        if (currentEnv == "Development")
-        {
-            services.AddMassTransit(x =>
-            {
-                x.AddConsumers(Assembly.GetEntryAssembly());
-                x.SetKebabCaseEndpointNameFormatter();
-                x.UsingRabbitMq((context, cfg) =>
-                {
-                    cfg.Host("localhost", 5672,"/", h =>
-                    {
-                        h.Username("guest");
-                        h.Password("guest");
-                    });
-                    cfg.ConfigureEndpoints(context); // Auto configure endpoint for consumers
-                });
-            });
-        }
-        else
-        {
-            services.AddMassTransit(x =>
-            {
-                x.AddConsumers(Assembly.GetEntryAssembly());
-                x.SetKebabCaseEndpointNameFormatter();
-                x.UsingRabbitMq((context, cfg) =>
-                {
-                    cfg.Host("rabbitmq","/", h =>
-                    {
-                        h.Username("guest");
-                        h.Password("guest");
-                    });
-                    cfg.ConfigureEndpoints(context); // Auto configure endpoint for consumers
-                });
-            });
-        }
-    }
-
     public void ConfigureDbContext(IServiceCollection services)
     {
         var connectionString = _configuration.GetValue<string>("DatabaseSettings:ConnectionString");
@@ -118,6 +105,35 @@ public class ServiceExtensions
         services.AddScoped<IUnitOfRepository, UnitOfRepository>();
     }
     
-   
+    public void ConfigureSwagger(IServiceCollection services)
+    {
+        services.AddSwaggerGen(opt =>
+        {
+            opt.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthApi", Version = "v1" });
+            opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
+                Description = "Please enter token",
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                BearerFormat = "JWT",
+                Scheme = "Bearer"
+            });
+            opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type=ReferenceType.SecurityScheme,
+                            Id="Bearer"
+                        }
+                    },
+                    new string[]{}
+                }
+            });
+        });
+    }
 }
 

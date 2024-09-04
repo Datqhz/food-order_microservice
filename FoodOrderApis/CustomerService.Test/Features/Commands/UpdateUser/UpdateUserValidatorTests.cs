@@ -37,7 +37,7 @@ public class UpdateUserValidatorTests
         yield return new TestCaseData(string.Empty)
             .SetName("Id field is required");
     }
-    
+
     private static IEnumerable<TestCaseData> InvalidDisplayNameTestCases()
     {
         yield return new TestCaseData(null)
@@ -51,7 +51,7 @@ public class UpdateUserValidatorTests
         yield return new TestCaseData(displaynameOverMaxLength)
             .SetName("DisplayName must be a string with a maximum length of 100 characters");
     }
-    
+
     private static IEnumerable<TestCaseData> InvalidPhoneNumberTestCases()
     {
         yield return new TestCaseData(string.Empty)
@@ -72,12 +72,12 @@ public class UpdateUserValidatorTests
         {
             Payload = _validRequest
         };
-        
+
         var actual = await _validator.ValidateAsync(command);
         Console.WriteLine(actual.ToString("~"));
         actual.IsValid.Should().BeTrue();
     }
-    
+
     [Test, TestCaseSource(nameof(InvalidIdTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_Id(string invalidId)
     {
@@ -95,7 +95,7 @@ public class UpdateUserValidatorTests
         var actual = await _validator.ValidateAsync(command);
         actual.IsValid.Should().BeFalse();
     }
-    
+
     [Test, TestCaseSource(nameof(InvalidDisplayNameTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_DisplayName(string invalidDisplayName)
     {
