@@ -11,11 +11,13 @@ public class UpdateFoodHandler : IRequestHandler<UpdateFoodCommand, UpdateFoodRe
 {
     private readonly IUnitOfRepository _unitOfRepository;
     private readonly IPublishEndpoint _publishEndpoint;
+    private readonly IBusControl _bus;
 
-    public UpdateFoodHandler(IUnitOfRepository unitOfRepository, IPublishEndpoint publishEndpoint)
+    public UpdateFoodHandler(IUnitOfRepository unitOfRepository, IPublishEndpoint publishEndpoint, IBusControl bus)
     {
         _unitOfRepository = unitOfRepository;
         _publishEndpoint = publishEndpoint;
+        _bus = bus;
     }
     public async Task<UpdateFoodResponse> Handle(UpdateFoodCommand request, CancellationToken cancellationToken)
     {
@@ -47,13 +49,15 @@ public class UpdateFoodHandler : IRequestHandler<UpdateFoodCommand, UpdateFoodRe
             await _unitOfRepository.CompleteAsync();
             if (updateResult)
             {
-                await _publishEndpoint.Publish(new UpdateFood
+                var endpoint = await _bus.GetSendEndpoint(new Uri("queue:update-food"));
+                await endpoint.Send(new UpdateFood
                 {
                     Id = food.Id,
                     Name = food.Name,
                     Describe = food.Describe,
                     ImageUrl = food.ImageUrl,
-                }, cancellationToken);
+                });
+                /*await _publishEndpoint.Publish(, cancellationToken);*/
                 response.StatusCode = (int)ResponseStatusCode.OK;
                 response.StatusText = "Food updated";
             }

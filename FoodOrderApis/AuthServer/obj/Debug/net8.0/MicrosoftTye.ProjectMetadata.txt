@@ -1,10 +1,10 @@
 AssemblyInformationalVersion:
-InformationalVersion: 1.0.0+1736c14e51777f4e67739686a8fe787b2f6e144c
+InformationalVersion: 1.0.0+4faf388a3fd1a63b0aaa96249e28062bc54ace43
 Version: 1.0.0
 TargetFrameworks:
-RunCommand: C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\AuthServer\bin\Debug\net8.0\AuthServer.exe
+RunCommand: C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\AuthServer\bin\Debug\net8.0\AuthServer.exe
 RunArguments:
-TargetPath: C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\AuthServer\bin\Debug\net8.0\AuthServer.dll
+TargetPath: C:\Users\baam0\OneDrive\Documents\C#\FoodOrder\FoodOrderApis\AuthServer\bin\Debug\net8.0\AuthServer.dll
 PublishDir: bin\Debug\net8.0\publish\
 AssemblyName: AuthServer
 IntermediateOutputPath: obj\Debug\net8.0\

@@ -1,6 +1,8 @@
 ﻿using AuthServer.Data.Requests;
 using AuthServer.Features.Commands.LoginCommands;
+using FluentAssertions;
 using FoodOrderApis.Common.Helpers;
+using NUnit.Framework;
 
 namespace AuthServer.Test.Features.Commands.Login;
 
@@ -21,8 +23,7 @@ public class LoginValidatorTests
         _validRequest = new LoginRequest
         {
             Username = "yamato",
-            Password = "Dat123456@",
-            Scope = "food.read",
+            Password = "String123@",
         };
     }
 
@@ -34,19 +35,71 @@ public class LoginValidatorTests
             .SetName("Username field is required");
         yield return new TestCaseData(string.Empty)
             .SetName("Username field is required");
-        var usernameUnderMinLength = RandomGenerator.RandomString(2);
+        var usernameUnderMinLength = RandomGenerator.RandomString(4);
         yield return new TestCaseData(usernameUnderMinLength)
-            .SetName("Username must be a string with a minimum length of 3 characters");
-        var usernameOverMaxLength = RandomGenerator.RandomString(101);
+            .SetName("Username must be a string with a minimum length of 5 characters");
+        var usernameOverMaxLength = RandomGenerator.RandomString(51);
         yield return new TestCaseData(usernameOverMaxLength)
-            .SetName("");
+            .SetName("Username must be a string with a maximum length of 50 characters");
     }
 
-    /*private static IEnumerable<TestCaseData> InvalidPasswordTestCases()
+    private static IEnumerable<TestCaseData> InvalidPasswordTestCases()
     {
-        
-    }*/
+        yield return new TestCaseData(null)
+            .SetName("Password field is required");
+        yield return new TestCaseData(string.Empty)
+            .SetName("Password field is required");
+        var passwordUnderMinLength = RandomGenerator.RandomString(7);
+        yield return new TestCaseData(passwordUnderMinLength)
+            .SetName("Password must be a string with a minimum length of 8 characters");
+        var passwordOverMaxLength = RandomGenerator.RandomString(17);
+        yield return new TestCaseData(passwordOverMaxLength)
+            .SetName("Password must be a string with a maximum length of 16 characters");
+    }
 
     #endregion
-    
+
+
+    #region Setup Tests
+    [Test]
+    public async Task Validate_ShouldBeValid_WhenGivenValidRequest()
+    {
+        var command = new LoginCommand
+        {
+            Payload = _validRequest
+        };
+        var actual = await _validator.ValidateAsync(command);
+        actual.IsValid.Should().BeTrue();
+    }
+    [Test, TestCaseSource(nameof(InvalidUsernameTestCases))]
+    public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_UserName(string invalidUserName)
+    {
+        var request = new LoginRequest
+        {
+            Username = invalidUserName,
+            Password = _validRequest.Password
+        };
+        var command = new LoginCommand
+        {
+            Payload = request
+        };
+        var actual = await _validator.ValidateAsync(command);
+        actual.IsValid.Should().BeFalse();
+    }
+    [Test, TestCaseSource(nameof(InvalidPasswordTestCases))]
+    public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_Password(string invalidPassword)
+    {
+        var request = new LoginRequest
+        {
+            Username = _validRequest.Username,
+            Password = invalidPassword
+        };
+        var command = new LoginCommand
+        {
+            Payload = request
+        };
+        var actual = await _validator.ValidateAsync(command);
+        actual.IsValid.Should().BeFalse();
+    }
+    #endregion
 }

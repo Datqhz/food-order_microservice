@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 ServiceExtensions serviceExtensions = new ServiceExtensions(builder.Configuration);
 serviceExtensions.AddAuthentication(builder.Services);
+serviceExtensions.AddAuthorizationSettings(builder.Services);
 serviceExtensions.ConfigureDbContext(builder.Services);
 serviceExtensions.ConfigureDependencyInjection(builder.Services);
 serviceExtensions.AddMediatorPattern(builder.Services);

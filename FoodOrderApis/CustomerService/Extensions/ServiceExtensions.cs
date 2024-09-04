@@ -10,6 +10,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using RabbitMQ.Client.Exceptions;
 
 namespace CustomerService.Extensions;
 
@@ -29,10 +30,11 @@ public class ServiceExtensions
             {
                 options.Authority = "http://localhost:5092";
                 options.RequireHttpsMetadata = false;
+                options.Audience = "CustomerService";
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = false,
-                    ValidateAudience = false,
+                    ValidateAudience = true,
                     ValidateIssuerSigningKey = true,
                     RequireExpirationTime = true,
                     ValidateLifetime = true,
@@ -109,8 +111,9 @@ public class ServiceExtensions
         {
             services.AddMassTransit(x =>
             {
-                x.AddConsumers(Assembly.GetEntryAssembly());
                 x.SetKebabCaseEndpointNameFormatter();
+                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("customer", false));
+                x.AddConsumers(Assembly.GetEntryAssembly());
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.Host("localhost", 5672,"/", h =>
@@ -118,11 +121,8 @@ public class ServiceExtensions
                         h.Username("guest");
                         h.Password("guest");
                     });
-                    cfg.ReceiveEndpoint("customer_service_create_user", e =>
-                    {
-                        e.ConfigureConsumer<CreateUserConsumer>(context);
-                    });
                     // Auto configure endpoint for consumers
+                    cfg.ConfigureEndpoints(context);
                 });
             });
         }
@@ -149,6 +149,20 @@ public class ServiceExtensions
         }
     }
 
+    public void AddAuthorizationSettings(IServiceCollection services)
+    {
+        services.AddAuthorization(option =>
+        {
+            option.AddPolicy("CustomerWrite",
+                policy => policy.RequireAssertion(context =>
+                    context.User.HasClaim(claim => claim.Type == "scope" && claim.Value.Contains("customer.write"))
+                ));
+            option.AddPolicy("CustomerRead",
+                policy => policy.RequireAssertion(context =>
+                    context.User.HasClaim(claim => claim.Type == "scope" && claim.Value.Contains("customer.read"))
+                ));
+        });
+    }
     public void InitializeDatabase(IApplicationBuilder app){
         using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
         {

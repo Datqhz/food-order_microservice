@@ -28,17 +28,33 @@ public class ServiceExtensions
             {
                 options.Authority = "http://localhost:5092";
                 options.RequireHttpsMetadata = false;
+                options.Audience = "OrderService";
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
 
                     ValidateIssuer = false,
-                    ValidateAudience = false,
+                    ValidateAudience = true,
                     ValidateIssuerSigningKey = true,
                     RequireExpirationTime = true,
                     ValidateLifetime = true,
                     IssuerSigningKey = EncodeHelper.CreateRsaKey()
                 };
             });
+    }
+    
+    public void AddAuthorizationSettings(IServiceCollection services)
+    {
+        services.AddAuthorization(option =>
+        {
+            option.AddPolicy("OrderWrite",
+                policy => policy.RequireAssertion(context =>
+                    context.User.HasClaim(claim => claim.Type == "scope" && claim.Value.Contains("order.write"))
+                ));
+            option.AddPolicy("OrderReadRead",
+                policy => policy.RequireAssertion(context =>
+                    context.User.HasClaim(claim => claim.Type == "scope" && claim.Value.Contains("order.read"))
+                ));
+        });
     }
     public void AddCors(IServiceCollection services)
     {

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "gLmGabC5yxI=",
+  "dgSpecHash": "5+ZNAvpjmY4=",
   "success": true,
   "projectFilePath": "C:\\Users\\Admin\\Documents\\Task\\food-order_microservice\\FoodOrderApis\\ApiGateway\\ApiGateway.csproj",
   "expectedPackageFiles": [
@@ -10,7 +10,7 @@
     "C:\\Users\\Admin\\.nuget\\packages\\cachemanager.core\\2.0.0-beta-1629\\cachemanager.core.2.0.0-beta-1629.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\cachemanager.microsoft.extensions.configuration\\2.0.0-beta-1629\\cachemanager.microsoft.extensions.configuration.2.0.0-beta-1629.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\cachemanager.microsoft.extensions.logging\\2.0.0-beta-1629\\cachemanager.microsoft.extensions.logging.2.0.0-beta-1629.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\fluentvalidation\\11.8.0\\fluentvalidation.11.8.0.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\fluentvalidation\\11.9.2\\fluentvalidation.11.9.2.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\ipaddressrange\\6.0.0\\ipaddressrange.6.0.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\kros.utils\\2.1.0\\kros.utils.2.1.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\masstransit\\8.2.5\\masstransit.8.2.5.nupkg.sha512",

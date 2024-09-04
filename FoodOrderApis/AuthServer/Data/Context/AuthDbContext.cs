@@ -35,8 +35,8 @@ public class AuthDbContext : IdentityDbContext
         /*seeder.InitSeedData();*/
         modelBuilder.Entity<ApiResource>().HasData(
                 new ApiResource {Id = 1, Name = "CustomerService", DisplayName = "Customer Service"},
-                new ApiResource {Id = 2, Name = "OrderService", DisplayName = "Order Service"},
-                new ApiResource {Id = 3, Name = "FoodService", DisplayName = "Food Service"}
+                new ApiResource {Id = 3, Name = "OrderService", DisplayName = "Order Service"},
+                new ApiResource {Id = 2, Name = "FoodService", DisplayName = "Food Service"}
             );
         modelBuilder.Entity<ApiResourceScope>().HasData(
             new ApiResourceScope {Id = 1, Scope = "customer.read", ApiResourceId = 1},
@@ -52,7 +52,11 @@ public class AuthDbContext : IdentityDbContext
         );
         modelBuilder.Entity<ClientGrantType>().HasData(
             new ClientGrantType{Id = 1, GrantType = "password", ClientId = 1},
-            new ClientGrantType{Id = 2, GrantType = "password", ClientId = 2}
+            new ClientGrantType{Id = 2, GrantType = "code", ClientId = 1},
+            new ClientGrantType{Id = 3, GrantType = "client_credentials", ClientId = 1},
+            new ClientGrantType{Id = 4, GrantType = "password", ClientId = 2},
+            new ClientGrantType{Id = 5, GrantType = "code", ClientId = 2},
+            new ClientGrantType{Id = 6, GrantType = "client_credentials", ClientId = 2}
         );
         modelBuilder.Entity<ClientScope>().HasData(
             new ClientScope{Id = 1, Scope = "food.read", ClientId = 1},

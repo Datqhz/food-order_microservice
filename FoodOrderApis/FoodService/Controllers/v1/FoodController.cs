@@ -22,7 +22,7 @@ public class FoodController : ControllerBase
     {
         _mediator = mediator;
     }
-
+    [Authorize(Policy = "FoodRead")]
     [HttpGet("get-by-user")]
     public async Task<IActionResult> GetAllFoodByUserId([FromQuery] string userId)
     {
@@ -39,6 +39,7 @@ public class FoodController : ControllerBase
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data);
     }
 
+    [Authorize(Policy = "FoodWrite")]
     [HttpPost]
     public async Task<IActionResult> CreateFood([FromBody] CreateFoodInput input)
     {

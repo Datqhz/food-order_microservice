@@ -52,7 +52,11 @@ public class DataSeeder
     {
             _modelBuilder.Entity<ClientGrantType>().HasData(
                     new ClientGrantType{Id = 1, GrantType = "password", ClientId = 1},
-                    new ClientGrantType{Id = 2, GrantType = "password", ClientId = 2}
+                    new ClientGrantType{Id = 2, GrantType = "code", ClientId = 1},
+                    new ClientGrantType{Id = 3, GrantType = "client_credentials", ClientId = 1},
+                    new ClientGrantType{Id = 4, GrantType = "password", ClientId = 2},
+                    new ClientGrantType{Id = 5, GrantType = "code", ClientId = 2},
+                    new ClientGrantType{Id = 6, GrantType = "client_credentials", ClientId = 2}
             );
     }
     public void ClientScopeSeedData()

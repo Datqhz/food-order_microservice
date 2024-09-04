@@ -29,11 +29,12 @@ public class ServiceExtensions
             {
                 options.Authority = "http://localhost:5092";
                 options.RequireHttpsMetadata = false;
+                options.Audience = "FoodService";
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
 
                     ValidateIssuer = false,
-                    ValidateAudience = false,
+                    ValidateAudience = true,
                     ValidateIssuerSigningKey = true,
                     RequireExpirationTime = true,
                     ValidateLifetime = true,
@@ -170,6 +171,20 @@ public class ServiceExtensions
         
     }
 
+    public void AddAuthorizationSettings(IServiceCollection services)
+    {
+        services.AddAuthorization(option =>
+        {
+            option.AddPolicy("FoodRead",
+                policy => policy.RequireAssertion(context =>
+                    context.User.HasClaim(claim => claim.Type == "scope" && claim.Value.Contains("food.read"))
+                ));
+            option.AddPolicy("FoodWrite",
+                policy => policy.RequireAssertion(context =>
+                    context.User.HasClaim(claim => claim.Type == "scope" && claim.Value.Contains("food.write"))
+                ));
+        });
+    }
     public void InitializeDatabase(IApplicationBuilder app){
         using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
         {
