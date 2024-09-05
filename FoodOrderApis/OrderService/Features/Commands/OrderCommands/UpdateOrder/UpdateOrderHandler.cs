@@ -30,6 +30,12 @@ public class UpdateOrderHandler : IRequestHandler<UpdateOrderCommand, UpdateOrde
 
             var payload = request.Payload;
             var order = await _unitOfRepository.Order.GetById(payload.OrderId);
+            if (order == null)
+            {
+                response.StatusCode = (int)ResponseStatusCode.NotFound;
+                response.StatusText = $"Order with id {payload.OrderId} does not exist";
+                return response;
+            }
             order.OrderStatus = payload.OrderStatus;
             if (payload.OrderStatus == (int)OrderStatus.Preparing)
             {

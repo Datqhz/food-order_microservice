@@ -112,5 +112,8 @@
     &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Commands.CreateOrder.CreateOrderHandlerTests.Handle_ShouldReturn_StatusCreated&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Commands.CreateOrder.CreateOrderHandlerTests.Handle_ShouldReturn_StatusInternalServerError&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Commands.CreateOrder.CreateOrderHandlerTests.Handle_ShouldReturn_StatusNotFound_User&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Commands.UpdateOrder.UpdateOrderValidatorTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Commands.UpdateOrder.UpdateOrderHandlerTests.Handle_ShouldReturn_StatusOK&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Commands.UpdateOrder.UpdateOrderHandlerTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
