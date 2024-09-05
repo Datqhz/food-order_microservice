@@ -1,3 +1,4 @@
+using FoodOrderApis.Common.HttpContextCustom;
 using FoodOrderApis.Common.MassTransit.Extensions;
 using OrderService.Extensions;
 
@@ -14,6 +15,7 @@ serviceExtensions.AddCors(builder.Services);
 //serviceExtensions.AddMassTransitRabbitMq(builder.Services);
 builder.Services.AddMassTransitRegistration("order");
 builder.Services.AddControllers();
+builder.Services.AddCustomHttpContextAccessor();
 serviceExtensions.ConfigureSwagger(builder.Services);
 
 var app = builder.Build();

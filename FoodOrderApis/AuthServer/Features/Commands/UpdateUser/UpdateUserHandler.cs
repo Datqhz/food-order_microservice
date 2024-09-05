@@ -4,6 +4,7 @@ using AuthServer.Data.Models;
 using AuthServer.Data.Responses;
 using AuthServer.Repositories;
 using FoodOrderApis.Common.Helpers;
+using FoodOrderApis.Common.HttpContextCustom;
 using FoodOrderApis.Common.MassTransit.Contracts;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -14,13 +15,13 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
 {
     private readonly IUnitOfRepository _unitOfRepository;
     private readonly UserManager<User> _userManager;
-    private readonly ClaimsPrincipal _user;
+    private readonly ICustomHttpContextAccessor _httpContextAccessor;
 
-    public UpdateUserHandler(IUnitOfRepository unitOfRepository, UserManager<User> userManager, ClaimsPrincipal user)
+    public UpdateUserHandler(IUnitOfRepository unitOfRepository, UserManager<User> userManager, ICustomHttpContextAccessor httpContextAccessor)
     {
         _unitOfRepository = unitOfRepository;
         _userManager = userManager;
-        _user = user;
+        _httpContextAccessor = httpContextAccessor;
     }
     public async Task<UpdateUserResponse> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
@@ -35,7 +36,8 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
                 response.StatusText = validationResult.ToString("-");
                 return response;
             }
-            var userIdRequest = _user.FindFirst("sub")?.Value;
+
+            var userIdRequest = _httpContextAccessor.GetCurrentUserId();
             if (userIdRequest != payload.UserId)
             {
                 response.StatusCode = (int)HttpStatusCode.Forbidden;

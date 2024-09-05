@@ -16,6 +16,7 @@ public class UnitOfRepository : IUnitOfRepository, IDisposable
     public IClientScopeRepository ClientScope { get; }
     public IClientSecretRepository ClientSecret { get; }
     public IUserRepository User { get; }
+    public IRolePermissionRepository RolePermission { get; }
 
     public UnitOfRepository(AuthDbContext context)
     {
@@ -27,6 +28,7 @@ public class UnitOfRepository : IUnitOfRepository, IDisposable
         ClientScope = new ClientScopeRepository(_context);
         ClientSecret = new ClientSecretRepository(_context);
         User = new UserRepository(_context);
+        RolePermission = new RolePermissionRepository(_context);
     }
     
     

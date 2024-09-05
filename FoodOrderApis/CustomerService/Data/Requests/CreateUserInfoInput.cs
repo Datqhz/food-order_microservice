@@ -3,7 +3,7 @@
 public class CreateUserInfoInput
 {
     public string UserId { get; set; }
-    public string ClientId { get; set; }
+    public string Role { get; set; }
     public DateTime CreatedDate { get; set; }
     public bool IsActive { get; set; }
     public string UserName { get; set; }

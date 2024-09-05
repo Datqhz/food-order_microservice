@@ -32,7 +32,7 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserIn
                 await _unitOfRepository.User.Add(new UserInfo
                 {
                     Id = payload.UserId,
-                    ClientId = payload.ClientId,
+                    Role = payload.Role,
                     DisplayName = payload.DisplayName,
                     CreatedDate = payload.CreatedDate,
                     PhoneNumber = payload.PhoneNumber,

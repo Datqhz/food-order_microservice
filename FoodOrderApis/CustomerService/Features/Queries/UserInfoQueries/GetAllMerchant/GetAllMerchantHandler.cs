@@ -1,5 +1,6 @@
 ﻿using CustomerService.Data.Responses;
 using CustomerService.Repositories;
+using FoodOrderApis.Common.Constants;
 using FoodOrderApis.Common.Helpers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,7 @@ public class GetAllMerchantHandler : IRequestHandler<GetAllMerchantQuery, GetAll
 
         try
         {
-            var merchants = await _unitOfRepository.User.Where(u => u.ClientId == "Merchant").AsNoTracking()
+            var merchants = await _unitOfRepository.User.Where(u => u.Role == Constants.Role.Merchant).AsNoTracking()
                 .ToListAsync(cancellationToken);
             response.StatusCode = (int)ResponseStatusCode.OK;
             response.Data = merchants;

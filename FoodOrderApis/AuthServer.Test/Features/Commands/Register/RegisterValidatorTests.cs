@@ -1,5 +1,5 @@
 ﻿using AuthServer.Data.Requests;
-using AuthServer.Features.Commands.RegisterCommands;
+using AuthServer.Features.Commands.Register;
 using FluentAssertions;
 using FoodOrderApis.Common.Helpers;
 
@@ -99,7 +99,7 @@ public class RegisterValidatorTests
     }
 
     [Test, TestCaseSource(nameof(InvalidDisplayNameTestCases))]
-    public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_DisplayName(string invalidDisplayName)
+    public async Task Validate_ShouldBeInvalid_WhenGivenInvalid_DisplayName(string invalidDisplayName)
     {
         var request = new RegisterInput
         {
@@ -118,7 +118,7 @@ public class RegisterValidatorTests
     }
     
     [Test, TestCaseSource(nameof(InvalidUsernameTestCases))]
-    public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_UserName(string invalidUserName)
+    public async Task Validate_ShouldBeInvalid_WhenGivenInvalid_UserName(string invalidUserName)
     {
         var request = new RegisterInput
         {
@@ -136,7 +136,7 @@ public class RegisterValidatorTests
         actual.IsValid.Should().BeFalse();
     }
     [Test, TestCaseSource(nameof(InvalidPasswordTestCases))]
-    public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_Password(string invalidPassword)
+    public async Task Validate_ShouldBeInvalid_WhenGivenInvalid_Password(string invalidPassword)
     {
         var request = new RegisterInput
         {
@@ -154,7 +154,7 @@ public class RegisterValidatorTests
         actual.IsValid.Should().BeFalse();
     }
     [Test, TestCaseSource(nameof(InvalidPhoneNumberTestCases))]
-    public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_PhoneNumber(string invalidPhoneNumber)
+    public async Task Validate_ShouldBeInvalid_WhenGivenInvalid_PhoneNumber(string invalidPhoneNumber)
     {
         var request = new RegisterInput
         {

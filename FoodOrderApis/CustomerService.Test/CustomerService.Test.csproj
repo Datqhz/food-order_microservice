@@ -26,10 +26,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Commands\CreateUser\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\CustomerService\CustomerService.csproj" />
     </ItemGroup>
 

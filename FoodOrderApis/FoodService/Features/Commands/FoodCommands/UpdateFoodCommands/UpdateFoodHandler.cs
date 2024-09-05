@@ -1,4 +1,5 @@
 ﻿using FoodOrderApis.Common.Helpers;
+using FoodOrderApis.Common.HttpContextCustom;
 using FoodOrderApis.Common.MassTransit.Contracts;
 using FoodOrderApis.Common.MassTransit.Core;
 using FoodService.Data.Responses;
@@ -12,11 +13,13 @@ public class UpdateFoodHandler : IRequestHandler<UpdateFoodCommand, UpdateFoodRe
 {
     private readonly IUnitOfRepository _unitOfRepository;
     private readonly ISendEndpointCustomProvider _sendEndpoint;
+    private readonly ICustomHttpContextAccessor _httpContextAccessor;
 
-    public UpdateFoodHandler(IUnitOfRepository unitOfRepository, ISendEndpointCustomProvider sendEndpoint)
+    public UpdateFoodHandler(IUnitOfRepository unitOfRepository, ISendEndpointCustomProvider sendEndpoint, ICustomHttpContextAccessor httpContextAccessor)
     {
         _unitOfRepository = unitOfRepository;
         _sendEndpoint = sendEndpoint;
+        _httpContextAccessor = httpContextAccessor;
     }
     public async Task<UpdateFoodResponse> Handle(UpdateFoodCommand request, CancellationToken cancellationToken)
     {
@@ -30,7 +33,7 @@ public class UpdateFoodHandler : IRequestHandler<UpdateFoodCommand, UpdateFoodRe
                 response.StatusText = validationResult.ToString("~");
                 return response;
             }
-
+            
             var payload = request.Payload;
             var food = await _unitOfRepository.Food.GetById(payload.Id);
             if (food == null)
@@ -40,6 +43,13 @@ public class UpdateFoodHandler : IRequestHandler<UpdateFoodCommand, UpdateFoodRe
                 return response;
             }
 
+            var currentUserId = _httpContextAccessor.GetCurrentUserId();
+            if (food.UserId != currentUserId)
+            {
+                response.StatusCode = (int)ResponseStatusCode.Forbidden;
+                response.StatusText = "You don't have permission to update this food";
+                return response;
+            }
             food.Name = payload.Name;
             food.Price = payload.Price;
             food.Describe = payload.Describe;

@@ -1,5 +1,6 @@
 using AuthServer.Extensions;
 using AuthServer.Middlewares;
+using FoodOrderApis.Common.HttpContextCustom;
 using FoodOrderApis.Common.MassTransit.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,8 +13,7 @@ serviceExtensions.ConfigureMediator(builder.Services);
 serviceExtensions.AddCors(builder.Services);
 builder.Services.AddMassTransitRegistration(null);
 builder.Services.AddControllers();
-builder.Services.AddHttpClient();
-builder.Services.AddHttpContextAccessor();
+builder.Services.AddCustomHttpContextAccessor();
 serviceExtensions.ConfigureSwagger(builder.Services);
 var app = builder.Build();
 // Configure the HTTP request pipeline.

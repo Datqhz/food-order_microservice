@@ -41,7 +41,8 @@ public class ServiceExtensions
             .AddDeveloperSigningCredential()
             .AddClientStoreCache<ClientStore>()
             .AddResourceStoreCache<ResourceStore>()
-            .AddAspNetIdentity<User>();
+            .AddAspNetIdentity<User>()
+            .AddProfileService<ProfileService>();
         
         
         services

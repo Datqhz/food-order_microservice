@@ -1,5 +1,6 @@
 ﻿using AuthServer.Data.Models;
 using AuthServer.Data.Seeders;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -47,32 +48,49 @@ public class AuthDbContext : IdentityDbContext
             new ApiResourceScope {Id = 6, Scope = "order.write", ApiResourceId = 3}
         );
         modelBuilder.Entity<Client>().HasData(
-            new Client{Id = 1, ClientId = "Eater", ClientName = "Eater"},
-            new Client{Id = 2, ClientId = "Merchant", ClientName = "Merchant"}
+            new Client{Id = 1, ClientId = "Mobile", ClientName = "Mobile app"}
         );
         modelBuilder.Entity<ClientGrantType>().HasData(
             new ClientGrantType{Id = 1, GrantType = "password", ClientId = 1},
             new ClientGrantType{Id = 2, GrantType = "code", ClientId = 1},
-            new ClientGrantType{Id = 3, GrantType = "client_credentials", ClientId = 1},
-            new ClientGrantType{Id = 4, GrantType = "password", ClientId = 2},
-            new ClientGrantType{Id = 5, GrantType = "code", ClientId = 2},
-            new ClientGrantType{Id = 6, GrantType = "client_credentials", ClientId = 2}
+            new ClientGrantType{Id = 3, GrantType = "client_credentials", ClientId = 1}
         );
         modelBuilder.Entity<ClientScope>().HasData(
             new ClientScope{Id = 1, Scope = "food.read", ClientId = 1},
+            new ClientScope{Id = 9, Scope = "food.write", ClientId = 1},
             new ClientScope{Id = 2, Scope = "customer.read", ClientId = 1},
             new ClientScope{Id = 3, Scope = "customer.write", ClientId = 1},
             new ClientScope{Id = 4, Scope = "order.read", ClientId = 1},
-            new ClientScope{Id = 5, Scope = "order.write", ClientId = 1},
-            new ClientScope{Id = 6, Scope = "customer.read", ClientId = 2},
-            new ClientScope{Id = 7, Scope = "customer.write", ClientId = 2},
-            new ClientScope{Id = 8, Scope = "food.read", ClientId = 2},
-            new ClientScope{Id = 9, Scope = "food.write", ClientId = 2},
-            new ClientScope{Id = 10, Scope = "order.read", ClientId = 2}
+            new ClientScope{Id = 5, Scope = "order.write", ClientId = 1}
         );
         modelBuilder.Entity<ClientSecret>().HasData(
-            new ClientSecret{Id = 1, ClientId = 1, SecretName = "Eater"},
-            new ClientSecret{Id = 2, ClientId = 2, SecretName = "Merchant"}
+            new ClientSecret{Id = 1, ClientId = 1, SecretName = "mobile"}
+        );
+        List<string> guids = Enumerable.Range(1, 3)
+            .Select(_ => Guid.NewGuid().ToString())
+            .ToList();
+        modelBuilder.Entity<IdentityRole>().HasData(
+            new IdentityRole{Id = guids[0], Name = "EATER", NormalizedName = "EATER" }, 
+            new IdentityRole{Id = guids[1], Name = "MERCHANT", NormalizedName = "MERCHANT"},
+            new IdentityRole{Id = guids[2], Name = "ADMIN", NormalizedName = "ADMIN"}
+        );
+        
+        modelBuilder.Entity<RolePermission>().HasData(
+            new RolePermission {Id = 1, Permission = "customer.read", Role = "EATER"},
+            new RolePermission {Id = 2, Permission = "customer.write", Role = "EATER"},
+            new RolePermission {Id = 3, Permission = "customer.read", Role = "MERCHANT"},
+            new RolePermission {Id = 4, Permission = "customer.write", Role = "MERCHANT"},
+            new RolePermission {Id = 5, Permission = "customer.read", Role = "ADMIN"},
+            new RolePermission {Id = 6, Permission = "customer.write", Role = "ADMIN"},
+            new RolePermission {Id = 7, Permission = "food.read", Role = "EATER"},
+            new RolePermission {Id = 8, Permission = "food.read", Role = "MERCHANT"},
+            new RolePermission {Id = 9, Permission = "food.write", Role = "MERCHANT"},
+            new RolePermission {Id = 10, Permission = "food.read", Role = "ADMIN"},
+            new RolePermission {Id = 11, Permission = "order.read", Role = "EATER"},
+            new RolePermission {Id = 12, Permission = "order.write", Role = "EATER"},
+            new RolePermission {Id = 13, Permission = "order.read", Role = "MERCHANT"},
+            new RolePermission {Id = 14, Permission = "order.write", Role = "MERCHANT"},
+            new RolePermission {Id = 15, Permission = "order.read", Role = "ADMIN"}
         );
     }
 }

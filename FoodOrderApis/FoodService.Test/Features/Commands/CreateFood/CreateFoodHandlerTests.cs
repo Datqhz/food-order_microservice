@@ -98,8 +98,7 @@ public class CreateFoodHandlerTests
             Payload = request
         };
         
-        _mockUnitOfRepository.Setup(x => x.User.Where(It.IsAny<Expression<Func<User, bool>>>())).Returns(users);
-        //_mockSendEndpoint.Verify(x => x.SendMessage<CreateFoodMessage>(It.IsAny<CreateFoodMessage>(), It.IsAny<CancellationToken>(), "order-create-food"));
+        _mockUnitOfRepository.Setup(x => x.User.Where(It.IsAny<Expression<Func<User, bool>>>())).Returns(users); ;
         
         // Actual
         var actual = await _handler.Handle(command, _cancellationToken);
@@ -120,7 +119,7 @@ public class CreateFoodHandlerTests
             Payload = request
         };
         
-        _mockUnitOfRepository.Setup(p => p.Food.Add(It.IsAny<Food>())).ThrowsAsync(new Exception());
+        _mockUnitOfRepository.Setup(x => x.User.GetById(It.IsAny<string>())).Throws(new Exception());
         
         // Actual
         var actual = await _handler.Handle(command, _cancellationToken);

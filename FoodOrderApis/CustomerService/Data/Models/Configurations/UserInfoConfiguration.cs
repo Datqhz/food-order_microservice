@@ -9,7 +9,7 @@ public class UserInfoConfiguration : IEntityTypeConfiguration<UserInfo>
     {
         builder.ToTable(nameof(UserInfo));
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.ClientId).IsRequired();
+        builder.Property(x => x.Role).IsRequired();
         builder.Property(x => x.IsActive).IsRequired();
         builder.Property(x => x.UserName).IsRequired();
         builder.Property(x => x.PhoneNumber).IsRequired();

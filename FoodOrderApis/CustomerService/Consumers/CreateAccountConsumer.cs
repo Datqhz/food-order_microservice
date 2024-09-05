@@ -23,7 +23,7 @@ public class CreateUserConsumer : IConsumer<CreateUserInfo>
         {
             UserId = newUser.UserId,
             UserName = newUser.UserName,
-            ClientId = newUser.ClientId,
+            Role = newUser.Role,
             CreatedDate = newUser.CreatedDate,
             IsActive = newUser.IsActive,
             DisplayName = newUser.DisplayName,

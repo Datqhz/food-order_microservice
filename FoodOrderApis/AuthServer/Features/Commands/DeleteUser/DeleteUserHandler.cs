@@ -3,6 +3,7 @@ using System.Security.Claims;
 using AuthServer.Data.Responses;
 using AuthServer.Repositories;
 using FoodOrderApis.Common.Helpers;
+using FoodOrderApis.Common.HttpContextCustom;
 using MediatR;
 
 namespace AuthServer.Features.Commands.DeleteUser;
@@ -11,9 +12,9 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
 {
 
     private readonly IUnitOfRepository _unitOfRepository;
-    private readonly IHttpContextAccessor _httpContext;
+    private readonly ICustomHttpContextAccessor _httpContext;
 
-    public DeleteUserHandler(IUnitOfRepository unitOfRepository, IHttpContextAccessor httpContext)
+    public DeleteUserHandler(IUnitOfRepository unitOfRepository, ICustomHttpContextAccessor httpContext)
     {
         _unitOfRepository = unitOfRepository;
         _httpContext = httpContext;
@@ -22,9 +23,9 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
     {
         var response = new DeleteUserResponse(){StatusCode = (int)ResponseStatusCode.BadRequest};
         var userId = request.UserId;
-        var userIdRequest = _httpContext.HttpContext.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
         try
         {
+            var userIdRequest = _httpContext.GetCurrentUserId();
             var validator = new DeleteUserValidator();
             var validationResult = validator.Validate(request);
             if (!validationResult.IsValid)
@@ -59,12 +60,11 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
                     await _unitOfRepository.CompleteAsync();
                     response.StatusCode = (int)ResponseStatusCode.OK;
                     response.StatusText = $"User deleted";
-                    ;
                 }
                 else
                 {
-                    response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    response.StatusText = "Can't delete user";
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.StatusText = "This user is already deleted";
                 }
             }
 

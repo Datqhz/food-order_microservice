@@ -48,8 +48,8 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
                 return response;
             }
 
-            var user = await _userManager.Users.Where(u => u.UserName.ToLower() == payload.Username.ToLower())
-                .AsNoTracking().FirstOrDefaultAsync();
+            var user = await _unitOfRepository.User.Where(u => u.UserName.ToLower() == payload.Username.ToLower())
+                .AsNoTracking().FirstOrDefaultAsync(cancellationToken);
             if (user != null)
             {
                 response.StatusText = "UserName is used";
@@ -65,10 +65,12 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
                 UserName = payload.Username,
                 PhoneNumber = payload.PhoneNumber,
             };
+            
             var hashedPassword = new PasswordHasher<User>().HashPassword(newUser, payload.Password); 
             newUser.PasswordHash = hashedPassword;
             var createResult = await _userManager.CreateAsync(newUser);
-            if (!createResult.Succeeded)
+            var createUserRole = await _userManager.AddToRoleAsync(newUser, payload.Role.ToUpper());
+            if (!createResult.Succeeded || !createUserRole.Succeeded)
             {
                 response.StatusText = "Bad request";
                 response.ErrorMessage = createResult.Errors.ToString();
@@ -81,7 +83,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
                     UserName= payload.Username,
                     CreatedDate = DateTime.Now,
                     IsActive = true,
-                    ClientId = payload.ClientId,
+                    Role = payload.Role.ToUpper(),
                     DisplayName = payload.Displayname,
                     PhoneNumber = payload.PhoneNumber,
                 }, cancellationToken, null);
@@ -94,7 +96,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
         {
             response.StatusCode = (int)ResponseStatusCode.InternalServerError;
             response.StatusText = "Internal server error";
-            response.ErrorMessage = ex.Message.ToString();
+            response.ErrorMessage = ex.Message;
             return response;
         }
     }

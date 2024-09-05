@@ -12,6 +12,7 @@ public interface IUnitOfRepository
     public IClientScopeRepository ClientScope { get; }
     public IClientSecretRepository ClientSecret { get; }
     public IUserRepository User { get; }
+    public IRolePermissionRepository RolePermission { get; }
 
     Task CompleteAsync();
     Task<IDbContextTransaction> OpenTransactionAsync();

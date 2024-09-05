@@ -146,14 +146,8 @@ namespace AuthServer.Data.Context.Migrations
                         new
                         {
                             Id = 1,
-                            ClientId = "Eater",
-                            ClientName = "Eater"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ClientId = "Merchant",
-                            ClientName = "Merchant"
+                            ClientId = "Mobile",
+                            ClientName = "Mobile app"
                         });
                 });
 
@@ -194,24 +188,6 @@ namespace AuthServer.Data.Context.Migrations
                             Id = 3,
                             ClientId = 1,
                             GrantType = "client_credentials"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ClientId = 2,
-                            GrantType = "password"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            ClientId = 2,
-                            GrantType = "code"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            ClientId = 2,
-                            GrantType = "client_credentials"
                         });
                 });
 
@@ -243,6 +219,12 @@ namespace AuthServer.Data.Context.Migrations
                         },
                         new
                         {
+                            Id = 9,
+                            ClientId = 1,
+                            Scope = "food.write"
+                        },
+                        new
+                        {
                             Id = 2,
                             ClientId = 1,
                             Scope = "customer.read"
@@ -264,36 +246,6 @@ namespace AuthServer.Data.Context.Migrations
                             Id = 5,
                             ClientId = 1,
                             Scope = "order.write"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            ClientId = 2,
-                            Scope = "customer.read"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            ClientId = 2,
-                            Scope = "customer.write"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            ClientId = 2,
-                            Scope = "food.read"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            ClientId = 2,
-                            Scope = "food.write"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            ClientId = 2,
-                            Scope = "order.read"
                         });
                 });
 
@@ -321,13 +273,120 @@ namespace AuthServer.Data.Context.Migrations
                         {
                             Id = 1,
                             ClientId = 1,
-                            SecretName = "Eater"
+                            SecretName = "mobile"
+                        });
+                });
+
+            modelBuilder.Entity("AuthServer.Data.Models.RolePermission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Permission")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RolePermissions", "auth");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Permission = "customer.read",
+                            Role = "EATER"
                         },
                         new
                         {
                             Id = 2,
-                            ClientId = 2,
-                            SecretName = "Merchant"
+                            Permission = "customer.write",
+                            Role = "EATER"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Permission = "customer.read",
+                            Role = "MERCHANT"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Permission = "customer.write",
+                            Role = "MERCHANT"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Permission = "customer.read",
+                            Role = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Permission = "customer.write",
+                            Role = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Permission = "food.read",
+                            Role = "EATER"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Permission = "food.read",
+                            Role = "MERCHANT"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Permission = "food.write",
+                            Role = "MERCHANT"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Permission = "food.read",
+                            Role = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Permission = "order.read",
+                            Role = "EATER"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Permission = "order.write",
+                            Role = "EATER"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Permission = "order.read",
+                            Role = "MERCHANT"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Permission = "order.write",
+                            Role = "MERCHANT"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Permission = "order.read",
+                            Role = "ADMIN"
                         });
                 });
 
@@ -355,6 +414,26 @@ namespace AuthServer.Data.Context.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", "auth");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "d8a86e3a-ca38-4f1c-8146-40ec1bba55b8",
+                            Name = "EATER",
+                            NormalizedName = "EATER"
+                        },
+                        new
+                        {
+                            Id = "46c31106-4bfd-4c0a-9fc5-e74e4cf43c9d",
+                            Name = "MERCHANT",
+                            NormalizedName = "MERCHANT"
+                        },
+                        new
+                        {
+                            Id = "4a453d9f-0513-4080-98d9-e7beddf84532",
+                            Name = "ADMIN",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

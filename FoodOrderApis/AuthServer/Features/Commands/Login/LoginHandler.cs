@@ -8,6 +8,7 @@ using IdentityModel.Client;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,10 +17,12 @@ namespace AuthServer.Features.Commands.Login;
 public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
 {
     private readonly IUnitOfRepository _unitOfRepository;
+    private readonly UserManager<User> _userManager;
 
-    public LoginHandler(IUnitOfRepository unitOfRepository)
+    public LoginHandler(IUnitOfRepository unitOfRepository, UserManager<User> userManager)
     {
         _unitOfRepository = unitOfRepository;
+        _userManager = userManager;
     }
 
     public async Task<LoginResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -45,13 +48,13 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
                 loginResponse.ErrorMessage = "Invalid information";
                 return loginResponse;
             }
-
             if (user.IsActive == false)
             {
                 loginResponse.StatusText = "Bad Request";
                 loginResponse.ErrorMessage = "This user is not active";
                 return loginResponse;
             }
+            var roles = await _userManager.GetRolesAsync(user);
             var client = await _unitOfRepository.Client.Where(cl => cl.Id == user.ClientId)
                 .Select(_ => new Client
                 {
@@ -61,10 +64,10 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
                 .FirstOrDefaultAsync(cancellationToken);
             var clientSecret = await _unitOfRepository.ClientSecret.Where(cs => cs.ClientId == client.Id)
                 .Select(_ => _.SecretName).FirstOrDefaultAsync(cancellationToken);
-            var clientScopes = await _unitOfRepository.ClientScope.Where(sc => sc.ClientId == client.Id)
-                .Select(cs => cs.Scope).ToListAsync();
+            var scopes = await _unitOfRepository.RolePermission.Where(p => p.Role == roles[0])
+                .Select(_ => _.Permission).ToListAsync();
             var requestScopes = "";
-            foreach (var scope in clientScopes)
+            foreach (var scope in scopes)
             {
                 requestScopes += " " + scope;
             }

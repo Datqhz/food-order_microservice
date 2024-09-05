@@ -29,15 +29,18 @@ public class GetAllOrderByUserIdHandler : IRequestHandler<GetAllOrderByUserIdQue
                 response.StatusText = validationResult.ToString("~");
                 return response;
             }
-            var userId = request.EaterId != null ? request.EaterId : request.MerchantId;
             List<Order> orders;
             if (request.EaterId != null)
             {
-                orders = _unitOfRepository.Order.Where(o => o.EaterId == userId).AsNoTracking().ToList();
+                orders = _unitOfRepository.Order.Where(o => o.EaterId == request.EaterId).AsNoTracking().ToList();
+            }
+            else if (request.MerchantId != null)
+            {
+                orders = _unitOfRepository.Order.Where(o => o.MerchantId == request.MerchantId).AsNoTracking().ToList();
             }
             else
             {
-                orders = _unitOfRepository.Order.Where(o => o.MerchantId == userId).AsNoTracking().ToList();
+                orders = _unitOfRepository.Order.Where(o => o.MerchantId == request.MerchantId || o.EaterId == request.EaterId).AsNoTracking().ToList();
             }
             response.StatusCode = (int)ResponseStatusCode.OK;
             response.StatusText = "Get all orders by eaterid successfully";

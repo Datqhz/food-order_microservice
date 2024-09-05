@@ -1,5 +1,5 @@
 ﻿using AuthServer.Data.Requests;
-using AuthServer.Features.Commands.LoginCommands;
+using AuthServer.Features.Commands.Login;
 using FluentAssertions;
 using FoodOrderApis.Common.Helpers;
 using NUnit.Framework;
@@ -72,7 +72,7 @@ public class LoginValidatorTests
         actual.IsValid.Should().BeTrue();
     }
     [Test, TestCaseSource(nameof(InvalidUsernameTestCases))]
-    public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_UserName(string invalidUserName)
+    public async Task Validate_ShouldBeInvalid_WhenGivenInvalid_UserName(string invalidUserName)
     {
         var request = new LoginInput
         {
@@ -87,7 +87,7 @@ public class LoginValidatorTests
         actual.IsValid.Should().BeFalse();
     }
     [Test, TestCaseSource(nameof(InvalidPasswordTestCases))]
-    public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_Password(string invalidPassword)
+    public async Task Validate_ShouldBeInvalid_WhenGivenInvalid_Password(string invalidPassword)
     {
         var request = new LoginInput
         {

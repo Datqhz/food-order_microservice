@@ -26,8 +26,21 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, CreateOrde
                 response.StatusText = validationResult.ToString("~");
                 return response;
             }
-
             var payload = request.Payload;
+            var eater = await _unitOfRepository.User.GetById(payload.EaterId);
+            if (eater == null)
+            {
+                response.StatusCode = (int)ResponseStatusCode.NotFound;
+                response.StatusText = "Eater not found";
+                return response;
+            }
+            var merchant = await _unitOfRepository.User.GetById(payload.MerchantId);
+            if (merchant == null)
+            {
+                response.StatusCode = (int)ResponseStatusCode.NotFound;
+                response.StatusText = "Merchant not found";
+                return response;
+            }
             var newOrder = new Order
             {
                 OrderStatus = 1,
