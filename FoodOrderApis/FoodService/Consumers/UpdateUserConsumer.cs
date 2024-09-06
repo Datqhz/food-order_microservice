@@ -1,4 +1,5 @@
-﻿using FoodOrderApis.Common.MassTransit.Contracts;
+﻿using System.Text.Json;
+using FoodOrderApis.Common.MassTransit.Contracts;
 using FoodService.Data.Requests;
 using FoodService.Features.Commands.UserCommands.UpdateUser;
 using MassTransit;
@@ -9,22 +10,33 @@ namespace FoodService.Consumers;
 public class UpdateUserConsumer : IConsumer<UpdateUserInfo>
 {
     private readonly IMediator _mediator;
+    private readonly ILogger<UpdateUserConsumer> _logger;
 
-    public UpdateUserConsumer(IMediator mediator)
+    public UpdateUserConsumer(IMediator mediator, ILogger<UpdateUserConsumer> logger)
     {
         _mediator = mediator;
+        _logger = logger;
     }
     public async Task Consume(ConsumeContext<UpdateUserInfo> context)
     {
-        var message = context.Message;
-        await _mediator.Send(new UpdateUserCommand
+        var functionName = $"{nameof(UpdateUserConsumer)} - {nameof(Consume)} =>";
+        try
         {
-            Payload = new ModifyUserInput
+            var message = context.Message;
+            _logger.LogInformation($"{functionName} Messsage = {JsonSerializer.Serialize(message)}");
+            await _mediator.Send(new UpdateUserCommand
             {
-                UserId = message.UserId,
-                DisplayName = message.DisplayName,
-                PhoneNumber = message.PhoneNumber
-            }
-        });
+                Payload = new ModifyUserInput
+                {
+                    UserId = message.UserId,
+                    DisplayName = message.DisplayName,
+                    PhoneNumber = message.PhoneNumber
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"{functionName} Has error : Message = {ex.Message}");
+        }
     }
 }

@@ -9,10 +9,12 @@ namespace AuthServer.Core;
 public class ClientStore : IClientStore
 {
     private readonly IUnitOfRepository _unitOfRepository;
+    private readonly ILogger<ClientStore> _logger;
 
-    public ClientStore(IUnitOfRepository unitOfRepository)
+    public ClientStore(IUnitOfRepository unitOfRepository, ILogger<ClientStore> logger)
     {
         _unitOfRepository = unitOfRepository;
+        _logger = logger;
     }
     public async Task<Client> FindClientByIdAsync(string clientId)
     {
@@ -66,7 +68,7 @@ public class ClientStore : IClientStore
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            _logger.LogError($"{nameof(ClientStore)} Has error: Message = {ex.Message}");
             return new Client();
         }
     }

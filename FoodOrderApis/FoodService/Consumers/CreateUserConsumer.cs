@@ -19,16 +19,24 @@ public class CreateUserConsumer : IConsumer<CreateUserInfo>
     }
     public async Task Consume(ConsumeContext<CreateUserInfo> context)
     {
-        var message = context.Message;
-        _logger.LogInformation(JsonSerializer.Serialize(context.Message));
-        await _mediator.Send(new CreateUserCommand
+        var functionName = $"{nameof(CreateUserConsumer)} - {nameof(Consume)} =>";
+        try
         {
-            Payload = new ModifyUserInput
+            var message = context.Message;
+            _logger.LogInformation($"{functionName} Message = {JsonSerializer.Serialize(context.Message)}");
+            await _mediator.Send(new CreateUserCommand
             {
-                UserId = message.UserId,
-                DisplayName = message.DisplayName,
-                PhoneNumber = message.PhoneNumber
-            }
-        });
+                Payload = new ModifyUserInput
+                {
+                    UserId = message.UserId,
+                    DisplayName = message.DisplayName,
+                    PhoneNumber = message.PhoneNumber
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"{functionName} Has error: {ex.Message}");
+        }
     }
 }

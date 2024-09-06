@@ -18,15 +18,19 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
 {
     private readonly IUnitOfRepository _unitOfRepository;
     private readonly UserManager<User> _userManager;
+    private readonly ILogger<LoginHandler> _logger;
 
-    public LoginHandler(IUnitOfRepository unitOfRepository, UserManager<User> userManager)
+    public LoginHandler(IUnitOfRepository unitOfRepository, UserManager<User> userManager, ILogger<LoginHandler> logger)
     {
         _unitOfRepository = unitOfRepository;
         _userManager = userManager;
+        _logger = logger;
     }
 
     public async Task<LoginResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
+        var functionName = nameof(LoginHandler);
+        _logger.LogInformation($"{functionName} => ");
         var loginResponse = new LoginResponse(){StatusCode = (int)ResponseStatusCode.BadRequest};
         try
         {
@@ -34,6 +38,7 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
             var validateResult = validator.Validate(request);
             if (!validateResult.IsValid)
             {
+                _logger.LogError($"{functionName} => Invalid request : Message => {validateResult.ToString("-")}");
                 loginResponse.StatusText = "Bad Request";
                 loginResponse.ErrorMessage = validateResult.ToString("~");
                 return loginResponse;
@@ -44,14 +49,15 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
                 .FirstOrDefaultAsync(cancellationToken);
             if (user == null)
             {
-                loginResponse.StatusText = "Bad Request";
-                loginResponse.ErrorMessage = "Invalid information";
+                _logger.LogError($"{functionName} => User not found");
+                loginResponse.StatusCode = (int)ResponseStatusCode.NotFound;
+                loginResponse.StatusText = "Not found";
                 return loginResponse;
             }
-            if (user.IsActive == false)
+            if (!user.IsActive)
             {
-                loginResponse.StatusText = "Bad Request";
-                loginResponse.ErrorMessage = "This user is not active";
+                _logger.LogError($"{functionName} => User is deleted");
+                loginResponse.StatusText = "User is deleted";
                 return loginResponse;
             }
             var roles = await _userManager.GetRolesAsync(user);
@@ -76,6 +82,7 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
             var discovery = await httpClient.GetDiscoveryDocumentAsync("http://localhost:5092");
             if (discovery.IsError)
             {
+                _logger.LogError($"{functionName} => Can't get discovery details : Message = {discovery.Error}");
                 loginResponse.StatusCode = (int)ResponseStatusCode.InternalServerError;
                 loginResponse.StatusText = "Internal server error";
                 loginResponse.ErrorMessage = discovery.Error;
@@ -105,15 +112,17 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
             }
             else
             {
+                _logger.LogError($"{functionName} => Can't get access token : Message = {response.ErrorDescription}");
                 loginResponse.StatusCode = (int)ResponseStatusCode.InternalServerError;
                 loginResponse.StatusText = "Internal server error";
                 loginResponse.ErrorMessage = response.ErrorDescription;
             }
+            _logger.LogInformation($"{functionName} - End");
             return loginResponse;
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex);
+            _logger.LogError($"{functionName} => Error : Message = {ex.Message}");
             loginResponse.StatusCode = (int)ResponseStatusCode.InternalServerError;
             loginResponse.StatusText = "Internal server error";
             loginResponse.ErrorMessage = ex.Message;

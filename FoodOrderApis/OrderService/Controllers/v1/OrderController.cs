@@ -11,7 +11,6 @@ using OrderService.Features.Queries.OrderQueries.GetAllOrderByUserId;
 
 namespace OrderService.Controllers.v1;
 
-[Authorize]
 [ApiController]
 [Route("api/v1/order")]
 public class OrderController
@@ -23,8 +22,9 @@ public class OrderController
         _mediator = mediator;
     }
     
+    [Authorize(Roles = "OrderRead")]
     [HttpGet("get-by-user")]
-    public async Task<IActionResult> GetOrderDetailByOrderIdAsync([FromQuery] string? eaterId = null, [FromQuery] string? merchantId = null)
+    public async Task<IActionResult> GetOrderByOrderIdAsync([FromQuery] string? eaterId = null, [FromQuery] string? merchantId = null)
     {
         var result = await _mediator.Send(new GetAllOrderByUserIdQuery
         {
@@ -33,7 +33,7 @@ public class OrderController
         });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data);
     }
-
+    [Authorize(Policy = "OrderWrite")]
     [HttpPost]
     public async Task<IActionResult> CreateOrder([FromBody] CreateOrderInput input)
     {
@@ -43,7 +43,7 @@ public class OrderController
         });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
     }
-
+    [Authorize(Policy = "OrderWrite")]
     [HttpPut]
     public async Task<IActionResult> UpdateOrderDetail([FromBody] UpdateOrderInput input)
     {

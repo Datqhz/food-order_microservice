@@ -10,21 +10,26 @@ namespace FoodService.Features.Queries.FoodQueries.GetAllFoodByUserId;
 public class GetAllFoodByUserIdHandler : IRequestHandler<GetAllFoodByUserIdQuery, GetAllFoodByUserIdResponse>
 {
     private readonly IUnitOfRepository _unitOfRepository;
+    private readonly ILogger<GetAllFoodByUserIdHandler> _logger;
 
-    public GetAllFoodByUserIdHandler(IUnitOfRepository unitOfRepository)
+    public GetAllFoodByUserIdHandler(IUnitOfRepository unitOfRepository, ILogger<GetAllFoodByUserIdHandler> logger)
     {
         _unitOfRepository = unitOfRepository;
+        _logger = logger;
     }
     public async Task<GetAllFoodByUserIdResponse> Handle(GetAllFoodByUserIdQuery request, CancellationToken cancellationToken)
     {
+        var functionName = nameof(GetAllFoodByUserIdHandler);
         var response = new GetAllFoodByUserIdResponse(){StatusCode = (int)ResponseStatusCode.BadRequest};
         try
         {
+            _logger.LogInformation($"{functionName} - Start");
             var validator = new GetAllFoodByUserIdValidator();
             var validationResult = await validator.ValidateAsync(request);
             if (!validationResult.IsValid)
             {
-                response.StatusText = validationResult.Errors[0].ErrorMessage;
+                _logger.LogError($"{functionName} => Invalid request : Message = {validationResult.ToString("-")}");
+                response.StatusText = validationResult.ToString("-");
                 return response;
             }
 
@@ -40,10 +45,12 @@ public class GetAllFoodByUserIdHandler : IRequestHandler<GetAllFoodByUserIdQuery
             response.StatusCode = (int)ResponseStatusCode.OK;
             response.StatusText = "Get All Food By UserId";
             response.Data = foods;
+            _logger.LogInformation($"{functionName} - End");
             return response;
         }
         catch (Exception ex)
         {
+            _logger.LogError($"{functionName} => Has error : Message = {ex.Message}");
             response.StatusCode = (int)ResponseStatusCode.InternalServerError;
             response.StatusText = "Internal Server Error";
             response.ErrorMessage = ex.Message;

@@ -8,13 +8,17 @@ namespace CustomerService.Features.Queries.UserInfoQueries.GetUserInfoById;
 public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, GetUserInfoByIdResponse>
 {
     private readonly IUnitOfRepository _unitOfRepository;
+    private readonly ILogger<GetUserByIdHandler> _logger;
 
-    public GetUserByIdHandler(IUnitOfRepository unitOfRepository)
+    public GetUserByIdHandler(IUnitOfRepository unitOfRepository, ILogger<GetUserByIdHandler> logger)
     {
         _unitOfRepository = unitOfRepository;
+        _logger = logger;
     }
     public async Task<GetUserInfoByIdResponse> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
+        var functionName = nameof(GetUserByIdHandler);
+        _logger.LogInformation($"{functionName} - Start");
         var response = new GetUserInfoByIdResponse(){StatusCode = (int)ResponseStatusCode.BadRequest};
         try
         {
@@ -22,6 +26,7 @@ public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, GetUserInfoB
             var validateResult = validator.Validate(request);
             if (!validateResult.IsValid)
             {
+                _logger.LogError($"{functionName} - Invalid request : Message = {validateResult.ToString("-")}");
                 response.StatusText = validateResult.ToString("~");
                 return response;
             }
@@ -29,6 +34,7 @@ public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, GetUserInfoB
             var user = await _unitOfRepository.User.GetById(request.UserId);
             if (user == null)
             {
+                _logger.LogError($"{functionName} - User Not Found");
                 response.StatusCode = (int)ResponseStatusCode.NotFound;
                 response.StatusText = "User does not exist";
             }
@@ -38,10 +44,12 @@ public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, GetUserInfoB
                 response.StatusText = "User retrieved";
                 response.Data = user;
             }
+            _logger.LogInformation($"{functionName} - End");
             return response;
         }
         catch (Exception ex)
         {
+            _logger.LogError($"{functionName} - Error : Message = {ex.Message}");
             response.StatusCode = (int)ResponseStatusCode.InternalServerError;
             response.StatusText = "Internal Server Error";
             response.ErrorMessage = ex.Message;

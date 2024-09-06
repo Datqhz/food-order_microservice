@@ -11,23 +11,32 @@ namespace AuthServer.Core;
 public class ProfileService : IProfileService
 {
     private readonly UserManager<User> _userManager;
+    private readonly ILogger<ProfileService> _logger;
 
-    public ProfileService(UserManager<User> userManager)
+    public ProfileService(UserManager<User> userManager, ILogger<ProfileService> logger)
     {
         _userManager = userManager;
+        _logger = logger;
     }
     public async Task GetProfileDataAsync(ProfileDataRequestContext context)
     {
-        var sub = context.Subject.GetSubjectId();
-        var user = await _userManager.FindByIdAsync(sub);
-        var roles = await _userManager.GetRolesAsync(user);
-        var claims = new List<Claim>()
+        try
         {
-            new Claim(Constants.CustomClaimTypes.UserId, sub),
-            new Claim(Constants.CustomClaimTypes.Role, roles[0]),
-            new Claim(Constants.CustomClaimTypes.UserName, user.UserName),
-        };
-        context.IssuedClaims.AddRange(claims);
+            var sub = context.Subject.GetSubjectId();
+            var user = await _userManager.FindByIdAsync(sub);
+            var roles = await _userManager.GetRolesAsync(user);
+            var claims = new List<Claim>()
+            {
+                new Claim(Constants.CustomClaimTypes.UserId, sub),
+                new Claim(Constants.CustomClaimTypes.Role, roles[0]),
+                new Claim(Constants.CustomClaimTypes.UserName, user.UserName),
+            };
+            context.IssuedClaims.AddRange(claims);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"{nameof(ProfileService)} Has error: Message = {ex.Message}");
+        }
     }
 
     public async Task IsActiveAsync(IsActiveContext context)

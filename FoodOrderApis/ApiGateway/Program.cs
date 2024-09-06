@@ -20,6 +20,7 @@ if (currentEnv == "Development")
 }
 else
 {
+    Console.WriteLine($"current env : {currentEnv}");
         builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
         builder.Configuration.AddJsonFile("Routes/ocelot.swaggerendpoint.json", optional: false, reloadOnChange: true);
         builder.Configuration.AddOcelotWithSwaggerSupport(options =>
@@ -34,7 +35,7 @@ serviceExtensions.ConfigureSwagger(builder.Services);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (!app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerForOcelotUI();

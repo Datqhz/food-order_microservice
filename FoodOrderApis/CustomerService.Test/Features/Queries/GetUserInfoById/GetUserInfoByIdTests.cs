@@ -4,6 +4,7 @@ using CustomerService.Features.Queries.UserInfoQueries.GetUserInfoById;
 using CustomerService.Repositories;
 using CustomerService.Test.Extensions;
 using FoodOrderApis.Common.Helpers;
+using Microsoft.Extensions.Logging;
 using MockQueryable;
 using Moq;
 
@@ -15,13 +16,15 @@ public class GetUserInfoByIdTests
     private readonly Fixture _fixture;
     private readonly CancellationToken _cancellationToken;
     private readonly GetUserByIdHandler _handler;
+    private readonly Mock<ILogger<GetUserByIdHandler>> _logger;
 
     public GetUserInfoByIdTests()
     {
         _unitOfRepositoryMock = new Mock<IUnitOfRepository>();
         _fixture = new Fixture().OmitOnRecursionBehavior();
         _cancellationToken = new CancellationToken();
-        _handler = new GetUserByIdHandler(_unitOfRepositoryMock.Object);
+        _logger = new Mock<ILogger<GetUserByIdHandler>>();
+        _handler = new GetUserByIdHandler(_unitOfRepositoryMock.Object, _logger.Object);
     }
 
     [Test]

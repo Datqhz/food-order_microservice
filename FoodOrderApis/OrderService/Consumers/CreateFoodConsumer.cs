@@ -19,10 +19,12 @@ public class CreateFoodConsumer : IConsumer<CreateFood>
     }
     public async Task Consume(ConsumeContext<CreateFood> context)
     {
-        var message = context.Message;
-        _logger.LogInformation(JsonSerializer.Serialize(message));
+        var functionName = $"{nameof(CreateFoodConsumer)} - {nameof(Consume)} =>";
+        
         try
         {
+            var message = context.Message;
+            _logger.LogInformation($"{functionName} Message = {JsonSerializer.Serialize(message)}");
             var input = new ModifyFoodInput
             {
                 FoodId = message.Id,
@@ -37,7 +39,7 @@ public class CreateFoodConsumer : IConsumer<CreateFood>
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            _logger.LogError($"{functionName} Has error = {ex.Message}");
         }
         
     }

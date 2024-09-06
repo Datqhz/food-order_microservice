@@ -53,8 +53,8 @@ public class ServiceExtensions
             })
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
             {
-                // options.Authority = "http://localhost:5092";
-                //options.RequireHttpsMetadata = false;
+                options.Authority = "http://localhost:5092";
+                options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = false,
@@ -67,10 +67,6 @@ public class ServiceExtensions
             });
         services.AddTransient<ClaimsPrincipal>(provider =>
             provider.GetService<IHttpContextAccessor>().HttpContext?.User);
-        /*services.AddAuthorization(options =>
-        {
-            options.AddPolicy("ApiScope", policy => policy.RequireClaim("scope"));
-        });*/
     }
     public void AddCors(IServiceCollection services)
     {

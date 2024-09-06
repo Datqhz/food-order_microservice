@@ -23,7 +23,6 @@ public class UpdateUserValidatorTests
         {
             Id = "a",
             DisplayName = "Yamato",
-            IsActive = true,
             PhoneNumber = "0123456789"
         };
     }
@@ -85,7 +84,6 @@ public class UpdateUserValidatorTests
         {
             Id = invalidId,
             DisplayName = _validRequest.DisplayName,
-            IsActive = true,
             PhoneNumber = _validRequest.PhoneNumber
         };
         var command = new UpdateUserCommand
@@ -103,7 +101,6 @@ public class UpdateUserValidatorTests
         {
             Id = _validRequest.Id,
             DisplayName = invalidDisplayName,
-            IsActive = true,
             PhoneNumber = _validRequest.PhoneNumber
         };
         var command = new UpdateUserCommand
@@ -121,7 +118,6 @@ public class UpdateUserValidatorTests
         {
             Id = _validRequest.Id,
             DisplayName = _validRequest.DisplayName,
-            IsActive = true,
             PhoneNumber = invalidPhoneNumber
         };
         var command = new UpdateUserCommand

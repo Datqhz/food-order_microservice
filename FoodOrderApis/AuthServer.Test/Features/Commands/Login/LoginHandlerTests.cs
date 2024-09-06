@@ -19,6 +19,7 @@ public class LoginHandlerTests
     private readonly Fixture _fixture;
     private readonly LoginHandler _handler;
     private readonly CancellationToken _cancellationToken;
+    private readonly Mock<ILogger<LoginHandler>> _loggerMock;
 
     public LoginHandlerTests()
     {
@@ -27,15 +28,9 @@ public class LoginHandlerTests
         _cancellationToken = new CancellationToken();
         _userManagerMock  = new Mock<UserManager<User>>(
             new Mock<IUserStore<User>>().Object,
-            new Mock<IOptions<IdentityOptions>>().Object,
-            new Mock<IPasswordHasher<User>>().Object,
-            new IUserValidator<User>[0],
-            new IPasswordValidator<User>[0],
-            new Mock<ILookupNormalizer>().Object,
-            new Mock<IdentityErrorDescriber>().Object,
-            new Mock<IServiceProvider>().Object,
-            new Mock<ILogger<UserManager<User>>>().Object);
-        _handler = new LoginHandler(_unitOfRepositoryMock.Object, _userManagerMock.Object);
+            null, null, null, null, null, null, null, null);
+        _loggerMock = new Mock<ILogger<LoginHandler>>();
+        _handler = new LoginHandler(_unitOfRepositoryMock.Object, _userManagerMock.Object, _loggerMock.Object);
     }
 
     [Test]

@@ -34,10 +34,10 @@ public class ServiceExtensions
 
                     ValidateIssuer = false,
                     ValidateAudience = true,
-                    ValidateIssuerSigningKey = true,
+                    /*ValidateIssuerSigningKey = true,*/
                     RequireExpirationTime = true,
                     ValidateLifetime = true,
-                    IssuerSigningKey = EncodeHelper.CreateRsaKey()
+                    /*IssuerSigningKey = EncodeHelper.CreateRsaKey()*/
                 };
             });
     }
@@ -50,7 +50,7 @@ public class ServiceExtensions
                 policy => policy.RequireAssertion(context =>
                     context.User.HasClaim(claim => claim.Type == "scope" && claim.Value.Contains("order.write"))
                 ));
-            option.AddPolicy("OrderReadRead",
+            option.AddPolicy("OrderRead",
                 policy => policy.RequireAssertion(context =>
                     context.User.HasClaim(claim => claim.Type == "scope" && claim.Value.Contains("order.read"))
                 ));
@@ -117,67 +117,5 @@ public class ServiceExtensions
                 }
             });
         });
-    }
-
-    public void AddMassTransitRabbitMq(IServiceCollection services)
-    {
-        var currentEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-        if (currentEnv == "Development")
-        {
-            services.AddMassTransit(x =>
-            {
-                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("order",false));
-                x.SetKebabCaseEndpointNameFormatter();
-                //x.AddConsumer<CreateFoodConsumer>();
-                x.AddConsumers(Assembly.GetEntryAssembly());
-                x.UsingRabbitMq((context, cfg) =>
-                {
-                    cfg.Host("localhost", 5672,"/", h =>
-                    {
-                        h.Username("guest");
-                        h.Password("guest");
-                    });
-                    cfg.ConfigureEndpoints(context);
-                });
-            });
-        }
-        else
-        {
-            services.AddMassTransit(x =>
-            {
-                x.AddConsumers(Assembly.GetEntryAssembly());
-                x.SetKebabCaseEndpointNameFormatter();
-                x.UsingRabbitMq((context, cfg) =>
-                {
-                    cfg.Host("rabbitmq","/", h =>
-                    {
-                        h.Username("guest");
-                        h.Password("guest");
-                    });
-                    cfg.ReceiveEndpoint("create-food", e =>
-                    {
-                        e.ConfigureConsumer<CreateFoodConsumer>(context);
-                    });
-                    cfg.ReceiveEndpoint("order_service_update_food", e =>
-                    {
-                        e.ConfigureConsumer<UpdateFoodConsumer>(context);
-                    });
-                    cfg.ReceiveEndpoint("order_service_test", e =>
-                    {
-                        e.ConfigureConsumer<CreateUserConsumer>(context);
-                    });
-                    cfg.ReceiveEndpoint("order_service_create_user", e =>
-                    {
-                        e.ConfigureConsumer<CreateUserConsumer>(context);
-                    });
-                    cfg.ReceiveEndpoint("order_service_update_user", e =>
-                    {
-                        e.ConfigureConsumer<CreateUserConsumer>(context);
-                    });
-                    // Auto configure endpoint for consumers
-                    cfg.ConfigureEndpoints(context);
-                });
-            });
-        }
     }
 }

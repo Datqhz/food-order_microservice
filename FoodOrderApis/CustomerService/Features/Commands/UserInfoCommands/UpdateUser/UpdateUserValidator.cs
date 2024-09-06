@@ -14,8 +14,6 @@ public class UpdateUserValidator : AbstractValidator<UpdateUserCommand>
         RuleFor(command => command.Payload.DisplayName)
             .NotNull().NotEmpty().WithMessage("DisplayName is required")
             .MinimumLength(3).MaximumLength(100).WithMessage("DisplayName must be between 3 and 100 characters");
-        RuleFor(x => x.Payload.IsActive)
-            .NotNull().WithMessage("Status cannot be null");
         RuleFor(command => command.Payload.PhoneNumber)
             .NotNull().NotEmpty().WithMessage("PhoneNumber is required")
             .PhoneNumber().WithMessage("Invalid phone number");

@@ -8,6 +8,7 @@ using FoodService.Features.Commands.FoodCommands.CreateFoodCommands;
 using FoodService.Repositories;
 using FoodService.Test.Extensions;
 using MassTransit;
+using Microsoft.Extensions.Logging;
 using MockQueryable;
 using Moq;
 using CreateFoodMessage = FoodOrderApis.Common.MassTransit.Contracts.CreateFood;
@@ -22,12 +23,14 @@ public class CreateFoodHandlerTests
     private readonly Fixture _fixture;
     private readonly CreateFoodHandler _handler;
     private readonly CancellationToken _cancellationToken;
+    private readonly Mock<ILogger<CreateFoodHandler>> _mockLogger;
 
     public CreateFoodHandlerTests()
     {
         _mockUnitOfRepository = new Mock<IUnitOfRepository>();
         _mockSendEndpoint = new Mock<ISendEndpointCustomProvider>();
-        _handler = new CreateFoodHandler(_mockUnitOfRepository.Object, _mockSendEndpoint.Object);
+        _mockLogger = new Mock<ILogger<CreateFoodHandler>>();
+        _handler = new CreateFoodHandler(_mockUnitOfRepository.Object, _mockSendEndpoint.Object, _mockLogger.Object);
         _cancellationToken = new CancellationToken();
         _fixture = new Fixture().OmitOnRecursionBehavior();
     }

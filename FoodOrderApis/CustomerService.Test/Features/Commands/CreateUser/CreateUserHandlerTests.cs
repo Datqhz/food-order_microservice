@@ -4,6 +4,7 @@ using CustomerService.Data.Requests;
 using CustomerService.Features.Commands.UserInfoCommands.CreateUser;
 using CustomerService.Repositories;
 using FoodOrderApis.Common.Helpers;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace CustomerService.Test.Features.Commands.CreateUser;
@@ -14,13 +15,15 @@ public class CreateUserHandlerTests
     private readonly Fixture _fixture;
     private readonly CancellationToken _cancellationToken;
     private readonly CreateUserHandler _handler;
+    private readonly Mock<ILogger<CreateUserHandler>> _logger;
 
     public CreateUserHandlerTests()
     {
         _unitOfRepositoryMock = new Mock<IUnitOfRepository>();
         _fixture = new Fixture();
         _cancellationToken = new CancellationToken();
-        _handler = new CreateUserHandler(_unitOfRepositoryMock.Object);
+        _logger = new Mock<ILogger<CreateUserHandler>>();
+        _handler = new CreateUserHandler(_unitOfRepositoryMock.Object, _logger.Object);
     }
 
     [Test]

@@ -25,7 +25,7 @@ public class UpdateUserHandlerTests
     private readonly Fixture _fixture;
     private readonly UpdateUserHandler _handler;
     private readonly CancellationToken _cancellationToken;
-
+    private readonly Mock<ILogger<UpdateUserHandler>> _loggerMock;
     public UpdateUserHandlerTests()
     {
         _unitOfRepositoryMock = new Mock<IUnitOfRepository>();
@@ -41,7 +41,8 @@ public class UpdateUserHandlerTests
             new Mock<ILogger<UserManager<User>>>().Object);
         _httpContextAccessorMock = new Mock<ICustomHttpContextAccessor>();
         _fixture = new Fixture().OmitOnRecursionBehavior();
-        _handler = new UpdateUserHandler(_unitOfRepositoryMock.Object, _userManagerMock.Object, _httpContextAccessorMock.Object);
+        _loggerMock = new Mock<ILogger<UpdateUserHandler>>();
+        _handler = new UpdateUserHandler(_unitOfRepositoryMock.Object, _userManagerMock.Object, _httpContextAccessorMock.Object, _loggerMock.Object);
         _cancellationToken = new CancellationToken();
     }
 

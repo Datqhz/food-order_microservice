@@ -24,6 +24,29 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/v1/user/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "5092"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/user/{everything}",
+      "UpstreamHttpMethod": [
+        "PUT",
+        "DELETE"
+      ],
+      "SwaggerKey": "authserver",
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 30.0,
+        "Limit": 30
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/v1/customer/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -92,51 +115,5 @@
   ],
   "GlobalConfiguration": {
     "BaseUrl": "http://host.docker.internal:5084"
-  },
-  "SwaggerEndPoints": [
-    {
-      "key": "authserver",
-      "TransformByOcelotConfig": true,
-      "Config": [
-        {
-          "Name": "AuthServer.Api",
-          "Version": "1.0",
-          "Url": "http://authserver:5092/swagger/v1/swagger.json"
-        }
-      ]
-    },
-    {
-      "key": "customerservice",
-      "TransformByOcelotConfig": true,
-      "Config": [
-        {
-          "Name": "CustomerService.Api",
-          "Version": "1.0",
-          "Url": "http://customerservice:5204/swagger/v1/swagger.json"
-        }
-      ]
-    },
-    {
-      "key": "foodservice",
-      "TransformByOcelotConfig": true,
-      "Config": [
-        {
-          "Name": "FoodService.Api",
-          "Version": "1.0",
-          "Url": "http://foodservice:5107/swagger/v1/swagger.json"
-        }
-      ]
-    },
-    {
-      "key": "orderservice",
-      "TransformByOcelotConfig": true,
-      "Config": [
-        {
-          "Name": "OrderService.Api",
-          "Version": "1.0",
-          "Url": "http://orderservice:5149/swagger/v1/swagger.json"
-        }
-      ]
-    }
-  ]
+  }
 }

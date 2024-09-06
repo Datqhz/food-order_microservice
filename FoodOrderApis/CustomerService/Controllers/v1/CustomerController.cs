@@ -36,12 +36,12 @@ public class CustomerController : ControllerBase
         var result = await _mediator.Send(new GetUserByIdQuery() { UserId = id });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data);
     }
-    [HttpPost]
+    /*[HttpPost]
     public async Task<IActionResult> CreateCustomer([FromBody] CreateUserInfoInput input)
     {
         var result = await _mediator.Send(new CreateUserCommand{Payload = input});
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
-    }
+    }*/
 
     [HttpPut]
     public async Task<IActionResult> UpdateCustomer([FromBody] UpdateUserInfoInput input)
@@ -50,6 +50,7 @@ public class CustomerController : ControllerBase
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
     }
 
+    
     [HttpGet("all-merchants")]
     public async Task<IActionResult> GetAllMerchants()
     {

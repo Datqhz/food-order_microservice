@@ -1,6 +1,6 @@
 ﻿namespace FoodOrderApis.Common.MassTransit.Contracts;
 
-public class DeleteFood
+public record DeleteFood
 {
-    public int FoodId { get; set; } 
+    public int FoodId { get; init; } 
 }

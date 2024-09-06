@@ -26,6 +26,7 @@ public class RegisterHanlderTests
     private readonly RegisterHandler _handler;
     private readonly Mock<ISendEndpointCustomProvider> _sendEndpointMock;
     private readonly CancellationToken _cancellationToken;
+    private readonly Mock<ILogger<RegisterHandler>> _loggerMock;
 
     public RegisterHanlderTests()
     {
@@ -42,7 +43,8 @@ public class RegisterHanlderTests
             new Mock<ILogger<UserManager<User>>>().Object);
         _fixture = new Fixture().OmitOnRecursionBehavior();
         _sendEndpointMock = new Mock<ISendEndpointCustomProvider>();
-        _handler = new RegisterHandler(_unitOfRepositoryMock.Object, _sendEndpointMock.Object, _userManagerMock.Object);
+        _loggerMock = new Mock<ILogger<RegisterHandler>>();
+        _handler = new RegisterHandler(_unitOfRepositoryMock.Object, _sendEndpointMock.Object, _userManagerMock.Object, _loggerMock.Object);
         _cancellationToken = new CancellationToken();
     }
 

@@ -8,6 +8,7 @@ using FoodService.Data.Requests;
 using FoodService.Features.Commands.FoodCommands.UpdateFoodCommands;
 using FoodService.Repositories;
 using FoodService.Test.Extensions;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace FoodService.Test.Features.Commands.UpdateFood;
@@ -20,6 +21,7 @@ public class UpdateFoodHandlerTests
     private readonly CancellationToken _cancellationToken;
     private readonly UpdateFoodHandler _handler;
     private readonly Mock<ICustomHttpContextAccessor> _httpContextAccessorMock;
+    private readonly Mock<ILogger<UpdateFoodHandler>> _loggerMock;
 
     public UpdateFoodHandlerTests()
     {
@@ -28,7 +30,8 @@ public class UpdateFoodHandlerTests
         _fixture = new Fixture().OmitOnRecursionBehavior();
         _cancellationToken = new CancellationToken();
         _httpContextAccessorMock = new Mock<ICustomHttpContextAccessor>();
-        _handler = new UpdateFoodHandler(_unitOfRepositoryMock.Object, _sendEndpointMock.Object, _httpContextAccessorMock.Object);
+        _loggerMock = new Mock<ILogger<UpdateFoodHandler>>();
+        _handler = new UpdateFoodHandler(_unitOfRepositoryMock.Object, _sendEndpointMock.Object, _httpContextAccessorMock.Object, _loggerMock.Object);
     }
 
     [Test]

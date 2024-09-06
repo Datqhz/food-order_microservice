@@ -1,4 +1,5 @@
-﻿using FoodOrderApis.Common.MassTransit.Contracts;
+﻿using System.Text.Json;
+using FoodOrderApis.Common.MassTransit.Contracts;
 using MassTransit;
 using MediatR;
 using OrderService.Data.Requests;
@@ -9,22 +10,34 @@ namespace OrderService.Consumers;
 public class CreateUserConsumer : IConsumer<CreateUserInfo>
 {
     private readonly IMediator _mediator;
+    private readonly ILogger<CreateUserConsumer> _logger;
 
-    public CreateUserConsumer(IMediator mediator)
+    public CreateUserConsumer(IMediator mediator, ILogger<CreateUserConsumer> logger)
     {
         _mediator = mediator;
+        _logger = logger;
     }
     public async Task Consume(ConsumeContext<CreateUserInfo> context)
     {
-        var message = context.Message;
-        await _mediator.Send(new CreateUserCommand
+        var functionName = $"{nameof(CreateUserConsumer)} - {nameof(Consume)} =>";
+        try
         {
-            Payload = new ModifyUserInput
+            var message = context.Message;
+            _logger.LogInformation($"{functionName} Message = {JsonSerializer.Serialize(message)}");
+            await _mediator.Send(new CreateUserCommand
             {
-                UserId = message.UserId,
-                DisplayName = message.DisplayName,
-                PhoneNumber = message.PhoneNumber
-            }
-        });
+                Payload = new ModifyUserInput
+                {
+                    UserId = message.UserId,
+                    DisplayName = message.DisplayName,
+                    PhoneNumber = message.PhoneNumber
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"{functionName} Has error: {ex.Message}");
+        }
+        
     }
 }

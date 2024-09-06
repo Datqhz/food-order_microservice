@@ -35,10 +35,10 @@ public class ServiceExtensions
                 {
                     ValidateIssuer = false,
                     ValidateAudience = true,
-                    ValidateIssuerSigningKey = true,
+                    /*ValidateIssuerSigningKey = true,*/
                     RequireExpirationTime = true,
                     ValidateLifetime = true,
-                    IssuerSigningKey = EncodeHelper.CreateRsaKey()
+                    /*IssuerSigningKey = EncodeHelper.CreateRsaKey()*/
                 };
             });
     }
@@ -102,51 +102,6 @@ public class ServiceExtensions
                 }
             });
         });
-    }
-
-    public void AddMassTransitRabbitMq(IServiceCollection services)
-    {
-        var currentEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-        if (currentEnv == "Development")
-        {
-            services.AddMassTransit(x =>
-            {
-                x.SetKebabCaseEndpointNameFormatter();
-                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("customer", false));
-                x.AddConsumers(Assembly.GetEntryAssembly());
-                x.UsingRabbitMq((context, cfg) =>
-                {
-                    cfg.Host("localhost", 5672,"/", h =>
-                    {
-                        h.Username("guest");
-                        h.Password("guest");
-                    });
-                    // Auto configure endpoint for consumers
-                    cfg.ConfigureEndpoints(context);
-                });
-            });
-        }
-        else
-        {
-            services.AddMassTransit(x =>
-            {
-                x.AddConsumers(Assembly.GetEntryAssembly());
-                x.SetKebabCaseEndpointNameFormatter();
-                x.UsingRabbitMq((context, cfg) =>
-                {
-                    cfg.Host("rabbitmq","/", h =>
-                    {
-                        h.Username("guest");
-                        h.Password("guest");
-                    });
-                    cfg.ReceiveEndpoint("customer_service_create_user", e =>
-                    {
-                        e.ConfigureConsumer<CreateUserConsumer>(context);
-                    });
-                    // Auto configure endpoint for consumers
-                });
-            });
-        }
     }
 
     public void AddAuthorizationSettings(IServiceCollection services)

@@ -10,6 +10,6 @@ public class CreateOrderDetailValidator : AbstractValidator<CreateOrderDetailCom
         RuleFor(x => x.Payload.Quantity).NotNull().WithMessage("Quantity cannot be null.").GreaterThan(0).WithMessage("Quantity must be greater than 0.");
         RuleFor(x => x.Payload.OrderId).NotNull().WithMessage("OrderId cannot be null.");
         RuleFor(x => x.Payload.FoodId).NotNull().WithMessage("FoodId cannot be null.");
-        RuleFor(x => x.Payload.Price).NotNull().WithMessage("Price cannot be null.").GreaterThan(0).WithMessage("Price must be greater than 0.");
+        RuleFor(x => x.Payload.Price).NotNull().WithMessage("Price cannot be null.").GreaterThanOrEqualTo(0).WithMessage("Price must be greater than or equal to 0.");
     }
 }

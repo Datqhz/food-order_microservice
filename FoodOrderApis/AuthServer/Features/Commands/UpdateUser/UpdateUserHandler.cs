@@ -16,15 +16,19 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
     private readonly IUnitOfRepository _unitOfRepository;
     private readonly UserManager<User> _userManager;
     private readonly ICustomHttpContextAccessor _httpContextAccessor;
+    private readonly ILogger<UpdateUserHandler> _logger;
 
-    public UpdateUserHandler(IUnitOfRepository unitOfRepository, UserManager<User> userManager, ICustomHttpContextAccessor httpContextAccessor)
+    public UpdateUserHandler(IUnitOfRepository unitOfRepository, UserManager<User> userManager, ICustomHttpContextAccessor httpContextAccessor, ILogger<UpdateUserHandler> logger)
     {
         _unitOfRepository = unitOfRepository;
         _userManager = userManager;
         _httpContextAccessor = httpContextAccessor;
+        _logger = logger;
     }
     public async Task<UpdateUserResponse> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
+        var functionName = nameof(UpdateUserHandler);
+        _logger.LogInformation($"{functionName} - Start");
         var payload = request.Payload;
         var response = new UpdateUserResponse(){StatusCode = (int)HttpStatusCode.BadRequest};
         try
@@ -33,6 +37,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
             var validationResult = validator.Validate(request);
             if (!validationResult.IsValid)
             {
+                _logger.LogError($"{functionName} => Invalid request : Message = {validationResult.ToString("-")}");
                 response.StatusText = validationResult.ToString("-");
                 return response;
             }
@@ -40,6 +45,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
             var userIdRequest = _httpContextAccessor.GetCurrentUserId();
             if (userIdRequest != payload.UserId)
             {
+                _logger.LogError($"{functionName} => Permission denied");
                 response.StatusCode = (int)HttpStatusCode.Forbidden;
                 response.StatusText = "You don't have permission to update this user";
                 return response;
@@ -47,6 +53,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
             var user = await _unitOfRepository.User.GetById(payload.UserId);
             if (user == null)
             {
+                _logger.LogError($"{functionName} => User not found");
                 response.StatusCode = (int)HttpStatusCode.NotFound;
                 response.StatusText = "User not found";
                 return response;
@@ -56,6 +63,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
                 var checkPassword = await _userManager.CheckPasswordAsync(user, payload.OldPassword);
                 if (!checkPassword)
                 {
+                    _logger.LogError($"{functionName} => Old password incorrect");
                     response.StatusCode = (int)ResponseStatusCode.BadRequest;
                     response.StatusText = "Old password incorrect";
                     return response;
@@ -73,11 +81,13 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
                     response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     response.StatusText = "Can't update user";
                 }
+                _logger.LogInformation($"{functionName} - End");
                 return response;
             }
         }
         catch (Exception ex)
         {
+            _logger.LogError($"{functionName} => Error : Message = {ex.Message}");
             response.StatusCode = (int)HttpStatusCode.InternalServerError;
             response.StatusText = "Internal Server Error";
             response.ErrorMessage = ex.Message;

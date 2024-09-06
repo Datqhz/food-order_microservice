@@ -27,6 +27,8 @@ services:
     depends_on:
       - db
       - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
   customerservice:
     build:
       context: .
@@ -37,6 +39,8 @@ services:
       - db
       - authserver
       - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
   foodservice:
     build:
       context: .
@@ -47,6 +51,8 @@ services:
       - db
       - authserver
       - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
   orderservice:
     build:
       context: .
@@ -57,6 +63,8 @@ services:
       - db
       - authserver
       - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
   apigateway:
     build:
       context: .
@@ -70,6 +78,8 @@ services:
       - customerservice
       - foodservice
       - orderservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
 volumes:
   db_test:
   rabbitmqdata:

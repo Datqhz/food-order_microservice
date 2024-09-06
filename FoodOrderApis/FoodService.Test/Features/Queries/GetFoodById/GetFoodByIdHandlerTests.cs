@@ -5,6 +5,7 @@ using FoodService.Data.Responses;
 using FoodService.Features.Queries.FoodQueries.GetFoodById;
 using FoodService.Repositories;
 using FoodService.Test.Extensions;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace FoodService.Test.Features.Queries.GetFoodById;
@@ -15,13 +16,15 @@ public class GetFoodByIdHandlerTests
     private readonly Fixture _fixture;
     private readonly CancellationToken _cancellationToken;
     private readonly GetFoodByIdHandler _handler;
+    private readonly Mock<ILogger<GetFoodByIdHandler>> _loggerMock;
 
     public GetFoodByIdHandlerTests()
     {
         _unitOfRepositoryMock = new Mock<IUnitOfRepository>();
         _fixture = new Fixture().OmitOnRecursionBehavior();
         _cancellationToken = new CancellationToken();
-        _handler = new GetFoodByIdHandler(_unitOfRepositoryMock.Object);
+        _loggerMock = new Mock<ILogger<GetFoodByIdHandler>>();
+        _handler = new GetFoodByIdHandler(_unitOfRepositoryMock.Object, _loggerMock.Object);
     }
 
     [Test]

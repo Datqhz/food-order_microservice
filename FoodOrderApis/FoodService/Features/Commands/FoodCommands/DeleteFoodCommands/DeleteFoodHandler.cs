@@ -1,5 +1,7 @@
-﻿using System.Text.Json;
+﻿using System.Security.Claims;
+using System.Text.Json;
 using FoodOrderApis.Common.Helpers;
+using FoodOrderApis.Common.HttpContextCustom;
 using FoodOrderApis.Common.MassTransit.Contracts;
 using FoodOrderApis.Common.MassTransit.Core;
 using FoodService.Data.InternalResponse;
@@ -13,30 +15,51 @@ public class DeleteFoodHandler : IRequestHandler<DeleteFoodCommand, DeleteFoodRe
 {
     private readonly IUnitOfRepository _unitOfRepository;
     private readonly ISendEndpointCustomProvider _sendEndpoint;
+    private readonly ILogger<DeleteFoodHandler> _logger;
+    private readonly ICustomHttpContextAccessor _httpContextAccessor;
 
-    public DeleteFoodHandler(IUnitOfRepository unitOfRepository, ISendEndpointCustomProvider sendEndpoint)
+    public DeleteFoodHandler(
+        IUnitOfRepository unitOfRepository,
+        ISendEndpointCustomProvider sendEndpoint, ILogger<DeleteFoodHandler> logger,
+        ICustomHttpContextAccessor httpContextAccessor)
     {
         _unitOfRepository = unitOfRepository;
         _sendEndpoint = sendEndpoint;
+        _logger = logger;
+        _httpContextAccessor = httpContextAccessor;
     }
     public async Task<DeleteFoodResponse> Handle(DeleteFoodCommand request, CancellationToken cancellationToken)
     {
+        var functionName = nameof(DeleteFoodHandler);
         var response = new DeleteFoodResponse(){StatusCode = (int)ResponseStatusCode.BadRequest};
         try
         {
+            _logger.LogInformation($"{functionName} - Start");
             var validator = new DeleteFoodValidator();
             var validationResult = await validator.ValidateAsync(request);
             if (!validationResult.IsValid)
             {
+                _logger.LogError($"{functionName} =>  Invalid request : Message = {validationResult.ToString("-")}");
                 response.StatusText = validationResult.ToString("~");
                 return response;
             }
 
+            
             var food = await _unitOfRepository.Food.GetById(request.Id);
             if (food == null)
             {
+                _logger.LogError($"{functionName} - Food Not Found");
                 response.StatusCode = (int)ResponseStatusCode.NotFound;
                 response.StatusText = $"Food with ID {request.Id} does not exist";
+                return response;
+            }
+            
+            var currentUserId = _httpContextAccessor.GetCurrentUserId();
+            if (currentUserId != food.UserId)
+            {
+                _logger.LogError($"{functionName} => Permission denied");
+                response.StatusCode = (int)ResponseStatusCode.Forbidden;
+                response.StatusText = $"Permission denied";
                 return response;
             }
             using (HttpClient client = new HttpClient())
@@ -58,6 +81,7 @@ public class DeleteFoodHandler : IRequestHandler<DeleteFoodCommand, DeleteFoodRe
                         var data = JsonSerializer.Deserialize<CheckFoodIsUsedResponse>(responseBody);
                         if (data.Data)
                         {
+                            _logger.LogError($"{functionName} => This food is already used");
                             response.StatusCode = (int)ResponseStatusCode.BadRequest;
                             response.StatusText = "Can't delete this food";
                             return response;
@@ -66,6 +90,7 @@ public class DeleteFoodHandler : IRequestHandler<DeleteFoodCommand, DeleteFoodRe
                 }
                 catch (HttpRequestException e)
                 {
+                    _logger.LogError($"{functionName} => Has error : Message = {e.Message}");
                     response.StatusCode = (int)ResponseStatusCode.InternalServerError;
                     response.StatusText = "Something wrong went check condition";
                     return response;
@@ -87,10 +112,12 @@ public class DeleteFoodHandler : IRequestHandler<DeleteFoodCommand, DeleteFoodRe
                 response.StatusCode = (int)ResponseStatusCode.BadRequest;
                 response.StatusText = $"Food with ID {request.Id} has not been deleted";
             }
+            _logger.LogInformation($"{functionName} - End");
             return response;
         }
         catch (Exception ex)
         {
+            _logger.LogError($"{functionName} => Error : Message = {ex.Message}");
             response.StatusCode = (int)ResponseStatusCode.InternalServerError;
             response.StatusText = "Internal Server Error";
             response.ErrorMessage = ex.Message;

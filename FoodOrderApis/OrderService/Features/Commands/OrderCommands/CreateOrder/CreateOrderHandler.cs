@@ -9,20 +9,25 @@ namespace OrderService.Features.Commands.OrderCommands.CreateOrder;
 public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, CreateOrderResponse>
 {
     private readonly IUnitOfRepository _unitOfRepository;
+    private readonly ILogger<CreateOrderHandler> _logger;
 
-    public CreateOrderHandler(IUnitOfRepository unitOfRepository)
+    public CreateOrderHandler(IUnitOfRepository unitOfRepository, ILogger<CreateOrderHandler> logger)
     {
         _unitOfRepository = unitOfRepository;
+        _logger = logger;
     }
     public async Task<CreateOrderResponse> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
+        var functionName = nameof(CreateOrderHandler);
         var response = new CreateOrderResponse() {StatusCode = (int)ResponseStatusCode.BadRequest};
         try
         {
+            _logger.LogInformation($"{functionName} - Start");
             var validator = new CreateOrderValidator();
             var validationResult = await validator.ValidateAsync(request);
             if (!validationResult.IsValid)
             {
+                _logger.LogError($"{functionName} => Invalid request : Message = {validationResult.ToString("-")}");
                 response.StatusText = validationResult.ToString("~");
                 return response;
             }
@@ -30,6 +35,7 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, CreateOrde
             var eater = await _unitOfRepository.User.GetById(payload.EaterId);
             if (eater == null)
             {
+                _logger.LogError($"{functionName} => Eater not found");
                 response.StatusCode = (int)ResponseStatusCode.NotFound;
                 response.StatusText = "Eater not found";
                 return response;
@@ -37,6 +43,7 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, CreateOrde
             var merchant = await _unitOfRepository.User.GetById(payload.MerchantId);
             if (merchant == null)
             {
+                _logger.LogError($"{functionName} => Merchant not found");
                 response.StatusCode = (int)ResponseStatusCode.NotFound;
                 response.StatusText = "Merchant not found";
                 return response;
@@ -59,10 +66,12 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, CreateOrde
                 response.StatusCode = (int)ResponseStatusCode.Created;
                 response.StatusText = "Order added";
             }
+            _logger.LogInformation($"{functionName} - End");
             return response;
         }
         catch (Exception ex)
         {
+            _logger.LogError($"{functionName} => Has error : Message = {ex.Message}");
             response.StatusCode = (int)ResponseStatusCode.InternalServerError;
             response.StatusText = "Internal Server Error";
             response.ErrorMessage = ex.Message;

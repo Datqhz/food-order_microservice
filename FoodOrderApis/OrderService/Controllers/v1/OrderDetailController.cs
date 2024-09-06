@@ -10,7 +10,6 @@ using OrderService.Features.Queries.OrderDetailQueries.GetAllOrderDetailByOrderI
 
 namespace OrderService.Controllers.v1;
 
-[Authorize]
 [ApiController]
 [Route("api/v1/order-detail")]
 public class OrderDetailController : ControllerBase
@@ -22,6 +21,7 @@ public class OrderDetailController : ControllerBase
         _mediator = mediator;
     }
 
+    [Authorize(Policy = "OrderRead")]
     [HttpGet("get-by-order/{orderId}")]
     public async Task<IActionResult> GetOrderDetailByOrderIdAsync(int orderId)
     {
@@ -31,7 +31,7 @@ public class OrderDetailController : ControllerBase
         });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data);
     }
-
+    [Authorize(Policy = "OrderWrite")]
     [HttpPost]
     public async Task<IActionResult> CreateOrderDetail([FromBody] CreateOrderDetailInput input)
     {
@@ -41,7 +41,7 @@ public class OrderDetailController : ControllerBase
         });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
     }
-
+    [Authorize(Policy = "OrderWrite")]
     [HttpPut]
     public async Task<IActionResult> UpdateOrderDetail([FromBody] UpdateOrderDetailInput input)
     {
@@ -51,7 +51,7 @@ public class OrderDetailController : ControllerBase
         });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
     }
-
+    [Authorize(Policy = "OrderWrite")]
     [HttpPost("modify-multiple")]
     public async Task<IActionResult> ModifyMultipleOrderDetail([FromBody] List<UpdateOrderDetailInput> input)
     {

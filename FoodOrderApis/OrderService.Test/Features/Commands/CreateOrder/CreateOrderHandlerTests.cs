@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using FoodOrderApis.Common.Helpers;
+using Microsoft.Extensions.Logging;
 using Moq;
 using OrderService.Data.Models;
 using OrderService.Data.Requests;
@@ -15,13 +16,15 @@ public class CreateOrderHandlerTests
     private readonly Fixture _fixture;
     private readonly CancellationToken _cancellationToken;
     private readonly CreateOrderHandler _handler;
+    private readonly Mock<ILogger<CreateOrderHandler>> _loggerMock;
 
     public CreateOrderHandlerTests()
     {
         _unitOfRepositoryMock = new Mock<IUnitOfRepository>();
         _fixture = new Fixture().OmitOnRecursionBehavior();
-        _cancellationToken = new CancellationToken();
-        _handler = new CreateOrderHandler(_unitOfRepositoryMock.Object);
+        _cancellationToken = new CancellationToken();   
+        _loggerMock = new Mock<ILogger<CreateOrderHandler>>();
+        _handler = new CreateOrderHandler(_unitOfRepositoryMock.Object, _loggerMock.Object);
     }
 
     [Test]

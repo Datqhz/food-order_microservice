@@ -10,16 +10,27 @@ namespace OrderService.Features.Commands.OrderDetailCommands.ModifyMultipleOrder
 public class ModifyMultipleOrderDetailHandler :IRequestHandler<ModifyMultipleOrderDetailCommand, ModifyMultipleOrderDetailResponse>
 {
     private readonly IUnitOfRepository _unitOfRepository;
+    private readonly ILogger<ModifyMultipleOrderDetailHandler> _logger;
+
+    public ModifyMultipleOrderDetailHandler(IUnitOfRepository unitOfRepository,
+        ILogger<ModifyMultipleOrderDetailHandler> logger)
+    {
+        _unitOfRepository = unitOfRepository;
+        _logger = logger;
+    }
     public async Task<ModifyMultipleOrderDetailResponse> Handle(ModifyMultipleOrderDetailCommand request, CancellationToken cancellationToken)
     {
+        var functionName = nameof(ModifyMultipleOrderDetailHandler);
         var response = new ModifyMultipleOrderDetailResponse() {StatusCode = (int)ResponseStatusCode.BadRequest};
         var payload = request.Payload;
         try
         {
+            _logger.LogInformation($"{functionName} - Start");
             var validator = new ModifyMultipleOrderDetailValidator();
             var validationResult = validator.Validate(request);
             if (!validationResult.IsValid)
             {
+                _logger.LogError($"{functionName} => Invalid request : Message = {validationResult.ToString("-")}");
                 response.StatusText = validationResult.ToString("~");
                 return response;
             }
@@ -45,11 +56,13 @@ public class ModifyMultipleOrderDetailHandler :IRequestHandler<ModifyMultipleOrd
 
             await _unitOfRepository.CompleteAsync();
             response.StatusCode = (int)ResponseStatusCode.OK;
-            response.StatusText = $"Order detail modified successfully.";
+            response.StatusText = $"Order details modified successfully.";
+            _logger.LogInformation($"{functionName} - End");
             return response;
         }
         catch (Exception ex)
         {
+            _logger.LogError($"{functionName} => Has error: Message = {ex.Message}");
             response.StatusCode = (int)ResponseStatusCode.InternalServerError;
             response.StatusText = "Internal Server Error";
             response.ErrorMessage = ex.Message;

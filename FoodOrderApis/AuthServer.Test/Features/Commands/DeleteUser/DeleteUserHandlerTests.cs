@@ -5,6 +5,8 @@ using AuthServer.Test.Extensions;
 using AutoFixture;
 using FoodOrderApis.Common.Helpers;
 using FoodOrderApis.Common.HttpContextCustom;
+using FoodOrderApis.Common.MassTransit.Core;
+using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -19,6 +21,8 @@ public class DeleteUserHandlerTests
     private readonly DeleteUserHandler _handler;
     private readonly CancellationToken _cancellationToken;
     private readonly Mock<ICustomHttpContextAccessor> _httpContextAccessorMock;
+    private readonly Mock<ILogger<DeleteUserHandler>> _loggerMock;
+    private readonly Mock<ISendEndpointCustomProvider> _sendEndpointMock;
 
     public DeleteUserHandlerTests()
     {
@@ -26,7 +30,9 @@ public class DeleteUserHandlerTests
         _fixture = new Fixture().OmitOnRecursionBehavior();
         _cancellationToken = new CancellationToken();
         _httpContextAccessorMock = new Mock<ICustomHttpContextAccessor>();
-        _handler = new DeleteUserHandler(_unitOfRepositoryMock.Object, _httpContextAccessorMock.Object);
+        _loggerMock = new Mock<ILogger<DeleteUserHandler>>();
+        _sendEndpointMock = new Mock<ISendEndpointCustomProvider>();
+        _handler = new DeleteUserHandler(_unitOfRepositoryMock.Object, _httpContextAccessorMock.Object, _loggerMock.Object, _sendEndpointMock.Object);
     }
 
     [Test]

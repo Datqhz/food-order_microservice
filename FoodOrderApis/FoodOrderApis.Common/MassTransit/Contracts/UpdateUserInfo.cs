@@ -1,9 +1,9 @@
 ﻿namespace FoodOrderApis.Common.MassTransit.Contracts;
 
-public class UpdateUserInfo
+public record UpdateUserInfo
 {
-    public string UserId { get; set; }
-    public bool IsActive { get; set; }
-    public string DisplayName { get; set; }
-    public string PhoneNumber { get; set; }
+    public string UserId { get; init; }
+    public bool IsActive { get; init; }
+    public string DisplayName { get; init; }
+    public string PhoneNumber { get; init; }
 }

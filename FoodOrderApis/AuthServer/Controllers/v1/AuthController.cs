@@ -34,6 +34,6 @@ public class AuthController : ControllerBase
         var result = await _mediator.Send(new LoginCommand { Payload = input });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data);
     }
-      
+    
     
 } 

@@ -8,15 +8,19 @@ namespace OrderService.Features.Commands.FoodCommands.UpdateFood;
 public class UpdateFoodHandler : IRequestHandler<UpdateFoodCommand>
 {
     private readonly IUnitOfRepository _unitOfRepository;
+    private readonly ILogger<UpdateFoodHandler> _logger;
 
-    public UpdateFoodHandler(IUnitOfRepository unitOfRepository)
+    public UpdateFoodHandler(IUnitOfRepository unitOfRepository, ILogger<UpdateFoodHandler> logger)
     {
         _unitOfRepository = unitOfRepository;
+        _logger = logger;
     }
     public async Task Handle(UpdateFoodCommand request, CancellationToken cancellationToken)
     {
+        var functionName = nameof(UpdateFoodHandler);
         try
         {
+            _logger.LogInformation($"{functionName} - Start");
             var payload = request.Payload;
             var updateFood = new Food
             {
@@ -30,14 +34,11 @@ public class UpdateFoodHandler : IRequestHandler<UpdateFoodCommand>
             {
                 await _unitOfRepository.CompleteAsync();
             }
-            else
-            {
-                return;
-            }
+            _logger.LogInformation($"{functionName} - End");
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            _logger.LogError($"{functionName} => Has error : Message = {ex.Message}");
         }
     }
 }

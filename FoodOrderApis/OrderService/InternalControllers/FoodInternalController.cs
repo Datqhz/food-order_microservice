@@ -8,6 +8,7 @@ namespace OrderService.InternalControllers;
 
 [ApiController]
 [Route("api/v1/food")]
+[ApiExplorerSettings(IgnoreApi = true)]
 public class FoodInternalController : ControllerBase
 {
     private readonly IMediator _mediator;

@@ -14,17 +14,20 @@ namespace AuthServer.Features.Commands.Register;
 public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse>
 {
     private readonly IUnitOfRepository _unitOfRepository;
-    //private readonly IPublishEndpoint _publishEndpoint;
     private readonly ISendEndpointCustomProvider _sendEndpoint;
     private readonly UserManager<User> _userManager;
-    public RegisterHandler(IUnitOfRepository unitOfRepository, ISendEndpointCustomProvider sendEndpoint, UserManager<User> userManager)
+    private readonly ILogger<RegisterHandler> _logger;
+    public RegisterHandler(IUnitOfRepository unitOfRepository, ISendEndpointCustomProvider sendEndpoint, UserManager<User> userManager, ILogger<RegisterHandler> logger)
     {
         _unitOfRepository = unitOfRepository;
         _sendEndpoint = sendEndpoint;
         _userManager = userManager;
+        _logger = logger;
     }
     public async Task<RegisterResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
+        var functionName = nameof(RegisterHandler);
+        _logger.LogInformation($"{functionName} - Start");
         var response = new RegisterResponse(){StatusCode = (int)ResponseStatusCode.BadRequest};
         var payload = request.Payload;
         try
@@ -33,6 +36,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
             var validateResult = validator.Validate(request);
             if (!validateResult.IsValid)
             {
+                _logger.LogError($"{functionName} => Invalid request : Message = {validateResult.ToString("-")}");
                 response.StatusText = "Bad Request";
                 response.ErrorMessage = validateResult.ToString("~");
                 return response;
@@ -44,6 +48,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
                 .Select(_ => _.Id).FirstOrDefaultAsync(cancellationToken);
             if (clientId == 0)
             {
+                _logger.LogError($"{functionName} => Client {payload.ClientId} not found");
                 response.StatusText = "Invalid information";
                 return response;
             }
@@ -52,7 +57,8 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
                 .AsNoTracking().FirstOrDefaultAsync(cancellationToken);
             if (user != null)
             {
-                response.StatusText = "UserName is used";
+                _logger.LogError($"{functionName} => UserName is already in used");
+                response.StatusText = "UserName is already in used";
                 return response;
             }
             var userId = Guid.NewGuid().ToString();
@@ -72,6 +78,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
             var createUserRole = await _userManager.AddToRoleAsync(newUser, payload.Role.ToUpper());
             if (!createResult.Succeeded || !createUserRole.Succeeded)
             {
+                _logger.LogError($"{functionName} => Failed to create user : Message = {createResult.Errors.ToString() + createUserRole.Errors.ToString()}");
                 response.StatusText = "Bad request";
                 response.ErrorMessage = createResult.Errors.ToString();
             }
@@ -90,10 +97,12 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
                 response.StatusText = "Created";
                 response.StatusCode = (int)ResponseStatusCode.Created;
             }
+            _logger.LogInformation($"{functionName} - End");
             return response;
         }
         catch (Exception ex)
         {
+            _logger.LogError($"{functionName} => Error : Message = {ex.Message}");
             response.StatusCode = (int)ResponseStatusCode.InternalServerError;
             response.StatusText = "Internal server error";
             response.ErrorMessage = ex.Message;

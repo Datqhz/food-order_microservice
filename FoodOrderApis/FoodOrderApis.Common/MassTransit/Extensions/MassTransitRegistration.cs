@@ -29,6 +29,9 @@ public static class MassTransitRegistration
                         h.Username("guest");
                         h.Password("guest");
                     });
+                    cfg.PrefetchCount = 10; // Limit the number of message preloaded
+                    //cfg.UseMessageRetry(r => r.Interval(2, TimeSpan.FromDays(10))); // Retry 3 times
+                    cfg.UseDelayedRedelivery(r => r.Intervals(TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(5))); // 
                     // Auto configure endpoint for consumers
                     cfg.ConfigureEndpoints(context);
                 });
@@ -38,11 +41,12 @@ public static class MassTransitRegistration
         {
             services.AddMassTransit(x =>
             {
-                x.SetKebabCaseEndpointNameFormatter();
                 if (prefix != null)
                 {
+                    Console.WriteLine($"prefix: {prefix}");
                     x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix, false));
                 }
+                x.SetKebabCaseEndpointNameFormatter();
                 x.AddConsumers(Assembly.GetEntryAssembly());
                 x.UsingRabbitMq((context, cfg) =>
                 {

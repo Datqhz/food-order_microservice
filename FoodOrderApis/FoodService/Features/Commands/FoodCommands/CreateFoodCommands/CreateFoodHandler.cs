@@ -13,21 +13,26 @@ public class CreateFoodHandler : IRequestHandler<CreateFoodCommand, CreateFoodRe
 {
     private readonly IUnitOfRepository _unitOfRepository;
     private readonly ISendEndpointCustomProvider _sendEndpoint;
+    private readonly ILogger<CreateFoodHandler> _logger;
 
-    public CreateFoodHandler(IUnitOfRepository unitOfRepository,  ISendEndpointCustomProvider sendEndpoint)
+    public CreateFoodHandler(IUnitOfRepository unitOfRepository,  ISendEndpointCustomProvider sendEndpoint, ILogger<CreateFoodHandler> logger)
     {
         _unitOfRepository = unitOfRepository;
         _sendEndpoint = sendEndpoint;
+        _logger = logger;
     }
     public async Task<CreateFoodResponse> Handle(CreateFoodCommand request, CancellationToken cancellationToken)
     {
+        var functionName = nameof(CreateFoodHandler);
         var response = new CreateFoodResponse() {StatusCode = (int)HttpStatusCode.BadRequest};
         try
         {
+            _logger.LogInformation($"{functionName} - Start");
             CreateFoodValidator validator = new CreateFoodValidator();
             var validationResult = validator.Validate(request);
             if (!validationResult.IsValid)
             {
+                _logger.LogError($"{functionName} => Invalid request : Message = {validationResult.ToString("-")}");
                 response.StatusText = validationResult.ToString("~");
                 return response;
             }
@@ -35,6 +40,7 @@ public class CreateFoodHandler : IRequestHandler<CreateFoodCommand, CreateFoodRe
             var user = await _unitOfRepository.User.GetById(payload.UserId);
             if (user == null)
             {
+                _logger.LogError($"{functionName} - User not found");
                 response.StatusCode = (int)HttpStatusCode.NotFound;
                 response.StatusText = "User does not exist";
                 return response;
@@ -67,10 +73,12 @@ public class CreateFoodHandler : IRequestHandler<CreateFoodCommand, CreateFoodRe
                 response.StatusCode = (int)HttpStatusCode.Created;
                 response.StatusText = "Food created successfully";
             }
+            _logger.LogInformation($"{functionName} - End");
             return response;
         }
         catch (Exception ex)
         {
+            _logger.LogError($"{functionName} => Has error : Message = {ex.Message}");
             response.StatusCode = (int)HttpStatusCode.InternalServerError;
             response.StatusText = "Internal Server Error";
             response.ErrorMessage = ex.Message;

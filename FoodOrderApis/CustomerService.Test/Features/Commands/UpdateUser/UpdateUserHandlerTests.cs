@@ -8,6 +8,7 @@ using FoodOrderApis.Common.HttpContextCustom;
 using FoodOrderApis.Common.MassTransit.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace CustomerService.Test.Features.Commands.UpdateUser;
@@ -20,6 +21,7 @@ public class UpdateUserHandlerTests
     private readonly CancellationToken _cancellationToken;
     private readonly UpdateUserHandler _handler;
     private readonly Mock<ICustomHttpContextAccessor> _httpContextAccessorMock;
+    private readonly Mock<ILogger<UpdateUserHandler>> _loggerMock;
 
     public UpdateUserHandlerTests()
     {
@@ -28,7 +30,8 @@ public class UpdateUserHandlerTests
         _fixture = new Fixture();
         _cancellationToken = new CancellationToken();
         _httpContextAccessorMock = new Mock<ICustomHttpContextAccessor>();
-        _handler = new UpdateUserHandler(_unitOfRepositoryMock.Object, _sendEndpointMock.Object, _httpContextAccessorMock.Object);
+        _loggerMock = new Mock<ILogger<UpdateUserHandler>>();
+        _handler = new UpdateUserHandler(_unitOfRepositoryMock.Object, _sendEndpointMock.Object, _httpContextAccessorMock.Object, _loggerMock.Object);
     }
 
     [Test]

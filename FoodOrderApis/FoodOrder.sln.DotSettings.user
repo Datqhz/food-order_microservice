@@ -63,57 +63,16 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AThread_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003F5159b23811b96792d12316dd5148242a372bd596ea9d614d53abeda41057f4_003FThread_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AUri_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003Febe65732adf281db03e388c6486e28a574c76c8be32d99ca59dcfbecc65_003FUri_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AUserManager_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003Fd8d9726f3deb1bbf671f5b791e4dc3e0338219a996f439ad2a69024b825c60_003FUserManager_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d8b8bf8c_002D4acd_002D4b96_002Da298_002Db10488fb19f3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="LoginValidatorTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2a81a60f_002D436d_002D4b6a_002D929b_002Db6535fed7e25/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="LoginHandlerTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::6989DAA5-4862-42D4-B7EE-F3485F77C9F6::net8.0::AuthServer.Test.Features.Commands.Login.LoginValidatorTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::6989DAA5-4862-42D4-B7EE-F3485F77C9F6::net8.0::AuthServer.Test.Features.Commands.Register.RegisterValidatorTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::4F5A4B88-CEC0-464D-98D9-2CC570C257D8::net8.0::CustomerService.Test.Features.Commands.UpdateUser.UpdateUserValidatorTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::6989DAA5-4862-42D4-B7EE-F3485F77C9F6::net8.0::AuthServer.Test.Features.Commands.Register.RegisterValidatorTests.Validate_ShouldBeInvalid_WhenGiveInvalid_DisplayName&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::6989DAA5-4862-42D4-B7EE-F3485F77C9F6::net8.0::AuthServer.Test.Features.Commands.Register.RegisterValidatorTests.Validate_ShouldBeValid_WhenGivenValidRequest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::87B0A46B-DFAF-4C3F-BDA7-4A13DDF077FF::net8.0::FoodService.Test.Features.Commands.CreateFood.CreateFoodValidatorTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::DF8BB85E-253E-42DC-82EA-E281521FAD6A::net8.0::FoodService.Test.Features.Commands.CreateFood.CreateFoodHandlerTests.Handler_ShouldReturnSuccess_WhenFoodCreated&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::DF8BB85E-253E-42DC-82EA-E281521FAD6A::net8.0::FoodService.Test.Features.Commands.CreateFood.CreateFoodHandlerTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::6989DAA5-4862-42D4-B7EE-F3485F77C9F6::net8.0::AuthServer.Test.Features.Commands.Register.RegisterHanlderTests.Handler_ShouldReturn_StatusCreated&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::6989DAA5-4862-42D4-B7EE-F3485F77C9F6::net8.0::AuthServer.Test.Features.Commands.Register.RegisterHanlderTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::6989DAA5-4862-42D4-B7EE-F3485F77C9F6::net8.0::AuthServer.Test.Features.Commands.UpdateUser.UpdateUserValidatorTests.Validate_ShouldBeInvalid_WhenGiveInvalid_UserId&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::6989DAA5-4862-42D4-B7EE-F3485F77C9F6::net8.0::AuthServer.Test.Features.Commands.UpdateUser.UpdateUserValidatorTests.Validate_ShouldBeValid_WhenGivenValidInput&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::6989DAA5-4862-42D4-B7EE-F3485F77C9F6::net8.0::AuthServer.Test.Features.Commands.UpdateUser.UpdateUserValidatorTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::6989DAA5-4862-42D4-B7EE-F3485F77C9F6::net8.0::AuthServer.Test.Features.Commands.UpdateUser.UpdateUserHandlerTests.Handler_ShouldReturn_StatusCodeOK&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::6989DAA5-4862-42D4-B7EE-F3485F77C9F6::net8.0::AuthServer.Test.Features.Commands.UpdateUser.UpdateUserHandlerTests.Handler_ShouldReturn_StatusCodeForbidden&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::6989DAA5-4862-42D4-B7EE-F3485F77C9F6::net8.0::AuthServer.Test.Features.Commands.UpdateUser.UpdateUserHandlerTests.Handler_ShouldReturn_StatusCodeNotFound&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::6989DAA5-4862-42D4-B7EE-F3485F77C9F6::net8.0::AuthServer.Test.Features.Commands.DeleteUser.DeleteUserHandlerTests.Handler_ShouReturn_StatusSuccess&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::6989DAA5-4862-42D4-B7EE-F3485F77C9F6::net8.0::AuthServer.Test.Features.Commands.DeleteUser.DeleteUserHandlerTests.Handler_ShouReturn_StatusForbidden&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::6989DAA5-4862-42D4-B7EE-F3485F77C9F6::net8.0::AuthServer.Test.Features.Commands.DeleteUser.DeleteUserHandlerTests.Handler_ShouReturn_StatusNotFound&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::6989DAA5-4862-42D4-B7EE-F3485F77C9F6::net8.0::AuthServer.Test.Features.Commands.DeleteUser.DeleteUserHandlerTests.Handler_ShouReturn_StatusBadRequest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::6989DAA5-4862-42D4-B7EE-F3485F77C9F6::net8.0::AuthServer.Test.Features.Commands.DeleteUser.DeleteUserHandlerTests.Handler_ShouReturn_StatusInternalServerError&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::6989DAA5-4862-42D4-B7EE-F3485F77C9F6::net8.0::AuthServer.Test.Features.Commands.UpdateUser.UpdateUserHandlerTests.Handler_ShouldReturn_StatusInternalServerError&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::5FDCC726-AC4E-4374-9380-02E80C05E7C6::net8.0::CustomerService.Test.Features.Commands.UpdateUser.UpdateUserHandlerTests.Handle_ShouldReturn_StatusOK&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::5FDCC726-AC4E-4374-9380-02E80C05E7C6::net8.0::CustomerService.Test.Features.Commands.UpdateUser.UpdateUserHandlerTests.Handle_ShouldReturn_StatusForbidden&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::5FDCC726-AC4E-4374-9380-02E80C05E7C6::net8.0::CustomerService.Test.Features.Commands.UpdateUser.UpdateUserHandlerTests.Handle_ShouldReturn_StatusNotFound&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::5FDCC726-AC4E-4374-9380-02E80C05E7C6::net8.0::CustomerService.Test.Features.Commands.UpdateUser.UpdateUserHandlerTests.Handle_ShouldReturn_StatusInternalServerError&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::5FDCC726-AC4E-4374-9380-02E80C05E7C6::net8.0::CustomerService.Test.Features.Commands.CreateUser.CreateUserValidatorTests.Validate_ShouldBeValid_WhenGivenValidInput&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::5FDCC726-AC4E-4374-9380-02E80C05E7C6::net8.0::CustomerService.Test.Features.Commands.CreateUser.CreateUserValidatorTests.Validate_ShouldBeInvalid_WhenGivenInvalidUserId&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::5FDCC726-AC4E-4374-9380-02E80C05E7C6::net8.0::CustomerService.Test.Features.Commands.CreateUser.CreateUserValidatorTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::5FDCC726-AC4E-4374-9380-02E80C05E7C6::net8.0::CustomerService.Test.Features.Commands.CreateUser.CreateUserHandlerTests.Handle_ShouldReturn_StatusCreated&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::5FDCC726-AC4E-4374-9380-02E80C05E7C6::net8.0::CustomerService.Test.Features.Commands.CreateUser.CreateUserHandlerTests.Handle_ShouldReturn_StatusInternalServerError&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::DF8BB85E-253E-42DC-82EA-E281521FAD6A::net8.0::FoodService.Test.Features.Commands.UpdateFood.UpdateFoodValidatorTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::DF8BB85E-253E-42DC-82EA-E281521FAD6A::net8.0::FoodService.Test.Features.Commands.UpdateFood.UpdateFoodHandlerTests.Handle_ShouldReturn_StatusOK&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::DF8BB85E-253E-42DC-82EA-E281521FAD6A::net8.0::FoodService.Test.Features.Commands.UpdateFood.UpdateFoodHandlerTests.Handle_ShouldReturn_StatusNotFound&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::DF8BB85E-253E-42DC-82EA-E281521FAD6A::net8.0::FoodService.Test.Features.Commands.UpdateFood.UpdateFoodHandlerTests.Handle_ShouldReturn_StatusForbidden&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::DF8BB85E-253E-42DC-82EA-E281521FAD6A::net8.0::FoodService.Test.Features.Commands.UpdateFood.UpdateFoodHandlerTests.Handle_ShouldReturn_StatusInternalServerError&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::5FDCC726-AC4E-4374-9380-02E80C05E7C6::net8.0::CustomerService.Test.Features.Queries.GetUserInfoById.GetUserInfoByIdTests.Hanlde_ShoutReturn_StatusOK&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::5FDCC726-AC4E-4374-9380-02E80C05E7C6::net8.0::CustomerService.Test.Features.Queries.GetUserInfoById.GetUserInfoByIdTests.Hanlde_ShoutReturn_StatusNotFound&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::5FDCC726-AC4E-4374-9380-02E80C05E7C6::net8.0::CustomerService.Test.Features.Queries.GetUserInfoById.GetUserInfoByIdTests.Hanlde_ShoutReturn_StatusInternalServerError&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::DF8BB85E-253E-42DC-82EA-E281521FAD6A::net8.0::FoodService.Test.Features.Queries.GetFoodById.GetFoodByIdHandlerTests.Handle_ShouldReturn_StatusOK&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::DF8BB85E-253E-42DC-82EA-E281521FAD6A::net8.0::FoodService.Test.Features.Queries.GetFoodById.GetFoodByIdHandlerTests.Handle_ShouldReturn_StatusNotFound&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::DF8BB85E-253E-42DC-82EA-E281521FAD6A::net8.0::FoodService.Test.Features.Queries.GetFoodById.GetFoodByIdHandlerTests.Handle_ShouldReturn_StatusInternalServerError&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::DF8BB85E-253E-42DC-82EA-E281521FAD6A::net8.0::FoodService.Test.Features.Queries.GetAllFoodByUserId.GetAllFoodByUserIdHandlerTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Commands.CreateOrder.CreateOrderValidatorTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Commands.CreateOrder.CreateOrderHandlerTests.Handle_ShouldReturn_StatusCreated&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Commands.CreateOrder.CreateOrderHandlerTests.Handle_ShouldReturn_StatusInternalServerError&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Commands.CreateOrder.CreateOrderHandlerTests.Handle_ShouldReturn_StatusNotFound_User&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Commands.UpdateOrder.UpdateOrderValidatorTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Commands.UpdateOrder.UpdateOrderHandlerTests.Handle_ShouldReturn_StatusOK&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Commands.UpdateOrder.UpdateOrderHandlerTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::6989DAA5-4862-42D4-B7EE-F3485F77C9F6::net8.0::AuthServer.Test.Features.Commands.Login.LoginHandlerTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Commands.CreateOrderDetail.CreateOrderDetailValidatorTests.Validate_ShouldBeValid_WhenGivenValidInput&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Commands.CreateOrderDetail.CreateOrderDetailValidatorTests.Validate_ShouldBeInValid_WhenGivenInvalidOrderId&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Commands.CreateOrderDetail.CreateOrderDetailValidatorTests.Validate_ShouldBeInValid_WhenGivenInvalidFoodId&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
+&lt;/SessionState&gt;</s:String>
+	
+	
+	
+	
+	</wpf:ResourceDictionary>

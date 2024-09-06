@@ -4,6 +4,8 @@ using AuthServer.Data.Responses;
 using AuthServer.Repositories;
 using FoodOrderApis.Common.Helpers;
 using FoodOrderApis.Common.HttpContextCustom;
+using FoodOrderApis.Common.MassTransit.Contracts;
+using FoodOrderApis.Common.MassTransit.Core;
 using MediatR;
 
 namespace AuthServer.Features.Commands.DeleteUser;
@@ -13,14 +15,20 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
 
     private readonly IUnitOfRepository _unitOfRepository;
     private readonly ICustomHttpContextAccessor _httpContext;
-
-    public DeleteUserHandler(IUnitOfRepository unitOfRepository, ICustomHttpContextAccessor httpContext)
+    private readonly ILogger<DeleteUserHandler> _logger;
+    private readonly ISendEndpointCustomProvider _sendEndpoint;
+    
+    public DeleteUserHandler(IUnitOfRepository unitOfRepository, ICustomHttpContextAccessor httpContext, ILogger<DeleteUserHandler> logger, ISendEndpointCustomProvider sendEndpoint)
     {
         _unitOfRepository = unitOfRepository;
         _httpContext = httpContext;
+        _logger = logger;
+        _sendEndpoint = sendEndpoint;
     }
     public async Task<DeleteUserResponse> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
+        var funcName = nameof(DeleteUserHandler);
+        _logger.LogInformation($"{funcName} =>");
         var response = new DeleteUserResponse(){StatusCode = (int)ResponseStatusCode.BadRequest};
         var userId = request.UserId;
         try
@@ -30,11 +38,13 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
             var validationResult = validator.Validate(request);
             if (!validationResult.IsValid)
             {
+                _logger.LogError($"{funcName} => Invalid request : Mesagge = {validationResult.ToString("-")}");
                 response.StatusText = validationResult.ToString("-");
                 return response;
             }
             if (userIdRequest != userId)
             {
+                _logger.LogError($"{funcName} => Permission denied");
                 response.StatusCode = (int)ResponseStatusCode.Forbidden;
                 response.StatusText = "You don't have permission to delete this user";
                 return response;
@@ -42,6 +52,7 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
             var user = await _unitOfRepository.User.GetById(userId);
             if (user == null)
             {
+                _logger.LogError($"{funcName} => User {userId} not found");
                 response.StatusCode = (int)ResponseStatusCode.NotFound;
                 response.StatusText = $"User not found";
                 return response;
@@ -49,6 +60,7 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
 
             if (!user.IsActive)
             {
+                _logger.LogError($"{funcName} => User already delete");
                 response.StatusText = "This user is already deleted";
             }
             else
@@ -58,8 +70,9 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
                 if (updateResult)
                 {
                     await _unitOfRepository.CompleteAsync();
-                    response.StatusCode = (int)ResponseStatusCode.OK;
-                    response.StatusText = $"User deleted";
+                    await _sendEndpoint.SendMessage<DeleteUserInfo>(new DeleteUserInfo { UserId = user.Id }, cancellationToken, "customer-delete-user");
+
+                response.StatusText = $"User deleted";
                 }
                 else
                 {
@@ -67,11 +80,12 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
                     response.StatusText = "This user is already deleted";
                 }
             }
-
+            _logger.LogInformation($"{funcName} - End");
             return response;
         }
         catch (Exception e)
         {
+            _logger.LogError(e, $"{funcName} => Error: Message = {e.Message}");
             response.StatusCode = (int)ResponseStatusCode.InternalServerError;
             response.StatusText = "Interval server error";
             response.ErrorMessage = e.Message;

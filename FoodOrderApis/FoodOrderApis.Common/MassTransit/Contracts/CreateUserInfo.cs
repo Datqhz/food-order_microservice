@@ -2,11 +2,11 @@
 
 public record CreateUserInfo
 {
-    public string UserId { get; set; }
-    public string Role { get; set; }
-    public DateTime CreatedDate { get; set; }
-    public bool IsActive { get; set; }
-    public string UserName { get; set; }
-    public string DisplayName { get; set; }
-    public string PhoneNumber { get; set; }
+    public string UserId { get; init; }
+    public string Role { get; init; }
+    public DateTime CreatedDate { get; init; }
+    public bool IsActive { get; init; }
+    public string UserName { get; init; }
+    public string DisplayName { get; init; }
+    public string PhoneNumber { get; init; }
 }

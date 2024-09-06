@@ -1,9 +1,9 @@
 ﻿namespace FoodOrderApis.Common.MassTransit.Contracts;
 
-public class CreateFood
+public record CreateFood
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string Describe { get; set; }
-    public string ImageUrl { get; set; }
+    public int Id { get; init; }
+    public string Name { get; init; }
+    public string Describe { get; init; }
+    public string ImageUrl { get; init; }
 }
