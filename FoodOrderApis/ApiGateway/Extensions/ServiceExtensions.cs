@@ -44,7 +44,7 @@ public class ServiceExtensions
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     /*IssuerSigningKey = EncodeHelper.CreateRsaKey()*/
-                    IssuerSigningKey = EncodeHelper.CreateRsaKey()
+                    IssuerSigningKey = CryptographyHelper.CreateRsaKey()
                 };
             });
     }

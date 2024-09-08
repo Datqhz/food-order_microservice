@@ -29,28 +29,15 @@ public class CreateOrderDetailValidatorTests
 
     #region Setup Test Cases
 
-    private static IEnumerable<TestCaseData> InvalidOrderIdCases()
-    {
-        yield return new TestCaseData()
-            .SetName("OrderId cannot be null");
-    }
-    private static IEnumerable<TestCaseData> InvalidFoodIdCases()
-    {
-        yield return new TestCaseData()
-            .SetName("FoodId cannot be null");
-    }
+
     private static IEnumerable<TestCaseData> InvalidPriceCases()
     {
-        yield return new TestCaseData(null)
-            .SetName("Price cannot be null");
         yield return new TestCaseData((decimal)-1)
             .SetName("Price must be greater than or equal to 0");
     }
     
     private static IEnumerable<TestCaseData> InvalidQuantityCases()
     {
-        yield return new TestCaseData(null)
-            .SetName("Quantity cannot be null");
         yield return new TestCaseData(0)
             .SetName("Quantity must be greater than 0");
     }
@@ -71,48 +58,10 @@ public class CreateOrderDetailValidatorTests
         actual.IsValid.Should().BeTrue();
     }
     
-    
-    [Test, TestCaseSource(nameof(InvalidOrderIdCases))]
-    public void Validate_ShouldBeInValid_WhenGivenInvalidOrderId(int invalidOrderId)
-    {
-        Console.WriteLine(invalidOrderId);
-        var command = new CreateOrderDetailCommand
-        {
-            Payload = new CreateOrderDetailInput
-            {
-                OrderId = invalidOrderId,
-                FoodId = _validInput.FoodId,
-                Price = _validInput.Price,
-                Quantity = _validInput.Quantity
-            },
-        };
-        var actual = _validator.Validate(command);
-        
-        actual.IsValid.Should().BeFalse();
-    }
-    [Test, TestCaseSource(nameof(InvalidFoodIdCases))]
-    public void Validate_ShouldBeInValid_WhenGivenInvalidFoodId(int invalidFoodId)
-    {
-        Console.WriteLine(invalidFoodId);
-        var command = new CreateOrderDetailCommand
-        {
-            Payload = new CreateOrderDetailInput
-            {
-                OrderId = _validInput.OrderId,
-                FoodId = invalidFoodId,
-                Price = _validInput.Price,
-                Quantity = _validInput.Quantity
-            },
-        };
-        var actual = _validator.Validate(command);
-        
-        actual.IsValid.Should().BeFalse();
-    }
 
     [Test, TestCaseSource(nameof(InvalidPriceCases))]
-    public void Validate_ShouldBeInValid_WhenGivenInvalidPrice(int invalidPrice)
+    public void Validate_ShouldBeInvalid_WhenGivenInvalidPrice(decimal invalidPrice)
     {
-        Console.WriteLine(invalidPrice);
         var command = new CreateOrderDetailCommand
         {
             Payload = new CreateOrderDetailInput
@@ -129,7 +78,7 @@ public class CreateOrderDetailValidatorTests
     }
     
     [Test, TestCaseSource(nameof(InvalidQuantityCases))]
-    public void Validate_ShouldBeInValid_WhenGivenInvalidQuantity(int invalidQuantity)
+    public void Validate_ShouldBeInvalid_WhenGivenInvalidQuantity(int invalidQuantity)
     {
         var command = new CreateOrderDetailCommand
         {

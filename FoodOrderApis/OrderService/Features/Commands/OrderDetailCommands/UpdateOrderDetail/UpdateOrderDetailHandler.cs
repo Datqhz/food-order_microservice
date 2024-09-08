@@ -1,6 +1,7 @@
 ﻿using FoodOrderApis.Common.Helpers;
 using MediatR;
 using OrderService.Data.Responses;
+using OrderService.Enums;
 using OrderService.Repositories;
 
 namespace OrderService.Features.Commands.OrderDetailCommands.UpdateOrderDetail;
@@ -23,7 +24,7 @@ public class UpdateOrderDetailHandler : IRequestHandler<UpdateOrderDetailCommand
         {
             _logger.LogInformation($"{functionName} - Start");
             var validator = new UpdateOrderDetailValidator();
-            var validationResult = await validator.ValidateAsync(request);
+            var validationResult = validator.Validate(request);
             if (!validationResult.IsValid)
             {
                 _logger.LogError($"{functionName} => Invalid request : Message = {validationResult.ToString("-")}");
@@ -43,13 +44,13 @@ public class UpdateOrderDetailHandler : IRequestHandler<UpdateOrderDetailCommand
             {   
                 // 1 = create
                 var modifyResult = false;
-                if (payload.Feature == 2) // update
+                if (payload.Feature == (int)ModifyFeature.Update) // update
                 {
                     orderDetail.Price = payload.Price;
                     orderDetail.Quantity = payload.Quantity;
                     modifyResult = _unitOfRepository.OrderDetail.Update(orderDetail);
                 }
-                else if(payload.Feature == 3) // delete
+                else if(payload.Feature == (int)ModifyFeature.Delete) // delete
                 {
                     modifyResult = _unitOfRepository.OrderDetail.Delete(orderDetail);
                 }

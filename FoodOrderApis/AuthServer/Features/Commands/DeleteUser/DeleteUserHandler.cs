@@ -71,8 +71,8 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
                 {
                     await _unitOfRepository.CompleteAsync();
                     await _sendEndpoint.SendMessage<DeleteUserInfo>(new DeleteUserInfo { UserId = user.Id }, cancellationToken, "customer-delete-user");
-
-                response.StatusText = $"User deleted";
+                    response.StatusCode = (int)ResponseStatusCode.OK;
+                    response.StatusText = $"User deleted";
                 }
                 else
                 {

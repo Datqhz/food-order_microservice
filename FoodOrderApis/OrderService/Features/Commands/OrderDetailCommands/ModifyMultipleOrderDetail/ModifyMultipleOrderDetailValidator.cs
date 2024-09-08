@@ -12,12 +12,10 @@ public class ModifyMultipleOrderDetailValidator : AbstractValidator<ModifyMultip
             {
                 itemRule
                     .Must(item => item.Feature != null).WithMessage("Feature cannot be null")
-                    .Must(item => item.Feature >= 1 && item.Feature <= 4).WithMessage("Feature must be between 1 and 4");
+                    .Must(item => item.Feature >= 1 && item.Feature <= 3).WithMessage("Feature must be between 1 and 3");
                 itemRule
-                    .Must(item => item.Price != null).WithMessage("Price cannot be null")
-                    .Must(item => item.Price > 0).WithMessage("Price must be greater than 0");
+                    .Must(item => item.Price >= 0).WithMessage("Price must be greater than or equal 0");
                 itemRule
-                    .Must(item => item.Quantity != null).WithMessage("Quantity cannot be null")
                     .Must(item => item.Quantity > 0).WithMessage("Quantity must be greater than 0");
             });
 

@@ -7,21 +7,21 @@ using OrderService.Extensions;
 using OrderService.Repositories;
 using OrderService.Repositories.Interfaces;
 
-namespace OrderService.Features.Queries.OrderDetailQueries.GetAllOrderDetailByOrderId;
+namespace OrderService.Features.Queries.OrderDetailQueries.GetAllOrderDetailsByOrderId;
 
-public class GetAllOrderDetailByOrderIdHandler : IRequestHandler<GetAllOrderDetailByOrderIdQuery, GetAllOrderDetailByOrderIdResponse>
+public class GetAllOrderDetailsByOrderIdHandler : IRequestHandler<GetAllOrderDetailsByOrderIdQuery, GetAllOrderDetailByOrderIdResponse>
 {
     private readonly IUnitOfRepository _unitOfRepository;
-    private readonly ILogger<GetAllOrderDetailByOrderIdHandler> _logger;
+    private readonly ILogger<GetAllOrderDetailsByOrderIdHandler> _logger;
 
-    public GetAllOrderDetailByOrderIdHandler(IUnitOfRepository unitOfRepository, ILogger<GetAllOrderDetailByOrderIdHandler> logger)
+    public GetAllOrderDetailsByOrderIdHandler(IUnitOfRepository unitOfRepository, ILogger<GetAllOrderDetailsByOrderIdHandler> logger)
     {
         _unitOfRepository = unitOfRepository;
         _logger = logger;
     }
-    public async Task<GetAllOrderDetailByOrderIdResponse> Handle(GetAllOrderDetailByOrderIdQuery request, CancellationToken cancellationToken)
+    public async Task<GetAllOrderDetailByOrderIdResponse> Handle(GetAllOrderDetailsByOrderIdQuery request, CancellationToken cancellationToken)
     {
-        var functionName = nameof(GetAllOrderDetailByOrderIdHandler);
+        var functionName = nameof(GetAllOrderDetailsByOrderIdHandler);
         var response = new GetAllOrderDetailByOrderIdResponse(){StatusCode = (int)ResponseStatusCode.NoContent};
         var orderId = request.OrderId;
         try

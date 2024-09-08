@@ -35,26 +35,31 @@ public class ModifyMultipleOrderDetailHandler :IRequestHandler<ModifyMultipleOrd
                 return response;
             }
 
-            foreach (var item in payload)
+            using (var transaction = _unitOfRepository.OpenTransactionAsync())
             {
-                var orderDetail = await _unitOfRepository.OrderDetail.GetById(item.OrderDetailId);
-                if (orderDetail == null)
+                foreach (var item in payload)
                 {
-                    response.StatusText += $"Order detail with id {item.OrderDetailId} does not exist.\n";
-                    return response;
-                }
-                if (item.Feature == (int)ModifyFeature.Update)
-                {
+                    var orderDetail = await _unitOfRepository.OrderDetail.GetById(item.OrderDetailId);
+                    if (orderDetail == null)
+                    {
+                        await _unitOfRepository.RollbackAsync();
+                        response.StatusCode = (int)ResponseStatusCode.NotFound;
+                        response.StatusText += $"Order detail with id {item.OrderDetailId} does not exist.\n";
+                        return response;
+                    }
+                    if (item.Feature == (int)ModifyFeature.Update)
+                    {
                         orderDetail.Quantity = item.Quantity;
                         orderDetail.Price = item.Price;
                         _unitOfRepository.OrderDetail.Update(orderDetail);
-                }else if (item.Feature == (int)ModifyFeature.Delete)
-                {
-                    _unitOfRepository.OrderDetail.Delete(orderDetail);
+                    }else if (item.Feature == (int)ModifyFeature.Delete)
+                    {
+                        _unitOfRepository.OrderDetail.Delete(orderDetail);
+                    }
                 }
+                await _unitOfRepository.CommitAsync();
+                await _unitOfRepository.CompleteAsync();
             }
-
-            await _unitOfRepository.CompleteAsync();
             response.StatusCode = (int)ResponseStatusCode.OK;
             response.StatusText = $"Order details modified successfully.";
             _logger.LogInformation($"{functionName} - End");

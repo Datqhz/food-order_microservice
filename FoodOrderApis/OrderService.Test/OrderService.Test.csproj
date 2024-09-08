@@ -26,12 +26,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Commands\ModifyMultipleOrderDetails\" />
-      <Folder Include="Features\Commands\UpdateOrderDetail\" />
-      <Folder Include="Features\Queries\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\OrderService\OrderService.csproj" />
     </ItemGroup>
 

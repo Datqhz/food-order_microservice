@@ -53,6 +53,7 @@ public class DeleteUserHandlerTests
         var act = await _handler.Handle(command, _cancellationToken);
         
         // Assert
+        Console.WriteLine(act.ErrorMessage);
         Assert.That(act, Is.Not.Null);
         Assert.That(act.StatusCode, Is.EqualTo((int)ResponseStatusCode.OK));
     }

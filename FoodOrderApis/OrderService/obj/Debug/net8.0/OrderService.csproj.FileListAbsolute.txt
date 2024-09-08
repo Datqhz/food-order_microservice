@@ -370,3 +370,8 @@ C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\Order
 C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\OrderService\obj\Debug\net8.0\OrderService.pdb
 C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\OrderService\obj\Debug\net8.0\OrderService.genruntimeconfig.cache
 C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\OrderService\obj\Debug\net8.0\ref\OrderService.dll
+C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\OrderService\bin\Debug\net8.0\IdentityModel.dll
+C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\OrderService\bin\Debug\net8.0\IdentityServer4.dll
+C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\OrderService\bin\Debug\net8.0\IdentityServer4.Storage.dll
+C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\OrderService\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
+C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\OrderService\bin\Debug\net8.0\Newtonsoft.Json.dll

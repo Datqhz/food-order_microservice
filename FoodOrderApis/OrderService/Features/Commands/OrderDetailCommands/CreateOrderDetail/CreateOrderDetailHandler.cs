@@ -40,6 +40,14 @@ public class CreateOrderDetailHandler : IRequestHandler<CreateOrderDetailCommand
                 response.StatusText = $"Order not found";
                 return response;
             }
+            var food = await _unitOfRepository.Food.GetById(payload.FoodId);
+            if (food == null)
+            {
+                _logger.LogError($"{functionName} - Food not found");
+                response.StatusCode = (int)ResponseStatusCode.NotFound;
+                response.StatusText = $"Food not found";
+                return response;
+            }
             var orderDetail = new OrderDetail
             {
                 FoodId = payload.FoodId,

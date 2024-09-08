@@ -8,6 +8,7 @@ using AuthServer.Data.Models;
 using AuthServer.Repositories;
 using FoodOrderApis.Common.Helpers;
 using IdentityModel;
+using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Stores;
 using IdentityServer4.Test;
@@ -39,6 +40,7 @@ public class ServiceExtensions
             .AddDefaultTokenProviders();
         services.AddIdentityServer()
             .AddDeveloperSigningCredential()
+            //.AddSigningCredential(new SigningCredentials(CryptographyHelper.CreateJsonWebKey(), IdentityServerConstants.RsaSigningAlgorithm.RS256.ToString()))
             .AddClientStoreCache<ClientStore>()
             .AddResourceStoreCache<ResourceStore>()
             .AddAspNetIdentity<User>()
@@ -62,7 +64,7 @@ public class ServiceExtensions
                     ValidateIssuerSigningKey = true,
                     RequireExpirationTime = true,
                     ValidateLifetime = true,
-                    IssuerSigningKey = EncodeHelper.CreateRsaKey()
+                    IssuerSigningKey = CryptographyHelper.CreateRsaKey()
                 };
             });
         services.AddTransient<ClaimsPrincipal>(provider =>

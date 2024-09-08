@@ -2293,6 +2293,7 @@
         "dependencies": {
           "BCrypt.Net-Next": "4.0.3",
           "FluentValidation": "11.9.2",
+          "IdentityServer4": "4.1.2",
           "MassTransit.RabbitMQ": "8.2.5",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.8"
         },
@@ -6478,23 +6479,26 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {},
+    "C:\\Users\\baam0\\.nuget\\packages\\": {},
+    "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Admin\\Documents\\Task\\food-order_microservice\\FoodOrderApis\\AuthServer.Test\\AuthServer.Test.csproj",
+      "projectUniqueName": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\food-order_microservice\\FoodOrderApis\\AuthServer.Test\\AuthServer.Test.csproj",
       "projectName": "AuthServer.Test",
-      "projectPath": "C:\\Users\\Admin\\Documents\\Task\\food-order_microservice\\FoodOrderApis\\AuthServer.Test\\AuthServer.Test.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Admin\\Documents\\Task\\food-order_microservice\\FoodOrderApis\\AuthServer.Test\\obj\\",
+      "projectPath": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\food-order_microservice\\FoodOrderApis\\AuthServer.Test\\AuthServer.Test.csproj",
+      "packagesPath": "C:\\Users\\baam0\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\food-order_microservice\\FoodOrderApis\\AuthServer.Test\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
+        "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages",
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\baam0\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 22.2.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -6503,18 +6507,21 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\DevExpress 22.2\\Components\\System\\Components\\Packages": {},
         "C:\\Program Files\\dotnet\\library-packs": {},
+        "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\Microservices\\packages": {},
+        "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\packages": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\Admin\\Documents\\Task\\food-order_microservice\\FoodOrderApis\\AuthServer\\AuthServer.csproj": {
-              "projectPath": "C:\\Users\\Admin\\Documents\\Task\\food-order_microservice\\FoodOrderApis\\AuthServer\\AuthServer.csproj"
+            "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\food-order_microservice\\FoodOrderApis\\AuthServer\\AuthServer.csproj": {
+              "projectPath": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\food-order_microservice\\FoodOrderApis\\AuthServer\\AuthServer.csproj"
             },
-            "C:\\Users\\Admin\\Documents\\Task\\food-order_microservice\\FoodOrderApis\\FoodOrderApis.Common\\FoodOrderApis.Common.csproj": {
-              "projectPath": "C:\\Users\\Admin\\Documents\\Task\\food-order_microservice\\FoodOrderApis\\FoodOrderApis.Common\\FoodOrderApis.Common.csproj"
+            "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\food-order_microservice\\FoodOrderApis\\FoodOrderApis.Common\\FoodOrderApis.Common.csproj": {
+              "projectPath": "C:\\Users\\baam0\\OneDrive\\Documents\\C#\\food-order_microservice\\FoodOrderApis\\FoodOrderApis.Common\\FoodOrderApis.Common.csproj"
             }
           }
         }
@@ -6591,7 +6598,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
       }
     }
   },

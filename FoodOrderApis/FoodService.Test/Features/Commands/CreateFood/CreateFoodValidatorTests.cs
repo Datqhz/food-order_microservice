@@ -49,9 +49,7 @@ public class CreateFoodValidatorTests
     }
     private static IEnumerable<TestCaseData> InvalidPriceTestCases()
     {
-        yield return new TestCaseData(null)
-            .SetName("Image url field is required");
-        yield return new TestCaseData(-1)
+        yield return new TestCaseData((decimal)-1)
             .SetName("Food price must be greater than or equal to 0");
     }
 

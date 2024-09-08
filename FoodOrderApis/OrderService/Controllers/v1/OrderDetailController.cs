@@ -6,7 +6,7 @@ using OrderService.Data.Requests;
 using OrderService.Features.Commands.OrderDetailCommands.CreateOrderDetail;
 using OrderService.Features.Commands.OrderDetailCommands.ModifyMultipleOrderDetail;
 using OrderService.Features.Commands.OrderDetailCommands.UpdateOrderDetail;
-using OrderService.Features.Queries.OrderDetailQueries.GetAllOrderDetailByOrderId;
+using OrderService.Features.Queries.OrderDetailQueries.GetAllOrderDetailsByOrderId;
 
 namespace OrderService.Controllers.v1;
 
@@ -25,7 +25,7 @@ public class OrderDetailController : ControllerBase
     [HttpGet("get-by-order/{orderId}")]
     public async Task<IActionResult> GetOrderDetailByOrderIdAsync(int orderId)
     {
-        var result = await _mediator.Send(new GetAllOrderDetailByOrderIdQuery
+        var result = await _mediator.Send(new GetAllOrderDetailsByOrderIdQuery
         {
             OrderId = orderId
         });
