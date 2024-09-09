@@ -37,10 +37,10 @@ public class ServiceExtensions
 
                     ValidateIssuer = false,
                     ValidateAudience = true,
-                    /*ValidateIssuerSigningKey = true,*/
+                    ValidateIssuerSigningKey = true,
                     RequireExpirationTime = true,
                     ValidateLifetime = true,
-                    /*IssuerSigningKey = EncodeHelper.CreateRsaKey()*/
+                    IssuerSigningKey = CryptographyHelper.CreateRsaKey()
                 };
             });
     }

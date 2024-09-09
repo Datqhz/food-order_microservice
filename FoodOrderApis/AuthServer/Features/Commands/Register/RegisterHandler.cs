@@ -17,19 +17,16 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
     private readonly ISendEndpointCustomProvider _sendEndpoint;
     private readonly UserManager<User> _userManager;
     private readonly ILogger<RegisterHandler> _logger;
-    private readonly IBusControl _bus;
     public RegisterHandler(IUnitOfRepository unitOfRepository,
         ISendEndpointCustomProvider sendEndpoint,
         UserManager<User> userManager, 
-        ILogger<RegisterHandler> logger,
-        IBusControl bus
+        ILogger<RegisterHandler> logger
         )
     {
         _unitOfRepository = unitOfRepository;
         _sendEndpoint = sendEndpoint;
         _userManager = userManager;
         _logger = logger;
-        _bus = bus;
     }
     public async Task<RegisterResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
@@ -39,11 +36,6 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
         var payload = request.Payload;
         try
         {
-            var endpoint = await _bus.GetSendEndpoint(new Uri("exchange:my-test"));
-            await endpoint.Send(new Test { Id = "jhjhjh" }, context =>
-            {
-                context.Headers.Set("RoutingKey", "topic.key.test");
-            });
             var clientId = await _unitOfRepository.Client
                 .Where(c => c.ClientId == payload.ClientId)
                 .AsNoTracking()

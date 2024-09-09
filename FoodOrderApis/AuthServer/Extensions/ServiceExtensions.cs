@@ -43,8 +43,8 @@ public class ServiceExtensions
             .AddEntityFrameworkStores<AuthDbContext>()
             .AddDefaultTokenProviders();
         services.AddIdentityServer()
-            .AddDeveloperSigningCredential()
-            //.AddSigningCredential(new SigningCredentials(CryptographyHelper.CreateJsonWebKey(), IdentityServerConstants.RsaSigningAlgorithm.RS256.ToString()))
+            //.AddDeveloperSigningCredential()
+            .AddSigningCredential(CryptographyHelper.CreateRsaKey(), IdentityServerConstants.RsaSigningAlgorithm.RS256)
             .AddClientStoreCache<ClientStore>()
             .AddResourceStoreCache<ResourceStore>()
             .AddAspNetIdentity<User>()

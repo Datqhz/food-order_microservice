@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AuthServer.Data.Context.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20240906072918_Initial")]
-    partial class Initial
+    [Migration("20240909160347_InitialDb")]
+    partial class InitialDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -421,19 +421,19 @@ namespace AuthServer.Data.Context.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "951baad9-c166-47e6-94bb-0cdf08de582a",
+                            Id = "8c69ac60-6901-423a-aa6e-5460e4dc3dee",
                             Name = "EATER",
                             NormalizedName = "EATER"
                         },
                         new
                         {
-                            Id = "2ff87372-3927-47f7-9314-939f516ae2d7",
+                            Id = "aa345928-9b4a-4b57-8138-de54dfaed540",
                             Name = "MERCHANT",
                             NormalizedName = "MERCHANT"
                         },
                         new
                         {
-                            Id = "726e986b-f164-4886-9d01-46db73f96d60",
+                            Id = "5316c797-a874-448c-965e-0d853995920e",
                             Name = "ADMIN",
                             NormalizedName = "ADMIN"
                         });

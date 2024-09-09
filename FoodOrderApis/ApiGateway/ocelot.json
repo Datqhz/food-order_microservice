@@ -47,6 +47,28 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/v1/role/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "5092"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/role/{everything}",
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
+      "SwaggerKey": "authserver",
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 30.0,
+        "Limit": 30
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/v1/customer/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
