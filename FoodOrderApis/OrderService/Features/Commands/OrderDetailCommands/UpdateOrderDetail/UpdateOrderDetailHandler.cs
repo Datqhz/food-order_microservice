@@ -23,15 +23,6 @@ public class UpdateOrderDetailHandler : IRequestHandler<UpdateOrderDetailCommand
         try
         {
             _logger.LogInformation($"{functionName} - Start");
-            var validator = new UpdateOrderDetailValidator();
-            var validationResult = validator.Validate(request);
-            if (!validationResult.IsValid)
-            {
-                _logger.LogError($"{functionName} => Invalid request : Message = {validationResult.ToString("-")}");
-                response.StatusText = validationResult.ToString("~");
-                return response;
-            }
-
             var payload = request.Payload;
             var orderDetail = await _unitOfRepository.OrderDetail.GetById(payload.OrderDetailId);
             if (orderDetail == null)

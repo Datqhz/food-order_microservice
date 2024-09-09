@@ -33,15 +33,6 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
         var response = new UpdateUserResponse(){StatusCode = (int)HttpStatusCode.BadRequest};
         try
         {
-            var validator = new UpdateUserValidator();
-            var validationResult = validator.Validate(request);
-            if (!validationResult.IsValid)
-            {
-                _logger.LogError($"{functionName} => Invalid request : Message = {validationResult.ToString("-")}");
-                response.StatusText = validationResult.ToString("-");
-                return response;
-            }
-
             var userIdRequest = _httpContextAccessor.GetCurrentUserId();
             if (userIdRequest != payload.UserId)
             {

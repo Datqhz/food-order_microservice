@@ -21,11 +21,12 @@ public static class CryptographyHelper
     
     public static RsaSecurityKey CreateRsaKey()
     {
-        /*string publicKey =
-            "5ZIZVzV3Nwh8Ljb-9c1kdlMXhe72B5VvNwd7xnL-zPn1QY5JufJViVXdggKWdDaQ0Lrrgz39Y1xbMWit9RtipRU8kjN44dB41ZKG2sEVkmT2kgy0YTsDWhlHBpaCI44bHBO6E8IeScQ-qMVEjUqMZc-mvaCXCLH4uRErCkLnj8LcmwjwchSgozXanL4bfoHWc3OnU_suvVJY-azy6WaYBL5-cNytB5o_lCaUwmbk34sQyH2qAh8o5sJtrQXzpi-RrYf2K9inUdAgO0N1nz_Lx-Dgk-rFkqF9nnyvwmooi4QJoxcc9casc0JtbSbSf4sysbjbFq1Mt_JV_K8HDqBWaw";*/
-        //local
+        // local
         string publicKey =
-            "qmj0ka8pRXGBSYUEPkaxvBfY7-7FmJkn1KuFUq0vTc15mtv1z5AXTaC2m9pWhX288XD95bRaYXRdmIROaWHYW1HKWlYqMth0uY40u_97S1V2BX-4s77Q1cpyD30-EL337LUE9UCt4cSiR1CFPcxvj3AAmpKlmz0rDG0QYfJDXGqRWOiCvt5jl6JKqNzxmg9OwJPBT_1Lc17HZFnGiS_Brw3BT7uPqeHmjoTaEfjEPLJSOfzIitJGZDyEtSUC8KJ7UkLTdWtsWaRSrFfBNNmDBpbk2ThXbe8Fgiikwpm278Wu7hpmSzB03k0LMjwtN9w4ym2ppLJ-3LelrxpiRXq-7Q\n";
+            "xKBAKEGjEywbAJUxlGRmk52IdgyZi7g7A_V2Wngfq-aPI4Apu9oUu0MQAeEVNIpqaNE8UmsZPldjiOT0-osEOCsdGBMqrGjMMx-8ZzIvAQIsjX7TqToKc0MK8o-mIw55sgEGr27-NCQFaIc7816deCBX4eg2VA1jL7enw53SoBl4DInHlb2MYkUQJAP9eLKaO4j5Qe_zz4_wynsgEUYneSicWGIGF-AzIeXABFyQitQ8V9B-DbgyGLFbDTSwz-wjQMaA8do5MTD0Pu1IfucG0nYjSxx-HIfVpdxiP5rgLeU90TDnvpvXyWcOMDyDDoE3m59wiW3z4Tz_rIwul2j_yQ";
+        /*//docker
+        string publicKey =
+            "ust_cElVqYP-x3OsHHP5AZKjmpyWoCcPIqrlY8QwOf4glDvlHS9DXGv2IBn5fdPjbpeT2j6EdA-P3L8YurCczdMVTME3es1HHrd15YKl98hlbBoRGTx9LtnnsByQs7pX4xj4zoNpe5Kf1bpL-hkGbti3_ffQ-SegRJMl9KEXPe8I_msWelQKKBESbBpePDz8VvXY0Sp4gSWZnWYDIJZHaTHJacFi51xMXWkmljL3vpBqXweLejN7qAq_XwcU8Y-AZyfJZ7TanuccHUvOrtcy3iPrIr1lTqyHAqHHMTToYqe_b2gNY66L5qoM8nJiVyVckVgl7Hlf8yUSHg70BcWFzw";*/
         string exponent = "AQAB";
         var publicKeyAsBytes = Base64UrlEncoder.DecodeBytes(publicKey);
         var exponentBytes = Base64UrlEncoder.DecodeBytes(exponent);

@@ -1,8 +1,10 @@
 ﻿using System.Reflection;
+using FoodOrderApis.Common.MassTransit.Contracts;
 using FoodOrderApis.Common.MassTransit.Core;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RabbitMQ.Client;
 
 namespace FoodOrderApis.Common.MassTransit.Extensions;
 

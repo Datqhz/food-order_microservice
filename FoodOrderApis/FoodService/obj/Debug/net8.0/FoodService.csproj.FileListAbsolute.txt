@@ -375,3 +375,9 @@ C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\FoodS
 C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\FoodService\bin\Debug\net8.0\IdentityServer4.Storage.dll
 C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\FoodService\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
 C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\FoodService\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\FoodService\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\FoodService\bin\Debug\net8.0\IdentityModel.dll
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\FoodService\bin\Debug\net8.0\IdentityServer4.dll
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\FoodService\bin\Debug\net8.0\IdentityServer4.Storage.dll
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\FoodService\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\FoodService\bin\Debug\net8.0\Newtonsoft.Json.dll

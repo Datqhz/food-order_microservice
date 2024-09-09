@@ -1,9 +1,12 @@
-﻿using FoodOrderApis.Common.Helpers;
+﻿using FluentValidation;
+using FoodOrderApis.Common.Helpers;
 using FoodOrderApis.Common.MassTransit.Contracts;
+using FoodOrderApis.Common.Validation;
 using FoodService.Consumers;
 using FoodService.Data.Context;
 using FoodService.Repositories;
 using MassTransit;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RabbitMQ.Client;
 
@@ -70,6 +73,12 @@ public class ServiceExtensions
     {
         services.AddMediatR(configure => 
             configure.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+    }
+    
+    public void AddValidators(IServiceCollection services)
+    {
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
     }
 
     public void ConfigureSwagger(IServiceCollection services)

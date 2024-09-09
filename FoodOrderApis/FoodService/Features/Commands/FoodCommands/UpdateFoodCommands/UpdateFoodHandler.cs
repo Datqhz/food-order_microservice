@@ -34,15 +34,6 @@ public class UpdateFoodHandler : IRequestHandler<UpdateFoodCommand, UpdateFoodRe
         try
         {
             _logger.LogInformation($"{functionName} - Start");
-            var validator = new UpdateFoodValidator();
-            var validationResult = validator.Validate(request);
-            if (!validationResult.IsValid)
-            {
-                _logger.LogError($"{functionName} => Invalid request : Message = {validationResult.ToString("-")}");
-                response.StatusText = validationResult.ToString("~");
-                return response;
-            }
-            
             var payload = request.Payload;
             var food = await _unitOfRepository.Food.GetById(payload.Id);
             if (food == null)

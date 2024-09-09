@@ -22,15 +22,6 @@ public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, GetUserInfoB
         var response = new GetUserInfoByIdResponse(){StatusCode = (int)ResponseStatusCode.BadRequest};
         try
         {
-            GetUserByIdValidator validator = new GetUserByIdValidator();
-            var validateResult = validator.Validate(request);
-            if (!validateResult.IsValid)
-            {
-                _logger.LogError($"{functionName} - Invalid request : Message = {validateResult.ToString("-")}");
-                response.StatusText = validateResult.ToString("~");
-                return response;
-            }
-
             var user = await _unitOfRepository.User.GetById(request.UserId);
             if (user == null)
             {

@@ -35,16 +35,6 @@ public class DeleteFoodHandler : IRequestHandler<DeleteFoodCommand, DeleteFoodRe
         try
         {
             _logger.LogInformation($"{functionName} - Start");
-            var validator = new DeleteFoodValidator();
-            var validationResult = await validator.ValidateAsync(request);
-            if (!validationResult.IsValid)
-            {
-                _logger.LogError($"{functionName} =>  Invalid request : Message = {validationResult.ToString("-")}");
-                response.StatusText = validationResult.ToString("~");
-                return response;
-            }
-
-            
             var food = await _unitOfRepository.Food.GetById(request.Id);
             if (food == null)
             {

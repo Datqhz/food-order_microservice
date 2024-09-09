@@ -34,16 +34,6 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
         var loginResponse = new LoginResponse(){StatusCode = (int)ResponseStatusCode.BadRequest};
         try
         {
-            var validator = new LoginValidator();
-            var validateResult = validator.Validate(request);
-            if (!validateResult.IsValid)
-            {
-                _logger.LogError($"{functionName} => Invalid request : Message => {validateResult.ToString("-")}");
-                loginResponse.StatusText = "Bad Request";
-                loginResponse.ErrorMessage = validateResult.ToString("~");
-                return loginResponse;
-            }
-
             var payload = request.Payload;
             var user = await _unitOfRepository.User.Where(u => u.UserName == payload.Username)
                 .FirstOrDefaultAsync(cancellationToken);
@@ -113,8 +103,8 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
             else
             {
                 _logger.LogError($"{functionName} => Can't get access token : Message = {response.ErrorDescription}");
-                loginResponse.StatusCode = (int)ResponseStatusCode.InternalServerError;
-                loginResponse.StatusText = "Internal server error";
+                loginResponse.StatusCode = (int)response.HttpStatusCode;
+                loginResponse.StatusText = "Error";
                 loginResponse.ErrorMessage = response.ErrorDescription;
             }
             _logger.LogInformation($"{functionName} - End");

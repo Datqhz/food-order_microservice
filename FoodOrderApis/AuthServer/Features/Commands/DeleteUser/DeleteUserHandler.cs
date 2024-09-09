@@ -34,14 +34,6 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
         try
         {
             var userIdRequest = _httpContext.GetCurrentUserId();
-            var validator = new DeleteUserValidator();
-            var validationResult = validator.Validate(request);
-            if (!validationResult.IsValid)
-            {
-                _logger.LogError($"{funcName} => Invalid request : Mesagge = {validationResult.ToString("-")}");
-                response.StatusText = validationResult.ToString("-");
-                return response;
-            }
             if (userIdRequest != userId)
             {
                 _logger.LogError($"{funcName} => Permission denied");

@@ -305,3 +305,10 @@ C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\ApiGa
 C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\ApiGateway\obj\Debug\net8.0\ApiGateway.pdb
 C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\ApiGateway\obj\Debug\net8.0\ApiGateway.genruntimeconfig.cache
 C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\ApiGateway\obj\Debug\net8.0\ref\ApiGateway.dll
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\ApiGateway\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\ApiGateway\bin\Debug\net8.0\IdentityModel.dll
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\ApiGateway\bin\Debug\net8.0\IdentityServer4.dll
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\ApiGateway\bin\Debug\net8.0\IdentityServer4.Storage.dll
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\ApiGateway\bin\Debug\net8.0\MediatR.dll
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\ApiGateway\bin\Debug\net8.0\MediatR.Contracts.dll
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\ApiGateway\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll

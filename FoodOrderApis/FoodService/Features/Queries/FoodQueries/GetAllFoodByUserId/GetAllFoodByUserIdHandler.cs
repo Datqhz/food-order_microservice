@@ -24,15 +24,6 @@ public class GetAllFoodByUserIdHandler : IRequestHandler<GetAllFoodByUserIdQuery
         try
         {
             _logger.LogInformation($"{functionName} - Start");
-            var validator = new GetAllFoodByUserIdValidator();
-            var validationResult = await validator.ValidateAsync(request);
-            if (!validationResult.IsValid)
-            {
-                _logger.LogError($"{functionName} => Invalid request : Message = {validationResult.ToString("-")}");
-                response.StatusText = validationResult.ToString("-");
-                return response;
-            }
-
             var foods = await _unitOfRepository.Food.Where(f => f.UserId == request.UserId).AsNoTracking().Select(_ =>
                 new FoodDto
                 {

@@ -26,15 +26,6 @@ public class ModifyMultipleOrderDetailHandler :IRequestHandler<ModifyMultipleOrd
         try
         {
             _logger.LogInformation($"{functionName} - Start");
-            var validator = new ModifyMultipleOrderDetailValidator();
-            var validationResult = validator.Validate(request);
-            if (!validationResult.IsValid)
-            {
-                _logger.LogError($"{functionName} => Invalid request : Message = {validationResult.ToString("-")}");
-                response.StatusText = validationResult.ToString("~");
-                return response;
-            }
-
             using (var transaction = _unitOfRepository.OpenTransactionAsync())
             {
                 foreach (var item in payload)

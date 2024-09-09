@@ -23,14 +23,6 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, CreateOrde
         try
         {
             _logger.LogInformation($"{functionName} - Start");
-            var validator = new CreateOrderValidator();
-            var validationResult = await validator.ValidateAsync(request);
-            if (!validationResult.IsValid)
-            {
-                _logger.LogError($"{functionName} => Invalid request : Message = {validationResult.ToString("-")}");
-                response.StatusText = validationResult.ToString("~");
-                return response;
-            }
             var payload = request.Payload;
             var eater = await _unitOfRepository.User.GetById(payload.EaterId);
             if (eater == null)

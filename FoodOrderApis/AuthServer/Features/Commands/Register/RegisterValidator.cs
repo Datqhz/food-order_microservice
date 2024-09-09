@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using AuthServer.Data.Requests;
 using FluentValidation;
-using FoodOrderApis.Common.ValidationRules;
+using FoodOrderApis.Common.Validation;
 
 namespace AuthServer.Features.Commands.Register;
 

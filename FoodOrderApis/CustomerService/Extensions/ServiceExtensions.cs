@@ -5,8 +5,11 @@ using CustomerService.Data.Context;
 using CustomerService.Repositories;
 using CustomerService.Repositories.Implements;
 using CustomerService.Repositories.Interfaces;
+using FluentValidation;
 using FoodOrderApis.Common.Helpers;
+using FoodOrderApis.Common.Validation;
 using MassTransit;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -71,6 +74,12 @@ public class ServiceExtensions
     {
         services.AddMediatR(configure => 
             configure.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+    }
+
+    public void AddValidators(IServiceCollection services)
+    {
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
     }
 
     public void ConfigureSwagger(IServiceCollection services)

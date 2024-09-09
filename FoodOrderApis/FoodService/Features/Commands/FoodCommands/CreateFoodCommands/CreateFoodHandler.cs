@@ -25,18 +25,10 @@ public class CreateFoodHandler : IRequestHandler<CreateFoodCommand, CreateFoodRe
     {
         var functionName = nameof(CreateFoodHandler);
         var response = new CreateFoodResponse() {StatusCode = (int)HttpStatusCode.BadRequest};
+        var payload = request.Payload;
         try
         {
             _logger.LogInformation($"{functionName} - Start");
-            CreateFoodValidator validator = new CreateFoodValidator();
-            var validationResult = validator.Validate(request);
-            if (!validationResult.IsValid)
-            {
-                _logger.LogError($"{functionName} => Invalid request : Message = {validationResult.ToString("-")}");
-                response.StatusText = validationResult.ToString("~");
-                return response;
-            }
-            var payload = request.Payload;
             var user = await _unitOfRepository.User.GetById(payload.UserId);
             if (user == null)
             {

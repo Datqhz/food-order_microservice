@@ -6,13 +6,17 @@ using AuthServer.Core;
 using AuthServer.Data.Context;
 using AuthServer.Data.Models;
 using AuthServer.Repositories;
+using FluentValidation;
 using FoodOrderApis.Common.Helpers;
+using FoodOrderApis.Common.Validation;
 using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Stores;
 using IdentityServer4.Test;
 using MassTransit;
+using MediatR;
+using MediatR.Pipeline;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -84,8 +88,15 @@ public class ServiceExtensions
     }
     public void ConfigureMediator(IServiceCollection services)
     {
-        services.AddMediatR(configure => 
-            configure.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+        services.AddMediatR(configure =>
+        {
+            configure.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+        });
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+    }
+    public void AddValidators(IServiceCollection services)
+    {
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
     }
 
     public void ConfigureDbContext(IServiceCollection services)

@@ -1,10 +1,10 @@
 AssemblyInformationalVersion:
-InformationalVersion: 1.0.0+761c614d9470d994b4735438d2b9a1a4e0bf9df2
+InformationalVersion: 1.0.0+c1d53063ad56f961acc3913f1376d97978ed4601
 Version: 1.0.0
 TargetFrameworks:
-RunCommand: C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\CustomerService\bin\Debug\net8.0\CustomerService.exe
+RunCommand: C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\CustomerService\bin\Debug\net8.0\CustomerService.exe
 RunArguments:
-TargetPath: C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\CustomerService\bin\Debug\net8.0\CustomerService.dll
+TargetPath: C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\CustomerService\bin\Debug\net8.0\CustomerService.dll
 PublishDir: bin\Debug\net8.0\publish\
 AssemblyName: CustomerService
 IntermediateOutputPath: obj\Debug\net8.0\

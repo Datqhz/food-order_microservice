@@ -1,6 +1,7 @@
 using FoodOrderApis.Common.HttpContextCustom;
 using FoodOrderApis.Common.MassTransit.Extensions;
 using OrderService.Extensions;
+using OrderService.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ serviceExtensions.AddAuthentication(builder.Services);
 serviceExtensions.AddAuthorizationSettings(builder.Services);
 serviceExtensions.ConfigureDbContext(builder.Services);
 serviceExtensions.ConfigureDependencyInjection(builder.Services);
+serviceExtensions.AddValidators(builder.Services);
 serviceExtensions.AddMediatorPattern(builder.Services);
 serviceExtensions.AddCors(builder.Services);
 //serviceExtensions.AddMassTransitRabbitMq(builder.Services);
@@ -28,6 +30,7 @@ if (!app.Environment.IsProduction())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

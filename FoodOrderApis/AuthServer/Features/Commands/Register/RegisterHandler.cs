@@ -17,12 +17,19 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
     private readonly ISendEndpointCustomProvider _sendEndpoint;
     private readonly UserManager<User> _userManager;
     private readonly ILogger<RegisterHandler> _logger;
-    public RegisterHandler(IUnitOfRepository unitOfRepository, ISendEndpointCustomProvider sendEndpoint, UserManager<User> userManager, ILogger<RegisterHandler> logger)
+    private readonly IBusControl _bus;
+    public RegisterHandler(IUnitOfRepository unitOfRepository,
+        ISendEndpointCustomProvider sendEndpoint,
+        UserManager<User> userManager, 
+        ILogger<RegisterHandler> logger,
+        IBusControl bus
+        )
     {
         _unitOfRepository = unitOfRepository;
         _sendEndpoint = sendEndpoint;
         _userManager = userManager;
         _logger = logger;
+        _bus = bus;
     }
     public async Task<RegisterResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
@@ -32,16 +39,11 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
         var payload = request.Payload;
         try
         {
-            RegisterValidator validator = new RegisterValidator();
-            var validateResult = validator.Validate(request);
-            if (!validateResult.IsValid)
+            var endpoint = await _bus.GetSendEndpoint(new Uri("exchange:my-test"));
+            await endpoint.Send(new Test { Id = "jhjhjh" }, context =>
             {
-                _logger.LogError($"{functionName} => Invalid request : Message = {validateResult.ToString("-")}");
-                response.StatusText = "Bad Request";
-                response.ErrorMessage = validateResult.ToString("~");
-                return response;
-            }
-
+                context.Headers.Set("RoutingKey", "topic.key.test");
+            });
             var clientId = await _unitOfRepository.Client
                 .Where(c => c.ClientId == payload.ClientId)
                 .AsNoTracking()

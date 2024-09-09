@@ -8,8 +8,8 @@ namespace CustomerService.Features.Commands.UserInfoCommands.CreateUser;
 
 public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserInfoResponse>
 {
-    private readonly IUnitOfRepository _unitOfRepository;
     private readonly ILogger<CreateUserHandler> _logger;
+    private readonly IUnitOfRepository _unitOfRepository;
 
     public CreateUserHandler(IUnitOfRepository unitOfRepository, ILogger<CreateUserHandler> logger)
     {
@@ -21,34 +21,23 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserIn
     {
         var functionName = nameof(CreateUserHandler);
         _logger.LogInformation($"{functionName} - Start");
-        var response = new CreateUserInfoResponse() { StatusCode = (int)ResponseStatusCode.BadRequest };
+        var response = new CreateUserInfoResponse { StatusCode = (int)ResponseStatusCode.BadRequest };
+        var payload = request.Payload;
         try
         {
-            var createCustomerValidator = new CreateUserValidator();
-            var validationResult = createCustomerValidator.Validate(request);
-            var payload = request.Payload;
-            if (!validationResult.IsValid)
+            await _unitOfRepository.User.Add(new UserInfo
             {
-                _logger.LogInformation($"{functionName} => Invalid request : Message = {validationResult.ToString("-")}");
-                response.StatusText = validationResult.ToString("~");
-                return response;
-            }
-            else
-            {
-                await _unitOfRepository.User.Add(new UserInfo
-                {
-                    Id = payload.UserId,
-                    Role = payload.Role,
-                    DisplayName = payload.DisplayName,
-                    CreatedDate = payload.CreatedDate,
-                    PhoneNumber = payload.PhoneNumber,
-                    UserName = payload.UserName,
-                    IsActive = payload.IsActive,
-                });
-                await _unitOfRepository.CompleteAsync();
-                response.StatusCode = (int)ResponseStatusCode.Created;
-                response.StatusText = "Create user successfully";
-            }
+                Id = payload.UserId,
+                Role = payload.Role,
+                DisplayName = payload.DisplayName,
+                CreatedDate = payload.CreatedDate,
+                PhoneNumber = payload.PhoneNumber,
+                UserName = payload.UserName,
+                IsActive = payload.IsActive
+            });
+            await _unitOfRepository.CompleteAsync();
+            response.StatusCode = (int)ResponseStatusCode.Created;
+            response.StatusText = "Create user successfully";
             _logger.LogInformation($"{functionName} - End");
             return response;
         }

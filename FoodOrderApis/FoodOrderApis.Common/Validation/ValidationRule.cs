@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using FluentValidation;
 
-namespace FoodOrderApis.Common.ValidationRules;
+namespace FoodOrderApis.Common.Validation;
 
 public static class ValidationRule
 {

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using FoodOrderApis.Common.ValidationRules;
+using FoodOrderApis.Common.Validation;
 
 namespace CustomerService.Features.Commands.UserInfoCommands.CreateUser;
 
