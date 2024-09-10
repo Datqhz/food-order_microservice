@@ -32,7 +32,8 @@ public static class DtoExtensions
         {
             Id = food.Id,
             Name = food.Name,
-            ImageUrl = food.ImageUrl
+            ImageUrl = food.ImageUrl,
+            Describe = food.Describe
         };
     }
 }

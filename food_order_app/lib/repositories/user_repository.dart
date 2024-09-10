@@ -7,19 +7,21 @@ import 'package:food_order_app/core/snackbar.dart';
 import 'package:food_order_app/data/models/user.dart';
 import 'package:food_order_app/data/requests/login_request.dart';
 import 'package:food_order_app/data/requests/update_user_request.dart';
-import 'package:food_order_app/data/responses/login_response.dart';
 import 'package:http/http.dart';
+import 'package:logger/logger.dart';
 
-class AuthRepository {
-  Future<User?> GetUserInfoById(
-      LoginRequest request, BuildContext context) async {
+class UserRepository {
+  Future<User?> getUserInfoById(BuildContext context) async {
     Map<String, String> headers = {
       'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ${GlobalVariable.loginResponse!.accessToken}'
     };
     try {
       var response = await get(
-          Uri.parse('${GlobalVariable.requestUrlPrefix}/api/v1/customer/${JWTHelper.getCurrentUid(GlobalVariable.loginResponse.accessToken)}'),
-          headers: headers,);
+        Uri.parse(
+            '${GlobalVariable.requestUrlPrefix}/api/v1/customer/${JWTHelper.getCurrentUid(GlobalVariable.loginResponse!.accessToken)}'),
+        headers: headers,
+      );
 
       Map<String, dynamic> responseBody = json.decode(response.body);
       var statusCode = responseBody["statusCode"];
@@ -37,15 +39,17 @@ class AuthRepository {
     }
   }
 
-  Future<List<User>?> GetAllMerchants(
-      LoginRequest request, BuildContext context) async {
+  Future<List<User>?> getAllMerchants(BuildContext context) async {
     Map<String, String> headers = {
       'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ${GlobalVariable.loginResponse!.accessToken}'
     };
     try {
       var response = await get(
-          Uri.parse('${GlobalVariable.requestUrlPrefix}/api/v1/customer/all-merchants'),
-          headers: headers,);
+        Uri.parse(
+            '${GlobalVariable.requestUrlPrefix}/api/v1/customer/all-merchants'),
+        headers: headers,
+      );
 
       Map<String, dynamic> responseBody = json.decode(response.body);
       var statusCode = responseBody["statusCode"];
@@ -63,15 +67,16 @@ class AuthRepository {
     }
   }
 
-  Future<List<User>?> GetAllUsers(
-      LoginRequest request, BuildContext context) async {
+  Future<List<User>?> getAllUsers(BuildContext context) async {
     Map<String, String> headers = {
       'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ${GlobalVariable.loginResponse!.accessToken}'
     };
     try {
       var response = await get(
-          Uri.parse('${GlobalVariable.requestUrlPrefix}/api/v1/customer'),
-          headers: headers,);
+        Uri.parse('${GlobalVariable.requestUrlPrefix}/api/v1/customer'),
+        headers: headers,
+      );
 
       Map<String, dynamic> responseBody = json.decode(response.body);
       var statusCode = responseBody["statusCode"];
@@ -89,10 +94,15 @@ class AuthRepository {
     }
   }
 
-  Future<LoginResponse?> update(
-      UpdateUserRequest request, BuildContext context) async {
+  Future<bool> update(
+    UpdateUserRequest request,
+    BuildContext context,
+  ) async {
+    final logger = Logger();
+
     Map<String, String> headers = {
       'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ${GlobalVariable.loginResponse!.accessToken}'
     };
     try {
       var response = await put(
@@ -102,23 +112,27 @@ class AuthRepository {
 
       Map<String, dynamic> responseBody = json.decode(response.body);
       var statusCode = responseBody["statusCode"];
-      if (statusCode == 200) {
-        GlobalVariable.loginResponse =
-            LoginResponse.fromJson(responseBody['data']);
-        return LoginResponse.fromJson(responseBody['data']);
-      } else if (statusCode == 400) {
-        showSnackBar(context, "Invalid infomation");
-      } else if (statusCode == 404) {
-        showSnackBar(context, "Username doesn't exits");
-      } else {
-        showSnackBar(context, "Can't authentication");
+      switch (statusCode) {
+        case 200:
+          GlobalVariable.currentUser?.displayName = request.displayName;
+          GlobalVariable.currentUser?.phoneNumber = request.phoneNumber;
+          return true;
+        case 400:
+        case 403:
+        case 404:
+          showSnackBar(context, responseBody['statusText']);
+          return false;
+        case 500:
+          showSnackBar(context, "Can't update infomation");
+          logger.e(responseBody['errorMessage']);
+          return false;
+        default:
+          return false;
       }
-      print(responseBody["errors"]);
-      return null;
     } catch (e) {
-      print(e.toString());
-      showSnackBar(context, "Can't authentication");
-      return null;
+      logger.e(e.toString());
+      showSnackBar(context, "Some error arise in process");
+      return false;
     }
   }
 }

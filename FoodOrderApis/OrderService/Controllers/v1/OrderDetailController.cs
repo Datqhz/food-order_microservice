@@ -7,6 +7,7 @@ using OrderService.Features.Commands.OrderDetailCommands.CreateOrderDetail;
 using OrderService.Features.Commands.OrderDetailCommands.ModifyMultipleOrderDetail;
 using OrderService.Features.Commands.OrderDetailCommands.UpdateOrderDetail;
 using OrderService.Features.Queries.OrderDetailQueries.GetAllOrderDetailsByOrderId;
+using OrderService.Features.Queries.OrderQueries.GetInitialOrderByEaterAndMerchant;
 
 namespace OrderService.Controllers.v1;
 
@@ -53,7 +54,7 @@ public class OrderDetailController : ControllerBase
     }
     [Authorize(Policy = "OrderWrite")]
     [HttpPost("modify-multiple")]
-    public async Task<IActionResult> ModifyMultipleOrderDetail([FromBody] List<UpdateOrderDetailInput> input)
+    public async Task<IActionResult> ModifyMultipleOrderDetail([FromBody] List<ModifyOrderDetailInput> input)
     {
         var result = await _mediator.Send(new ModifyMultipleOrderDetailCommand
         {
@@ -61,4 +62,6 @@ public class OrderDetailController : ControllerBase
         });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
     }
+
+    
 }

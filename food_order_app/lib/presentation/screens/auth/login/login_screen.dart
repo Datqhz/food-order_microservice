@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:food_order_app/core/constant.dart';
+import 'package:food_order_app/core/global_val.dart';
+import 'package:food_order_app/core/provider/login_state_provider.dart';
 import 'package:food_order_app/data/requests/login_request.dart';
 import 'package:food_order_app/presentation/screens/eater/home_screen.dart';
 import 'package:food_order_app/repositories/auth_repository.dart';
+import 'package:food_order_app/repositories/user_repository.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -162,11 +166,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               username: username, password: password);
                           var loginResult =
                               await repository.login(request, context);
-                          if (loginResult != null) {
-                            await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const HomeScreen()));
+                          if (loginResult) {
+                            GlobalVariable.currentUser =
+                                await UserRepository().getUserInfoById(context);
+                            Provider.of<LoginStateProvider>(context,
+                                    listen: false)
+                                .login();
+                            Navigator.pop(context);
                           }
                         }
                       },

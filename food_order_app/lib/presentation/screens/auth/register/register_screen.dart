@@ -1,7 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order_app/core/constant.dart';
+import 'package:food_order_app/data/models/role.dart';
+import 'package:food_order_app/data/requests/register_request.dart';
 import 'package:food_order_app/presentation/screens/auth/register/register_result_screen.dart';
 import 'package:food_order_app/presentation/screens/eater/home_screen.dart';
+import 'package:food_order_app/repositories/auth_repository.dart';
+import 'package:food_order_app/repositories/role_repository.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -11,6 +16,26 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _displayNameController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _userNameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final ValueNotifier<String?> _roleSelected = ValueNotifier(null);
+  List<Role>? _roles = [];
+
+  Future<void> _fetchRoleData() async {
+    _roles = await RoleRepository().getAllRole(context);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _fetchRoleData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +60,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 vertical: Constant.padding_verticle_3),
             child: SingleChildScrollView(
               child: Form(
+                key: _formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
@@ -51,6 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: Constant.dimension_12,
                     ),
                     TextFormField(
+                      controller: _displayNameController,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -76,6 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: Constant.dimension_12,
                     ),
                     TextFormField(
+                      controller: _phoneController,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -101,6 +129,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: Constant.dimension_12,
                     ),
                     TextFormField(
+                      controller: _userNameController,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -126,6 +155,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: Constant.dimension_12,
                     ),
                     TextFormField(
+                      controller: _passwordController,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -146,7 +176,57 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             color: Constant.colour_grey,
                             fontWeight: Constant.font_weight_nomal),
                       ),
-                    )
+                    ),
+                    DropdownButtonFormField<String>(
+                      dropdownColor: Colors.white,
+                      style: const TextStyle(
+                        color: Color.fromRGBO(49, 49, 49, 1),
+                      ),
+                      icon: const Icon(
+                        CupertinoIcons.chevron_down,
+                        size: 14,
+                        color: Color.fromRGBO(118, 118, 118, 1),
+                      ),
+                      decoration: const InputDecoration(
+                        border: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Color.fromRGBO(118, 118, 118, 1),
+                              width: 1), // Màu viền khi không được chọn
+                        ),
+                        errorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromRGBO(182, 0, 0, 1),
+                            width: 1,
+                          ),
+                        ),
+                        focusedErrorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromRGBO(182, 0, 0, 1),
+                            width: 1,
+                          ),
+                        ),
+                        errorStyle:
+                            TextStyle(color: Color.fromRGBO(182, 0, 0, 1)),
+                      ),
+                      value: _roleSelected.value,
+                      items: _roles!
+                          .map((item) => DropdownMenuItem<String>(
+                                value: item.roleName,
+                                child: Text(
+                                  item.roleName,
+                                ),
+                              ))
+                          .toList(),
+                      onChanged: (value) {
+                        _roleSelected.value = value;
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please select an option';
+                        }
+                        return null;
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -164,12 +244,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const RegisterResultScreen()));
+                      onPressed: () async {
+                        final displayName = _displayNameController.text.trim();
+                        final phone = _phoneController.text.trim();
+                        final userName = _userNameController.text.trim();
+                        final password = _passwordController.text.trim();
+                        Role? role;
+                        for (var e in _roles!) {
+                          if (e.roleName == _roleSelected.value) {
+                            role = e;
+                          }
+                        }
+                        var result = await AuthRepository().register(
+                            RegisterRequest(
+                                displayName: displayName,
+                                userName: userName,
+                                password: password,
+                                role: role!.roleName,
+                                phoneNumber: phone),
+                            context);
+                        if (result) {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const RegisterResultScreen()));
+                        }
                       },
                       style: TextButton.styleFrom(
                           backgroundColor: Theme.of(context).primaryColorDark,

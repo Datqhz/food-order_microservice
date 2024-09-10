@@ -33,7 +33,9 @@ public class GetAllOrderDetailsByOrderIdHandler : IRequestHandler<GetAllOrderDet
                 {
                     Id = _.Id,
                     OrderId = _.OrderId,
-                    Food = _.Food.AsDto()
+                    Food = _.Food.AsDto(),
+                    Price = _.Price,
+                    Quantity = _.Quantity,
                 }).AsNoTracking().ToListAsync(cancellationToken);
             response.StatusCode = (int)ResponseStatusCode.OK;
             response.StatusText = "Get all order details by order id successfully";

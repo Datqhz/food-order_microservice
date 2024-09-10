@@ -22,9 +22,9 @@ class User {
         id: json['id'],
         displayName: json['displayName'],
         role: json['role'],
-        createdDate: json['createdDate'],
+        createdDate: DateTime.parse(json['createdDate']),
         isActive: json['isActive'],
-        userName: json['usernName'],
+        userName: json['userName'],
         phoneNumber: json['phoneNumber']);
   }
 }

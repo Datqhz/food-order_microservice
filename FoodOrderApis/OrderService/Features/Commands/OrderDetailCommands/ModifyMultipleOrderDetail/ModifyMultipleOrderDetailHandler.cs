@@ -7,10 +7,12 @@ using OrderService.Repositories;
 
 namespace OrderService.Features.Commands.OrderDetailCommands.ModifyMultipleOrderDetail;
 
-public class ModifyMultipleOrderDetailHandler :IRequestHandler<ModifyMultipleOrderDetailCommand, ModifyMultipleOrderDetailResponse>
+public class
+    ModifyMultipleOrderDetailHandler : IRequestHandler<ModifyMultipleOrderDetailCommand,
+    ModifyMultipleOrderDetailResponse>
 {
-    private readonly IUnitOfRepository _unitOfRepository;
     private readonly ILogger<ModifyMultipleOrderDetailHandler> _logger;
+    private readonly IUnitOfRepository _unitOfRepository;
 
     public ModifyMultipleOrderDetailHandler(IUnitOfRepository unitOfRepository,
         ILogger<ModifyMultipleOrderDetailHandler> logger)
@@ -18,51 +20,73 @@ public class ModifyMultipleOrderDetailHandler :IRequestHandler<ModifyMultipleOrd
         _unitOfRepository = unitOfRepository;
         _logger = logger;
     }
-    public async Task<ModifyMultipleOrderDetailResponse> Handle(ModifyMultipleOrderDetailCommand request, CancellationToken cancellationToken)
+
+    public async Task<ModifyMultipleOrderDetailResponse> Handle(ModifyMultipleOrderDetailCommand request,
+        CancellationToken cancellationToken)
     {
         var functionName = nameof(ModifyMultipleOrderDetailHandler);
-        var response = new ModifyMultipleOrderDetailResponse() {StatusCode = (int)ResponseStatusCode.BadRequest};
+        var response = new ModifyMultipleOrderDetailResponse { StatusCode = (int)ResponseStatusCode.BadRequest };
         var payload = request.Payload;
-        try
+        await using (var transaction = await _unitOfRepository.OpenTransactionAsync())
         {
-            _logger.LogInformation($"{functionName} - Start");
-            using (var transaction = _unitOfRepository.OpenTransactionAsync())
+            try
             {
+                _logger.LogInformation($"{functionName} - Start");
                 foreach (var item in payload)
-                {
-                    var orderDetail = await _unitOfRepository.OrderDetail.GetById(item.OrderDetailId);
-                    if (orderDetail == null)
+                    if (item.OrderDetailId != null)
                     {
-                        await _unitOfRepository.RollbackAsync();
-                        response.StatusCode = (int)ResponseStatusCode.NotFound;
-                        response.StatusText += $"Order detail with id {item.OrderDetailId} does not exist.\n";
-                        return response;
+                        var orderDetail = await _unitOfRepository.OrderDetail.GetById(item.OrderDetailId);
+                        if (orderDetail == null)
+                        {
+                            await _unitOfRepository.RollbackAsync();
+                            response.StatusCode = (int)ResponseStatusCode.NotFound;
+                            response.StatusText += $"Order detail with id {item.OrderDetailId} does not exist.\n";
+                            return response;
+                        }
+
+                        if (item.Feature == (int)ModifyFeature.Update)
+                        {
+                            orderDetail.Quantity = item.Quantity;
+                            orderDetail.Price = item.Price;
+                            _unitOfRepository.OrderDetail.Update(orderDetail);
+                        }
+                        else if (item.Feature == (int)ModifyFeature.Delete)
+                        {
+                            _unitOfRepository.OrderDetail.Delete(orderDetail);
+                        }
                     }
-                    if (item.Feature == (int)ModifyFeature.Update)
+                    else
                     {
-                        orderDetail.Quantity = item.Quantity;
-                        orderDetail.Price = item.Price;
-                        _unitOfRepository.OrderDetail.Update(orderDetail);
-                    }else if (item.Feature == (int)ModifyFeature.Delete)
-                    {
-                        _unitOfRepository.OrderDetail.Delete(orderDetail);
+                        if (item.Feature == (int)ModifyFeature.Create)
+                        {
+                            var newOrderDetail = new OrderDetail
+                            {
+                                FoodId = item.FoodId ?? 0,
+                                OrderId = item.OrderId ?? 0,
+                                Price = item.Price,
+                                Quantity = item.Quantity
+                            };
+                            await _unitOfRepository.OrderDetail.Add(newOrderDetail);
+                        }
                     }
-                }
-                await _unitOfRepository.CommitAsync();
+
                 await _unitOfRepository.CompleteAsync();
+                await _unitOfRepository.CommitAsync();
+
+                response.StatusCode = (int)ResponseStatusCode.OK;
+                response.StatusText = "Order details modified successfully.";
+                _logger.LogInformation($"{functionName} - End");
+                return response;
             }
-            response.StatusCode = (int)ResponseStatusCode.OK;
-            response.StatusText = $"Order details modified successfully.";
-            _logger.LogInformation($"{functionName} - End");
-            return response;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError($"{functionName} => Has error: Message = {ex.Message}");
-            response.StatusCode = (int)ResponseStatusCode.InternalServerError;
-            response.StatusText = "Internal Server Error";
-            response.ErrorMessage = ex.Message;
-            return response;
+            catch (Exception ex)
+            {
+                await _unitOfRepository.RollbackAsync();
+                _logger.LogError($"{functionName} => Has error: Message = {ex.Message}");
+                response.StatusCode = (int)ResponseStatusCode.InternalServerError;
+                response.StatusText = "Internal Server Error";
+                response.ErrorMessage = ex.Message;
+                return response;
+            }
         }
     }
 }
