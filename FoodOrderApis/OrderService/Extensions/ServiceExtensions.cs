@@ -74,8 +74,7 @@ public class ServiceExtensions
     public void ConfigureDbContext(IServiceCollection services)
     {  
         var connectionString = _configuration.GetValue<string>("DatabaseSettings:ConnectionString");
-        services.AddDbContext<OrderDbContext>(options => options.UseNpgsql(connectionString,
-            o => { o.EnableRetryOnFailure();}));
+        services.AddDbContext<OrderDbContext>(options => options.UseNpgsql(connectionString));
         //services.AddDbContext<OrderDbContext>();
     }
 

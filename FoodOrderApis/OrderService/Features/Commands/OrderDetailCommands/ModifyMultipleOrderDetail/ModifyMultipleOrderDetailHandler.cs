@@ -32,18 +32,11 @@ public class
             try
             {
                 _logger.LogInformation($"{functionName} - Start");
+
                 foreach (var item in payload)
                     if (item.OrderDetailId != null)
                     {
                         var orderDetail = await _unitOfRepository.OrderDetail.GetById(item.OrderDetailId);
-                        if (orderDetail == null)
-                        {
-                            await _unitOfRepository.RollbackAsync();
-                            response.StatusCode = (int)ResponseStatusCode.NotFound;
-                            response.StatusText += $"Order detail with id {item.OrderDetailId} does not exist.\n";
-                            return response;
-                        }
-
                         if (item.Feature == (int)ModifyFeature.Update)
                         {
                             orderDetail.Quantity = item.Quantity;
@@ -72,7 +65,7 @@ public class
 
                 await _unitOfRepository.CompleteAsync();
                 await _unitOfRepository.CommitAsync();
-
+                
                 response.StatusCode = (int)ResponseStatusCode.OK;
                 response.StatusText = "Order details modified successfully.";
                 _logger.LogInformation($"{functionName} - End");
