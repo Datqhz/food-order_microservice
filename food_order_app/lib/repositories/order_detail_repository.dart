@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:food_order_app/core/global_val.dart';
 import 'package:food_order_app/core/snackbar.dart';
-import 'package:food_order_app/data/models/food.dart';
 import 'package:food_order_app/data/models/order_detail.dart';
 import 'package:food_order_app/data/requests/modify_orderd_detail_request.dart';
 import 'package:http/http.dart';

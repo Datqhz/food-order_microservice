@@ -22,7 +22,6 @@ class FoodItemState extends State<FoodItem> {
 
   @override
   void initState() {
-    // TODO: implement initState
     if (widget.detail != null) {
       _quantity.value = widget.detail!.quantity;
     }

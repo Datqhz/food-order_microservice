@@ -9,6 +9,7 @@ using OrderService.Features.Commands.OrderDetailCommands.CreateOrderDetail;
 using OrderService.Features.Commands.OrderDetailCommands.UpdateOrderDetail;
 using OrderService.Features.Queries.OrderQueries.GetAllOrderByUserId;
 using OrderService.Features.Queries.OrderQueries.GetInitialOrderByEaterAndMerchant;
+using OrderService.Features.Queries.OrderQueries.GetOrderById;
 
 namespace OrderService.Controllers.v1;
 
@@ -23,14 +24,28 @@ public class OrderController
         _mediator = mediator;
     }
     
-    [Authorize(Roles = "OrderRead")]
+    [Authorize(Policy = "OrderRead")]
     [HttpGet("get-by-user")]
-    public async Task<IActionResult> GetOrderByOrderIdAsync([FromQuery] string? eaterId = null, [FromQuery] string? merchantId = null)
+    public async Task<IActionResult> GetOrderByUserIdAsync([FromQuery] string? eaterId = null, [FromQuery] string? merchantId = null)
     {
         var result = await _mediator.Send(new GetAllOrderByUserIdQuery
         {
-            EaterId = eaterId,
-            MerchantId = merchantId
+            Payload = new GetAllOrderByUserIdInput
+            {
+                EaterId = eaterId,
+                MerchantId = merchantId
+            }
+        });
+        return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data);
+    }
+    
+    [Authorize(Policy = "OrderRead")]
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetOrderByOrderId([FromRoute] int id)
+    {
+        var result = await _mediator.Send(new GetOrderByIdQuery
+        {
+            Id = id
         });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data);
     }

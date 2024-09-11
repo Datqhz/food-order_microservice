@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using OrderService.Data.Models;
 using OrderService.Data.Models.Dtos;
 using OrderService.Data.Responses;
+using OrderService.Enums;
 using OrderService.Extensions;
 using OrderService.Repositories;
 
@@ -26,29 +27,28 @@ public class GetAllOrderByUserIdHandler : IRequestHandler<GetAllOrderByUserIdQue
         try
         {
             _logger.LogInformation($"{functionName} - Start");
-            var validator = new GetAllOrderByUserIdValidator();
-            var validationResult = validator.Validate(request);
-            if (!validationResult.IsValid)
+            var payload = request.Payload;
+            List<Order> orders = new List<Order>();
+            if (payload.EaterId != null)
             {
-                _logger.LogError($"{functionName} => Invalid request : Message = {validationResult.ToString("-")}");
-                response.StatusText = validationResult.ToString("~");
-                return response;
+                orders = _unitOfRepository.Order
+                    .Where(o => o.EaterId == payload.EaterId && o.OrderStatus != (int)OrderStatus.Initialize)
+                    .AsNoTracking()
+                    .Include(o =>o.Eater)
+                    .Include(o => o.Merchant)
+                    .ToList();
             }
-            List<Order> orders;
-            if (request.EaterId != null)
+            else if(payload.MerchantId != null)
             {
-                orders = _unitOfRepository.Order.Where(o => o.EaterId == request.EaterId).AsNoTracking().ToList();
-            }
-            else if (request.MerchantId != null)
-            {
-                orders = _unitOfRepository.Order.Where(o => o.MerchantId == request.MerchantId).AsNoTracking().ToList();
-            }
-            else
-            {
-                orders = _unitOfRepository.Order.Where(o => o.MerchantId == request.MerchantId || o.EaterId == request.EaterId).AsNoTracking().ToList();
+                orders = _unitOfRepository.Order
+                    .Where(o => o.MerchantId == payload.MerchantId && o.OrderStatus != (int)OrderStatus.Initialize)
+                    .AsNoTracking()
+                    .Include(o =>o.Eater)
+                    .Include(o => o.Merchant)
+                    .ToList();
             }
             response.StatusCode = (int)ResponseStatusCode.OK;
-            response.StatusText = "Get all orders by eaterid successfully";
+            response.StatusText = "Get all orders by successfully";
             response.Data = orders.Select(o => o.AsDto()).ToList();
             _logger.LogInformation($"{functionName} - End");
             return response;

@@ -12,7 +12,7 @@ class RoleRepository {
       'Content-Type': 'application/json; charset=UTF-8',
     };
     try {
-      var response = await get(Uri.parse("${GlobalVariable.requestUrlPrefix}/api/v1/role"));
+      var response = await get(Uri.parse("${GlobalVariable.requestUrlPrefix}/api/v1/role"), headers: headers);
       var responseBody = json.decode(response.body);
       var statusCode = responseBody['statusCode'];
       if(statusCode == 200){

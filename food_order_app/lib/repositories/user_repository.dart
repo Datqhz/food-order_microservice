@@ -5,7 +5,6 @@ import 'package:food_order_app/core/global_val.dart';
 import 'package:food_order_app/core/jwt_decode.dart';
 import 'package:food_order_app/core/snackbar.dart';
 import 'package:food_order_app/data/models/user.dart';
-import 'package:food_order_app/data/requests/login_request.dart';
 import 'package:food_order_app/data/requests/update_user_request.dart';
 import 'package:http/http.dart';
 import 'package:logger/logger.dart';

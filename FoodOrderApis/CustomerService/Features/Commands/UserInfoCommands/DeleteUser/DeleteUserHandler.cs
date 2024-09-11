@@ -26,8 +26,8 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand>
                 _logger.LogError($"{functionName} => User not found");
                 return;
             }
-
-            var deleteResult = _unitOfRepository.User.Delete(user);
+            user.IsActive = false;
+            var deleteResult = _unitOfRepository.User.Update(user);
             if (deleteResult)
             {
                 await _unitOfRepository.CompleteAsync();

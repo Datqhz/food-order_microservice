@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:food_order_app/core/constant.dart';
 import 'package:food_order_app/core/global_val.dart';
-import 'package:food_order_app/core/snackbar.dart';
 import 'package:food_order_app/data/models/food.dart';
 import 'package:food_order_app/data/models/order.dart';
 import 'package:food_order_app/data/models/order_detail.dart';
 import 'package:food_order_app/data/models/user.dart';
 import 'package:food_order_app/data/requests/get_order_by_userId_request.dart';
 import 'package:food_order_app/data/requests/modify_orderd_detail_request.dart';
+import 'package:food_order_app/presentation/screens/eater/prepare_order_screen.dart';
 import 'package:food_order_app/presentation/widgets/food_item.dart';
 import 'package:food_order_app/repositories/food_repository.dart';
 import 'package:food_order_app/repositories/order_detail_repository.dart';
@@ -156,19 +156,30 @@ class _MerchantDetailScreenState extends State<MerchantDetailScreen> {
                                   size: Constant.dimension_50),
                             );
                           } else {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: Constant.padding_horizontal_2),
-                              child: GridView.count(
-                                  primary: false,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  crossAxisSpacing: 12,
-                                  mainAxisSpacing: 12,
-                                  crossAxisCount: 2,
-                                  childAspectRatio: 0.9,
-                                  children: _loadFoods()),
-                            );
+                            if (_foods.value!.isNotEmpty) {
+                              return Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: Constant.padding_horizontal_2),
+                                child: GridView.count(
+                                    primary: false,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    crossAxisSpacing: 12,
+                                    mainAxisSpacing: 12,
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 0.9,
+                                    children: _loadFoods()),
+                              );
+                            } else {
+                              return Text(
+                                "No food found",
+                                style: TextStyle(
+                                    fontSize: Constant.font_size_4,
+                                    fontWeight: Constant.font_weight_heading2,
+                                    color: Theme.of(context).primaryColorDark),
+                              );
+                            }
                           }
                         }),
                     SizedBox(
@@ -225,12 +236,19 @@ class _MerchantDetailScreenState extends State<MerchantDetailScreen> {
                 child: GestureDetector(
                   onTap: () async {
                     if (!_isOrderEmpty()) {
-                      var result = await OrderDetailRepository()
-                          .modifyMultipleOrderDetails(
-                              _getAllModified(), context);
+                      var modifies = _getAllModified();
+                      var result = true;
+                      if (modifies.isNotEmpty) {
+                        result = await OrderDetailRepository()
+                            .modifyMultipleOrderDetails(modifies, context);
+                      }
                       if (result) {
-                        showSnackBar(context, "Update successful");
-                        
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PrepareOrderScreen(
+                                      orderId: _order.value!.id,
+                                    )));
                       }
                     }
                   },

@@ -55,7 +55,9 @@ public class DeleteFoodHandler : IRequestHandler<DeleteFoodCommand, DeleteFoodRe
             using (HttpClient client = new HttpClient())
             {
                 
-                string url = $"http://localhost:5149/api/v1/food/check-used?foodId={request.Id}";
+                //string url = $"http://localhost:5149/api/v1/food/check-used?foodId={request.Id}";
+                string url = $"http://orderservice:5149/api/v1/food/check-used?foodId={request.Id}";
+
                 try
                 {
                     HttpResponseMessage internalResponse = await client.GetAsync(url);

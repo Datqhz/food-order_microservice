@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:food_order_app/core/constant.dart';
 import 'package:food_order_app/core/global_val.dart';
 import 'package:food_order_app/presentation/screens/eater/home_screen.dart';
+import 'package:food_order_app/presentation/screens/merchant/food_management_screen.dart';
 import 'package:food_order_app/presentation/screens/order_management_screen.dart';
 import 'package:food_order_app/presentation/screens/profile.dart';
 import 'package:food_order_app/presentation/widgets/drawer.dart';
@@ -24,9 +25,9 @@ class _MainScreenState extends State<MainScreen> {
       case 1:
         return const OrderManagementScreen();
       case 2:
-        return const ProfileScreen();
+        return ProfileScreen();
       default:
-        return const HomeScreen();
+        return const FoodManagementScreen();
     }
   }
 

@@ -46,7 +46,6 @@ public class GetInitialOrderByEaterAndMerchantHandler : IRequestHandler<GetIniti
                 response.StatusText = "Merchant doesn't exist";
                 return response;
             }
-
             var order = await _unitOfRepository.Order
                 .Where(o => o.MerchantId == payload.MerchantId && o.EaterId == payload.EaterId &&
                             o.OrderStatus == (int)OrderStatus.Initialize).AsNoTracking()

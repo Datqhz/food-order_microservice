@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:food_order_app/core/global_val.dart';
+import 'package:food_order_app/core/jwt_decode.dart';
 import 'package:food_order_app/core/snackbar.dart';
+import 'package:food_order_app/data/requests/change_password_request.dart';
 import 'package:food_order_app/data/requests/login_request.dart';
 import 'package:food_order_app/data/requests/register_request.dart';
 import 'package:food_order_app/data/responses/login_response.dart';
@@ -65,6 +67,65 @@ class AuthRepository {
     } catch (e) {
       print(e.toString());
       showSnackBar(context, "Can't register");
+      return false;
+    }
+  }
+
+  Future<bool> changePassword(
+      ChangePasswordRequest request, BuildContext context) async {
+    Map<String, String> headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ${GlobalVariable.loginResponse!.accessToken}'
+    };
+    try {
+      var response = await put(
+          Uri.parse(
+              '${GlobalVariable.requestUrlPrefix}/api/v1/user/update-user'),
+          headers: headers,
+          body: jsonEncode(request.toJson()));
+
+      Map<String, dynamic> responseBody = json.decode(response.body);
+      var statusCode = responseBody["statusCode"];
+      switch (statusCode) {
+        case 200:
+          return true;
+        default:
+          showSnackBar(context, responseBody['statusText']);
+          print(responseBody["errors"]);
+          return false;
+      }
+    } catch (e) {
+      print(e.toString());
+      showSnackBar(context, "Failed");
+      return false;
+    }
+  }
+
+  Future<bool> deleteAccount(BuildContext context) async {
+    Map<String, String> headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ${GlobalVariable.loginResponse!.accessToken}'
+    };
+    try {
+      var response = await delete(
+        Uri.parse(
+            '${GlobalVariable.requestUrlPrefix}/api/v1/user/delete-user/${JWTHelper.getCurrentUid(GlobalVariable.loginResponse!.accessToken)}'),
+        headers: headers,
+      );
+
+      Map<String, dynamic> responseBody = json.decode(response.body);
+      var statusCode = responseBody["statusCode"];
+      switch (statusCode) {
+        case 200:
+          return true;
+        default:
+          showSnackBar(context, responseBody['statusText']);
+          print(responseBody["errors"]);
+          return false;
+      }
+    } catch (e) {
+      print(e.toString());
+      showSnackBar(context, "Failed");
       return false;
     }
   }

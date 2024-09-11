@@ -14,6 +14,8 @@ public static class DtoExtensions
             MerchantId = order.MerchantId,
             OrderedDate = order.OrderedDate,
             OrderStatus = order.OrderStatus,
+            Eater  = order.Eater?.AsDto(),
+            Merchant = order.Merchant?.AsDto(),
         };
     }
 
@@ -34,6 +36,16 @@ public static class DtoExtensions
             Name = food.Name,
             ImageUrl = food.ImageUrl,
             Describe = food.Describe
+        };
+    }
+
+    public static UserDto AsDto(this User user)
+    {
+        return new UserDto
+        {
+            Id = user.UserId,
+            DisplayName = user.DisplayName,
+            PhoneNumber = user.PhoneNumber,
         };
     }
 }
