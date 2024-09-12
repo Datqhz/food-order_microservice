@@ -65,7 +65,11 @@ class _FoodManagementScreenState extends State<FoodManagementScreen> {
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(horizontal: Constant.padding_horizontal_2),
+      padding: EdgeInsets.only(
+          top: Constant.padding_verticle_4,
+          bottom: Constant.padding_verticle_5,
+          left: Constant.padding_horizontal_2,
+          right: Constant.padding_horizontal_2),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

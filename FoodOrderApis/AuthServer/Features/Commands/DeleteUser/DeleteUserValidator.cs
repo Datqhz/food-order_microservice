@@ -6,6 +6,10 @@ public class DeleteUserValidator : AbstractValidator<DeleteUserCommand>
 {
     public DeleteUserValidator()
     {
-        RuleFor(p => p.UserId).NotNull().NotEmpty().WithMessage("UserId is required.");
+        RuleFor(p => p.UserId)
+            .Cascade(CascadeMode.Stop)
+            .NotNull()
+            .NotEmpty()
+            .WithMessage("UserId is required.");
     }
 }

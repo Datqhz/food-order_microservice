@@ -70,7 +70,7 @@ public class CreateFoodHandler : IRequestHandler<CreateFoodCommand, CreateFoodRe
         }
         catch (Exception ex)
         {
-            _logger.LogError($"{functionName} => Has error : Message = {ex.Message}");
+            _logger.LogError(ex, $"{functionName} => Has error : Message = {ex.Message}");
             response.StatusCode = (int)HttpStatusCode.InternalServerError;
             response.StatusText = "Internal Server Error";
             response.ErrorMessage = ex.Message;

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:food_order_app/core/global_val.dart';
 import 'package:food_order_app/core/jwt_decode.dart';
 import 'package:food_order_app/core/snackbar.dart';
+import 'package:food_order_app/data/models/dto/merchant_with_paging.dart';
 import 'package:food_order_app/data/models/user.dart';
 import 'package:food_order_app/data/requests/update_user_request.dart';
 import 'package:http/http.dart';
@@ -38,15 +39,19 @@ class UserRepository {
     }
   }
 
-  Future<List<User>?> getAllMerchants(BuildContext context) async {
+  Future<List<User>?> getAllMerchants(BuildContext context, {int? page, int? maxPerPage}) async {
     Map<String, String> headers = {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ${GlobalVariable.loginResponse!.accessToken}'
     };
     try {
+      var uri = '${GlobalVariable.requestUrlPrefix}/api/v1/customer/all-merchants';
+      if(page!= null && maxPerPage!= null){
+        uri += '?Page=$page&MaxPerPage=$maxPerPage';
+      }
       var response = await get(
         Uri.parse(
-            '${GlobalVariable.requestUrlPrefix}/api/v1/customer/all-merchants'),
+            uri),
         headers: headers,
       );
 
@@ -132,6 +137,37 @@ class UserRepository {
       logger.e(e.toString());
       showSnackBar(context, "Some error arise in process");
       return false;
+    }
+  }
+
+  Future<MerchantsWithPaging?> searchMerchantsByName(String keyword, BuildContext context, {int? page, int? maxPerPage}) async {
+    Map<String, String> headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ${GlobalVariable.loginResponse!.accessToken}'
+    };
+    try {
+      var uri = '${GlobalVariable.requestUrlPrefix}/api/v1/customer/search-by-name?Keyword=$keyword';
+      if(page!= null && maxPerPage!= null){
+        uri += '&Page=$page&MaxPerPage=$maxPerPage';
+      }
+      var response = await get(
+        Uri.parse(
+            uri),
+        headers: headers,
+      );
+
+      Map<String, dynamic> responseBody = json.decode(response.body);
+      var statusCode = responseBody["statusCode"];
+      if (statusCode == 200) {
+        return MerchantsWithPaging.fromJson(responseBody);
+      }
+      showSnackBar(context, responseBody["statusText"]);
+      print(responseBody["errorMessage"]);
+      return null;
+    } catch (e) {
+      print(e.toString());
+      showSnackBar(context, "Get all merchants failed");
+      return null;
     }
   }
 }

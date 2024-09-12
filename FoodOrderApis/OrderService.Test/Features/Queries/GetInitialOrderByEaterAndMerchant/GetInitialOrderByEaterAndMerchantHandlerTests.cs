@@ -52,7 +52,7 @@ public class GetInitialOrderByEaterAndMerchantHandlerTests
         _unitOfRepositoryMock.Setup(p => p.User.GetById(merchant.UserId)).ReturnsAsync(eater);
         _unitOfRepositoryMock.Setup(p => p.Order.Where(It.IsAny<Expression<Func<Order, bool>>>())).Returns(order);
 
-        var input = new GetInitialOrderByEaterAndMerchantInput
+        var input = new GetInitialOrderByEaterAndMerchantRequest
         {
             EaterId = eater.UserId,
             MerchantId = merchant.UserId,
@@ -90,7 +90,7 @@ public class GetInitialOrderByEaterAndMerchantHandlerTests
         _unitOfRepositoryMock.Setup(p => p.Order.Where(It.IsAny<Expression<Func<Order, bool>>>())).Returns(orders);
         _unitOfRepositoryMock.Setup(p => p.Order.Add(It.IsAny<Order>())).ReturnsAsync(new Order());
 
-        var input = new GetInitialOrderByEaterAndMerchantInput
+        var input = new GetInitialOrderByEaterAndMerchantRequest
         {
             EaterId = eater.UserId,
             MerchantId = merchant.UserId,
@@ -114,7 +114,7 @@ public class GetInitialOrderByEaterAndMerchantHandlerTests
         
         _unitOfRepositoryMock.Setup(p => p.User.GetById(It.IsAny<string>())).ReturnsAsync((User) null);
 
-        var input = new GetInitialOrderByEaterAndMerchantInput
+        var input = new GetInitialOrderByEaterAndMerchantRequest
         {
             EaterId = "aaaa",
             MerchantId = "dddd",
@@ -141,7 +141,7 @@ public class GetInitialOrderByEaterAndMerchantHandlerTests
         _unitOfRepositoryMock.Setup(p => p.User.GetById(eater.UserId)).ReturnsAsync(eater);
         _unitOfRepositoryMock.Setup(p => p.User.GetById(It.IsAny<string>())).ReturnsAsync((User) null);
 
-        var input = new GetInitialOrderByEaterAndMerchantInput
+        var input = new GetInitialOrderByEaterAndMerchantRequest
         {
             EaterId = eater.UserId,
             MerchantId = "dddd",
@@ -165,7 +165,7 @@ public class GetInitialOrderByEaterAndMerchantHandlerTests
         
         _unitOfRepositoryMock.Setup(p => p.User.GetById(It.IsAny<string>())).ThrowsAsync(new Exception());
 
-        var input = new GetInitialOrderByEaterAndMerchantInput
+        var input = new GetInitialOrderByEaterAndMerchantRequest
         {
             EaterId = "aaaa",
             MerchantId = "dddd",

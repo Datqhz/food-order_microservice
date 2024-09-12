@@ -5,6 +5,7 @@ using FoodService.Features.Commands.FoodCommands.DeleteFoodCommands;
 using FoodService.Features.Commands.FoodCommands.UpdateFoodCommands;
 using FoodService.Features.Queries.FoodQueries.GetAllFoodByUserId;
 using FoodService.Features.Queries.FoodQueries.GetFoodById;
+using FoodService.Features.Queries.FoodQueries.SearchFoodByName;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,18 +42,18 @@ public class FoodController : ControllerBase
 
     [Authorize(Policy = "FoodWrite")]
     [HttpPost]
-    public async Task<IActionResult> CreateFood([FromBody] CreateFoodInput input)
+    public async Task<IActionResult> CreateFood([FromBody] CreateFoodRequest request)
     {
-        var result = await _mediator.Send(new CreateFoodCommand{Payload = input});
+        var result = await _mediator.Send(new CreateFoodCommand{Payload = request});
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateFood([FromBody] UpdateFoodInput input)
+    public async Task<IActionResult> UpdateFood([FromBody] UpdateFoodRequest request)
     {
         var result = await _mediator.Send(new UpdateFoodCommand
         {
-            Payload = input
+            Payload = request
         });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
     }
@@ -62,5 +63,15 @@ public class FoodController : ControllerBase
     {
         var resutl = await _mediator.Send(new DeleteFoodCommand{Id = id});
         return ResponseHelper.ToResponse(resutl.StatusCode, resutl.StatusText, resutl.ErrorMessage);
+    }
+    
+    [HttpGet("search-by-name")]
+    public async Task<IActionResult> GetFoodById([FromQuery] SearchFoodsByNameRequest request)
+    {
+        var result = await _mediator.Send(new SearchFoodsByNameQuery
+        {
+            Payload = request
+        });
+        return ResponseHelper.ToPaginationResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data, result.Paging);
     }
 }

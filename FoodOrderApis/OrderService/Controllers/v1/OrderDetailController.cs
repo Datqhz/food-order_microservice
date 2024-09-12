@@ -34,27 +34,27 @@ public class OrderDetailController : ControllerBase
     }
     [Authorize(Policy = "OrderWrite")]
     [HttpPost]
-    public async Task<IActionResult> CreateOrderDetail([FromBody] CreateOrderDetailInput input)
+    public async Task<IActionResult> CreateOrderDetail([FromBody] CreateOrderDetailRequest request)
     {
         var result = await _mediator.Send(new CreateOrderDetailCommand
         {
-            Payload = input
+            Payload = request
         });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
     }
     [Authorize(Policy = "OrderWrite")]
     [HttpPut]
-    public async Task<IActionResult> UpdateOrderDetail([FromBody] UpdateOrderDetailInput input)
+    public async Task<IActionResult> UpdateOrderDetail([FromBody] UpdateOrderDetailRequest request)
     {
         var result = await _mediator.Send(new UpdateOrderDetailCommand
         {
-            Payload = input
+            Payload = request
         });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
     }
     [Authorize(Policy = "OrderWrite")]
     [HttpPost("modify-multiple")]
-    public async Task<IActionResult> ModifyMultipleOrderDetail([FromBody] List<ModifyOrderDetailInput> input)
+    public async Task<IActionResult> ModifyMultipleOrderDetail([FromBody] List<ModifyOrderDetailRequest> input)
     {
         var result = await _mediator.Send(new ModifyMultipleOrderDetailCommand
         {

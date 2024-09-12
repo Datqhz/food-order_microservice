@@ -6,5 +6,5 @@ namespace OrderService.Features.Queries.OrderQueries.GetAllOrderByUserId;
 
 public class GetAllOrderByUserIdQuery : IRequest<GetAllOrderByUserIdResponse>
 {
-    public GetAllOrderByUserIdInput Payload { get; set; }
+    public GetAllOrderByUserIdRequest Payload { get; set; }
 }

@@ -5,5 +5,5 @@ namespace OrderService.Features.Commands.FoodCommands.UpdateFood;
 
 public class UpdateFoodCommand : IRequest
 {
-    public ModifyFoodInput Payload { get; set; }
+    public ModifyFoodRequest Payload { get; set; }
 }

@@ -45,7 +45,7 @@ public class GetAllOrderByUserIdHandlerTests
 
         var query = new GetAllOrderByUserIdQuery
         {
-            Payload = new GetAllOrderByUserIdInput
+            Payload = new GetAllOrderByUserIdRequest
             {
                 EaterId = eaterId
             }
@@ -75,7 +75,7 @@ public class GetAllOrderByUserIdHandlerTests
 
         var query = new GetAllOrderByUserIdQuery
         {
-            Payload = new GetAllOrderByUserIdInput
+            Payload = new GetAllOrderByUserIdRequest
             {
                 MerchantId = merchantId
             }
@@ -98,7 +98,7 @@ public class GetAllOrderByUserIdHandlerTests
 
         var query = new GetAllOrderByUserIdQuery
         {
-            Payload = new GetAllOrderByUserIdInput
+            Payload = new GetAllOrderByUserIdRequest
             {
                 MerchantId = "aaaaa"
             }

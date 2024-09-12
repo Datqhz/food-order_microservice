@@ -31,7 +31,7 @@ public class UpdateOrderDetailHandlerTests
     public async Task Handle_ShouldReturn_StatusOK()
     {
         // Arrange
-        var request = new UpdateOrderDetailInput
+        var request = new UpdateOrderDetailRequest
         {
             OrderDetailId = 1,
             Quantity = 1,
@@ -59,7 +59,7 @@ public class UpdateOrderDetailHandlerTests
     public async Task Handle_ShouldReturn_StatusNotFound()
     {
         // Arrange
-        var request = new UpdateOrderDetailInput
+        var request = new UpdateOrderDetailRequest
         {
             OrderDetailId = 1,
             Quantity = 1,
@@ -86,7 +86,7 @@ public class UpdateOrderDetailHandlerTests
     public async Task Handle_ShouldReturn_StatusInternalServerError()
     {
         // Arrange
-        var request = new UpdateOrderDetailInput
+        var request = new UpdateOrderDetailRequest
         {
             OrderDetailId = 1,
             Quantity = 1,

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FoodOrderApis.Common.Models.Dtos;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FoodOrderApis.Common.Helpers;
 
@@ -18,7 +19,19 @@ public static class ResponseHelper
             StatusCode = httpStatusCode,
             StatusText = statusText,
             ErrorMessage = errorMessage,
-            data = data
+            Data = data
         }){StatusCode = httpStatusCode};
+    }
+    public static ObjectResult ToPaginationResponse(int httpStatusCode, string statusText, string errorMessage,  object data = null, PagingDto paging = null)
+    {
+        return new ObjectResult(new
+            {
+                StatusCode = httpStatusCode,
+                StatusText = statusText,
+                ErrorMessage = errorMessage,
+                Data = data,
+                Paging = paging
+            })
+            { StatusCode = httpStatusCode };
     }
 }

@@ -8,7 +8,7 @@ namespace OrderService.Test.Features.Queries.GetInitialOrderByEaterAndMerchant;
 public class GetInitialOrderByEaterAndMerchantValidatorTests
 {
     private readonly GetInitialOrderByEaterAndMerchantValidator _validator;
-    private GetInitialOrderByEaterAndMerchantInput _validRequest;
+    private GetInitialOrderByEaterAndMerchantRequest _validRequest;
 
     public GetInitialOrderByEaterAndMerchantValidatorTests()
     {
@@ -18,7 +18,7 @@ public class GetInitialOrderByEaterAndMerchantValidatorTests
     [SetUp]
     public void Setup()
     {
-        _validRequest = new GetInitialOrderByEaterAndMerchantInput
+        _validRequest = new GetInitialOrderByEaterAndMerchantRequest
         {
             EaterId = "aaaaa",
             MerchantId = "bbbbb",
@@ -67,7 +67,7 @@ public class GetInitialOrderByEaterAndMerchantValidatorTests
     public void Validate_ShouldBeInvalid_WhenGivenInvalidEaterId(string invalidEaterId)
     {
         // arrange
-        var request = new GetInitialOrderByEaterAndMerchantInput
+        var request = new GetInitialOrderByEaterAndMerchantRequest
         {
             EaterId = invalidEaterId,
             MerchantId = _validRequest.MerchantId,
@@ -88,7 +88,7 @@ public class GetInitialOrderByEaterAndMerchantValidatorTests
     public void Validate_ShouldBeInvalid_WhenGivenInvalidMerchantId(string invalidMerchantId)
     {
         // arrange
-        var request = new GetInitialOrderByEaterAndMerchantInput
+        var request = new GetInitialOrderByEaterAndMerchantRequest
         {
             EaterId = _validRequest.EaterId,
             MerchantId = invalidMerchantId,

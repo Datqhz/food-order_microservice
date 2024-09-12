@@ -1,5 +1,4 @@
 import 'package:food_order_app/data/models/user.dart';
-import 'package:food_order_app/data/requests/login_request.dart';
 import 'package:food_order_app/data/responses/login_response.dart';
 
 class GlobalVariable {

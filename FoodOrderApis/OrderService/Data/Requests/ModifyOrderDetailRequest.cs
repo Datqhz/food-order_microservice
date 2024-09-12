@@ -1,6 +1,6 @@
 ﻿namespace OrderService.Data.Requests;
 
-public class ModifyOrderDetailInput
+public class ModifyOrderDetailRequest
 {
     public int? OrderDetailId { get; set; }
     public int? OrderId { get; set; }

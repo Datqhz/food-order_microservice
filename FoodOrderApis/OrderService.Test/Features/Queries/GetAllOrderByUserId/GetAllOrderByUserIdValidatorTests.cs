@@ -9,7 +9,7 @@ public class GetAllOrderByUserIdValidatorTests
 {
     
     private readonly GetAllOrderByUserIdValidator _validator;
-    private GetAllOrderByUserIdInput _validRequest;
+    private GetAllOrderByUserIdRequest _validRequest;
 
     public GetAllOrderByUserIdValidatorTests()
     {
@@ -19,7 +19,7 @@ public class GetAllOrderByUserIdValidatorTests
     [SetUp]
     public void Setup()
     {
-        _validRequest = new GetAllOrderByUserIdInput
+        _validRequest = new GetAllOrderByUserIdRequest
         {
             EaterId = "aaaa"
         };
@@ -55,7 +55,7 @@ public class GetAllOrderByUserIdValidatorTests
     public void Validate_ShouldBeInvalid_WhenGivenInvalidEaterId(string invalidUserId)
     {
 
-        var request = new GetAllOrderByUserIdInput
+        var request = new GetAllOrderByUserIdRequest
         {
             EaterId = invalidUserId
         };
@@ -73,7 +73,7 @@ public class GetAllOrderByUserIdValidatorTests
     public void Validate_ShouldBeInvalid_WhenGivenInvalidMerchantId(string invalidUserId)
     {
 
-        var request = new GetAllOrderByUserIdInput
+        var request = new GetAllOrderByUserIdRequest
         {
             EaterId = invalidUserId
         };

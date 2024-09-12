@@ -9,7 +9,7 @@ namespace FoodService.Test.Features.Commands.CreateFood;
 public class CreateFoodValidatorTests
 {
     private readonly CreateFoodValidator _validator;
-    private CreateFoodInput _validRequest = new ();
+    private CreateFoodRequest _validRequest = new ();
 
     public CreateFoodValidatorTests()
     {
@@ -19,7 +19,7 @@ public class CreateFoodValidatorTests
     [SetUp]
     public void Setup()
     {
-        _validRequest = new CreateFoodInput
+        _validRequest = new CreateFoodRequest
         {
             Name = "Test",
             Describe = "aaa",
@@ -81,7 +81,7 @@ public class CreateFoodValidatorTests
     [Test, TestCaseSource(nameof(InvalidNameTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_Name(string invalidName)
     {
-        var request = new CreateFoodInput
+        var request = new CreateFoodRequest
         {
             Name = invalidName,
             Describe = _validRequest.Describe,
@@ -100,7 +100,7 @@ public class CreateFoodValidatorTests
     [Test, TestCaseSource(nameof(InvalidImageUrlTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_ImageUrl(string invalidImageUrl)
     {
-        var request = new CreateFoodInput
+        var request = new CreateFoodRequest
         {
             Name = _validRequest.Name,
             Describe = _validRequest.Describe,
@@ -119,7 +119,7 @@ public class CreateFoodValidatorTests
     [Test, TestCaseSource(nameof(InvalidUserIdTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_(string invalidUserId)
     {
-        var request = new CreateFoodInput
+        var request = new CreateFoodRequest
         {
             Name = _validRequest.Name,
             Describe = _validRequest.Describe,
@@ -138,7 +138,7 @@ public class CreateFoodValidatorTests
     [Test, TestCaseSource(nameof(InvalidPriceTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_Price(decimal invalidPrice)
     {
-        var request = new CreateFoodInput
+        var request = new CreateFoodRequest
         {
             Name = _validRequest.Name,
             Describe = _validRequest.Describe,

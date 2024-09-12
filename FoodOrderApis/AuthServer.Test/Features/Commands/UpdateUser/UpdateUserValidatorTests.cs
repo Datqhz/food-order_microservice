@@ -9,7 +9,7 @@ namespace AuthServer.Test.Features.Commands.UpdateUser;
 public class UpdateUserValidatorTests
 {
     private readonly UpdateUserValidator _validator;
-    private UpdateUserInput _validInput;
+    private UpdateUserRequest _validRequest;
 
     public UpdateUserValidatorTests()
     {
@@ -19,7 +19,7 @@ public class UpdateUserValidatorTests
     [SetUp]
     public void Setup()
     {
-        _validInput = new UpdateUserInput()
+        _validRequest = new UpdateUserRequest()
         { 
             UserId = "a",
             OldPassword = "String123@",
@@ -59,7 +59,7 @@ public class UpdateUserValidatorTests
     {
         var command = new UpdateUserCommand()
         {
-            Payload = _validInput
+            Payload = _validRequest
         };
         
         var act = _validator.Validate(command);
@@ -70,11 +70,11 @@ public class UpdateUserValidatorTests
     [Test, TestCaseSource(nameof(InvalidUserIdTestCases))]
     public void Validate_ShouldBeInvalid_WhenGivenInvalid_UserId(string invalidUserId)
     {
-        var invalidInput = new UpdateUserInput()
+        var invalidInput = new UpdateUserRequest()
         {
             UserId = invalidUserId,
-            OldPassword = _validInput.OldPassword,
-            NewPassword = _validInput.NewPassword,
+            OldPassword = _validRequest.OldPassword,
+            NewPassword = _validRequest.NewPassword,
         };
         var command = new UpdateUserCommand()
         {
@@ -88,11 +88,11 @@ public class UpdateUserValidatorTests
     [Test, TestCaseSource(nameof(InvalidUserIdTestCases))]
     public void Validate_ShouldBeInvalid_WhenGivenInvalid_OldPassword(string invalidPassword)
     {
-        var invalidInput = new UpdateUserInput()
+        var invalidInput = new UpdateUserRequest()
         {
-            UserId = _validInput.UserId,
+            UserId = _validRequest.UserId,
             OldPassword = invalidPassword,
-            NewPassword = _validInput.NewPassword,
+            NewPassword = _validRequest.NewPassword,
         };
         var command = new UpdateUserCommand()
         {
@@ -107,10 +107,10 @@ public class UpdateUserValidatorTests
     [Test, TestCaseSource(nameof(InvalidUserIdTestCases))]
     public void Validate_ShouldBeInvalid_WhenGivenInvalid_NewPassword(string invalidPassword)
     {
-        var invalidInput = new UpdateUserInput()
+        var invalidInput = new UpdateUserRequest()
         {
-            UserId = _validInput.UserId,
-            OldPassword = _validInput.OldPassword,
+            UserId = _validRequest.UserId,
+            OldPassword = _validRequest.OldPassword,
             NewPassword = invalidPassword,
         };
         var command = new UpdateUserCommand()

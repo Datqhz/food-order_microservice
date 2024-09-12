@@ -6,5 +6,5 @@ namespace CustomerService.Features.Commands.UserInfoCommands.UpdateUser;
 
 public class UpdateUserCommand : IRequest<UpdateUserInfoResponse>
 {
-    public UpdateUserInfoInput Payload { get; set; }
+    public UpdateUserInfoRequest Payload { get; set; }
 }

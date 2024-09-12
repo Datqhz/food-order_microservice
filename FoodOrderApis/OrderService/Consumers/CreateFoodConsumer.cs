@@ -25,7 +25,7 @@ public class CreateFoodConsumer : IConsumer<CreateFood>
         {
             var message = context.Message;
             _logger.LogInformation($"{functionName} Message = {JsonSerializer.Serialize(message)}");
-            var input = new ModifyFoodInput
+            var input = new ModifyFoodRequest
             {
                 FoodId = message.Id,
                 Name = message.Name,

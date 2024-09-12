@@ -31,7 +31,7 @@ public class CreateOrderDetailHandlerTests
     public async Task Handle_ShouldReturn_StatusCreated()
     {
         // Arrange
-        var request = new CreateOrderDetailInput
+        var request = new CreateOrderDetailRequest
         {
             FoodId = 1,
             OrderId = 1,
@@ -61,7 +61,7 @@ public class CreateOrderDetailHandlerTests
     public async Task Handle_ShouldReturn_StatusNotFound_Order()
     {
         // Arrange
-        var request = new CreateOrderDetailInput
+        var request = new CreateOrderDetailRequest
         {
             FoodId = 1,
             OrderId = 1,
@@ -87,7 +87,7 @@ public class CreateOrderDetailHandlerTests
     public async Task Handle_ShouldReturn_StatusNotFound_Food()
     {
         // Arrange
-        var request = new CreateOrderDetailInput
+        var request = new CreateOrderDetailRequest
         {
             FoodId = 1,
             OrderId = 1,
@@ -114,7 +114,7 @@ public class CreateOrderDetailHandlerTests
     public async Task Handle_ShouldReturn_StatusInternalServerError()
     {
         // Arrange
-        var request = new CreateOrderDetailInput
+        var request = new CreateOrderDetailRequest
         {
             FoodId = 1,
             OrderId = 1,

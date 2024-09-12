@@ -10,7 +10,7 @@ namespace AuthServer.Test.Features.Commands.Login;
 public class LoginValidatorTests
 {
     private readonly LoginValidator _validator;
-    private LoginInput _validInput = new ();
+    private LoginRequest _validRequest = new ();
 
     public LoginValidatorTests()
     {
@@ -20,7 +20,7 @@ public class LoginValidatorTests
     [SetUp]
     public void Setup()
     {
-        _validInput = new LoginInput
+        _validRequest = new LoginRequest
         {
             Username = "yamato",
             Password = "String123@",
@@ -66,7 +66,7 @@ public class LoginValidatorTests
     {
         var command = new LoginCommand
         {
-            Payload = _validInput
+            Payload = _validRequest
         };
         var actual = await _validator.ValidateAsync(command);
         actual.IsValid.Should().BeTrue();
@@ -74,10 +74,10 @@ public class LoginValidatorTests
     [Test, TestCaseSource(nameof(InvalidUsernameTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGivenInvalid_UserName(string invalidUserName)
     {
-        var request = new LoginInput
+        var request = new LoginRequest
         {
             Username = invalidUserName,
-            Password = _validInput.Password
+            Password = _validRequest.Password
         };
         var command = new LoginCommand
         {
@@ -89,9 +89,9 @@ public class LoginValidatorTests
     [Test, TestCaseSource(nameof(InvalidPasswordTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGivenInvalid_Password(string invalidPassword)
     {
-        var request = new LoginInput
+        var request = new LoginRequest
         {
-            Username = _validInput.Username,
+            Username = _validRequest.Username,
             Password = invalidPassword
         };
         var command = new LoginCommand

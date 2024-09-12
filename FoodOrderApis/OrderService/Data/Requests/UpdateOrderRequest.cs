@@ -1,7 +1,7 @@
 ﻿namespace OrderService.Data.Requests;
 
-public class UpdateOrderInput
+public class UpdateOrderRequest
 {
     public int OrderId { get; set; }
-    public int OrderStatus { get; set; }
+    public bool? Cancellation { get; set; }
 }

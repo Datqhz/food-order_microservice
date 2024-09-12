@@ -8,7 +8,7 @@ namespace OrderService.Test.Features.Commands.CreateOrderDetail;
 public class CreateOrderDetailValidatorTests
 {
     private readonly CreateOrderDetailValidator _validator;
-    private CreateOrderDetailInput _validInput;
+    private CreateOrderDetailRequest _validRequest;
 
     public CreateOrderDetailValidatorTests()
     {
@@ -18,7 +18,7 @@ public class CreateOrderDetailValidatorTests
     [SetUp]
     public void Setup()
     {
-        _validInput = new CreateOrderDetailInput
+        _validRequest = new CreateOrderDetailRequest
         {
             OrderId = 1,
             FoodId = 1,
@@ -51,7 +51,7 @@ public class CreateOrderDetailValidatorTests
     {
         var command = new CreateOrderDetailCommand
         {
-            Payload = _validInput,
+            Payload = _validRequest,
         };
         var actual = _validator.Validate(command);
         
@@ -64,12 +64,12 @@ public class CreateOrderDetailValidatorTests
     {
         var command = new CreateOrderDetailCommand
         {
-            Payload = new CreateOrderDetailInput
+            Payload = new CreateOrderDetailRequest
             {
-                OrderId = _validInput.OrderId,
-                FoodId = _validInput.FoodId,
+                OrderId = _validRequest.OrderId,
+                FoodId = _validRequest.FoodId,
                 Price = invalidPrice,
-                Quantity = _validInput.Quantity
+                Quantity = _validRequest.Quantity
             },
         };
         var actual = _validator.Validate(command);
@@ -82,11 +82,11 @@ public class CreateOrderDetailValidatorTests
     {
         var command = new CreateOrderDetailCommand
         {
-            Payload = new CreateOrderDetailInput
+            Payload = new CreateOrderDetailRequest
             {
-                OrderId = _validInput.OrderId,
-                FoodId = _validInput.FoodId,
-                Price = _validInput.Price,
+                OrderId = _validRequest.OrderId,
+                FoodId = _validRequest.FoodId,
+                Price = _validRequest.Price,
                 Quantity = invalidQuantity
             },
         };

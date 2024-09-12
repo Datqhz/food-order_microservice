@@ -9,7 +9,7 @@ namespace CustomerService.Test.Features.Commands.UpdateUser;
 public class UpdateUserValidatorTests
 {
     private readonly UpdateUserValidator _validator;
-    private UpdateUserInfoInput _validRequest = new();
+    private UpdateUserInfoRequest _validRequest = new();
 
     public UpdateUserValidatorTests()
     {
@@ -19,7 +19,7 @@ public class UpdateUserValidatorTests
     [SetUp]
     public void Setup()
     {
-        _validRequest = new UpdateUserInfoInput
+        _validRequest = new UpdateUserInfoRequest
         {
             Id = "a",
             DisplayName = "Yamato",
@@ -80,7 +80,7 @@ public class UpdateUserValidatorTests
     [Test, TestCaseSource(nameof(InvalidIdTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_Id(string invalidId)
     {
-        var request = new UpdateUserInfoInput
+        var request = new UpdateUserInfoRequest
         {
             Id = invalidId,
             DisplayName = _validRequest.DisplayName,
@@ -97,7 +97,7 @@ public class UpdateUserValidatorTests
     [Test, TestCaseSource(nameof(InvalidDisplayNameTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_DisplayName(string invalidDisplayName)
     {
-        var request = new UpdateUserInfoInput
+        var request = new UpdateUserInfoRequest
         {
             Id = _validRequest.Id,
             DisplayName = invalidDisplayName,
@@ -114,7 +114,7 @@ public class UpdateUserValidatorTests
     [Test, TestCaseSource(nameof(InvalidPhoneNumberTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_PhoneNumber(string invalidPhoneNumber)
     {
-        var request = new UpdateUserInfoInput
+        var request = new UpdateUserInfoRequest
         {
             Id = _validRequest.Id,
             DisplayName = _validRequest.DisplayName,

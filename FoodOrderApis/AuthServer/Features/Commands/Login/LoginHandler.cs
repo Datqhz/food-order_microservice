@@ -112,7 +112,7 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
         }
         catch (Exception ex)
         {
-            _logger.LogError($"{functionName} => Error : Message = {ex.Message}");
+            _logger.LogError(ex, $"{functionName} => Error : Message = {ex.Message}");
             loginResponse.StatusCode = (int)ResponseStatusCode.InternalServerError;
             loginResponse.StatusText = "Internal server error";
             loginResponse.ErrorMessage = ex.Message;

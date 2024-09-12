@@ -197,12 +197,12 @@ class _PrepareOrderScreenState extends State<PrepareOrderScreen> {
                         child: TextButton(
                           onPressed: () async {
                             var request = UpdateOrderRequest(
-                                orderId: widget.orderId, orderStatus: 2);
+                                orderId: widget.orderId);
                             var result = await OrderRepository()
                                 .update(request, context);
                             if (result) {
                               showSnackBar(context, "Order successful");
-                              Navigator.pop(context);
+                              Navigator.pop(context, true);
                             }
                           },
                           style: TextButton.styleFrom(

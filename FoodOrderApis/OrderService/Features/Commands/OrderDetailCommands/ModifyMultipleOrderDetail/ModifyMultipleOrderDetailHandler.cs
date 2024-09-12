@@ -74,7 +74,7 @@ public class
             catch (Exception ex)
             {
                 await _unitOfRepository.RollbackAsync();
-                _logger.LogError($"{functionName} => Has error: Message = {ex.Message}");
+                _logger.LogError(ex, $"{functionName} => Has error: Message = {ex.Message}");
                 response.StatusCode = (int)ResponseStatusCode.InternalServerError;
                 response.StatusText = "Internal Server Error";
                 response.ErrorMessage = ex.Message;

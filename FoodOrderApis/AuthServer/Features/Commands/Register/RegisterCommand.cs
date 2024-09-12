@@ -7,5 +7,5 @@ namespace AuthServer.Features.Commands.Register;
 
 public class RegisterCommand : IRequest<RegisterResponse>
 {
-    public RegisterInput Payload { get; set; }
+    public RegisterRequest Payload { get; set; }
 }

@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:food_order_app/core/constant.dart';
 import 'package:food_order_app/core/global_val.dart';
-import 'package:food_order_app/core/jwt_decode.dart';
-import 'package:food_order_app/core/provider/login_state_provider.dart';
 import 'package:food_order_app/core/snackbar.dart';
 import 'package:food_order_app/data/requests/change_password_request.dart';
-import 'package:food_order_app/data/requests/login_request.dart';
 import 'package:food_order_app/repositories/auth_repository.dart';
-import 'package:food_order_app/repositories/user_repository.dart';
-import 'package:provider/provider.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
@@ -100,6 +95,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             value.trim().length < 5) {
                           return "Current password must be between 8 and 16 characters";
                         }
+                        return null;
                       },
                     ),
                     SizedBox(
@@ -134,6 +130,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             value.trim().length < 8) {
                           return "New password must be between 8 and 16 characters";
                         }
+                        return null;
                       },
                     )
                   ],

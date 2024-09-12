@@ -1,6 +1,6 @@
 ﻿namespace CustomerService.Data.Requests;
 
-public class UpdateUserInfoInput
+public class UpdateUserInfoRequest
 {
     public string Id { get; set; }
     public string DisplayName { get; set; }

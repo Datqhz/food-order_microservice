@@ -6,5 +6,5 @@ namespace OrderService.Features.Commands.OrderDetailCommands.CreateOrderDetail;
 
 public class CreateOrderDetailCommand : IRequest<CreateOrderDetailResponse>
 {
-    public CreateOrderDetailInput Payload { get; set; }
+    public CreateOrderDetailRequest Payload { get; set; }
 }

@@ -33,18 +33,20 @@ public class GetAllOrderByUserIdHandler : IRequestHandler<GetAllOrderByUserIdQue
             {
                 orders = _unitOfRepository.Order
                     .Where(o => o.EaterId == payload.EaterId && o.OrderStatus != (int)OrderStatus.Initialize)
-                    .AsNoTracking()
                     .Include(o =>o.Eater)
                     .Include(o => o.Merchant)
+                    .AsNoTracking()
+                    .OrderByDescending(o => o.OrderedDate)
                     .ToList();
             }
-            else if(payload.MerchantId != null)
+            else
             {
                 orders = _unitOfRepository.Order
                     .Where(o => o.MerchantId == payload.MerchantId && o.OrderStatus != (int)OrderStatus.Initialize)
-                    .AsNoTracking()
                     .Include(o =>o.Eater)
                     .Include(o => o.Merchant)
+                    .AsNoTracking()
+                    .OrderByDescending(o => o.OrderedDate)
                     .ToList();
             }
             response.StatusCode = (int)ResponseStatusCode.OK;
@@ -55,7 +57,7 @@ public class GetAllOrderByUserIdHandler : IRequestHandler<GetAllOrderByUserIdQue
         }
         catch (Exception ex)
         {
-            _logger.LogError($"{functionName} => Has error : Message =  {ex.Message}");
+            _logger.LogError(ex,$"{functionName} => Has error : Message =  {ex.Message}");
             response.StatusCode = (int)ResponseStatusCode.InternalServerError;
             response.StatusText = "Internal Server Error";
             response.ErrorMessage = ex.Message;

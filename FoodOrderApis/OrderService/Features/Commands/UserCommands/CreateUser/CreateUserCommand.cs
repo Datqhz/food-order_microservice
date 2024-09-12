@@ -6,5 +6,5 @@ namespace OrderService.Features.Commands.UserCommands.CreateUser;
 
 public class CreateUserCommand : IRequest
 {
-    public ModifyUserInput Payload { get; set; }
+    public ModifyUserRequest Payload { get; set; }
 }

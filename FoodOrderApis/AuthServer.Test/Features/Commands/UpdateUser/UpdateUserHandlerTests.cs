@@ -50,7 +50,7 @@ public class UpdateUserHandlerTests
     public async Task Handle_ShouldReturn_StatusOK()
     {
         var user = _fixture.Build<User>().Create();
-        var payload = new UpdateUserInput
+        var payload = new UpdateUserRequest
         {
             UserId = user.Id,
             OldPassword = "String123@",
@@ -78,7 +78,7 @@ public class UpdateUserHandlerTests
     public async Task Handle_ShouldReturn_StatusForbidden()
     {
         var user = _fixture.Build<User>().Create();
-        var payload = new UpdateUserInput
+        var payload = new UpdateUserRequest
         {
             UserId = user.Id,
             OldPassword = "String123@",
@@ -103,7 +103,7 @@ public class UpdateUserHandlerTests
     public async Task Handle_ShouldReturn_StatusNotFound()
     {
         var user = _fixture.Build<User>().Create();
-        var payload = new UpdateUserInput
+        var payload = new UpdateUserRequest
         {
             UserId = user.Id,
             OldPassword = "String123@",
@@ -128,7 +128,7 @@ public class UpdateUserHandlerTests
     [Test] public async Task Handle_ShouldReturn_StatusInternalServerError()
     {
         var user = _fixture.Build<User>().Create();
-        var payload = new UpdateUserInput
+        var payload = new UpdateUserRequest
         {
             UserId = user.Id,
             OldPassword = "String123@",

@@ -8,7 +8,7 @@ namespace FoodService.Test.Features.Commands.UpdateFood;
 public class UpdateFoodValidatorTests
 {
  private readonly UpdateFoodValidator _validator;
-    private UpdateFoodInput _validRequest = new();
+    private UpdateFoodRequest _validRequest = new();
 
     public UpdateFoodValidatorTests()
     {
@@ -18,7 +18,7 @@ public class UpdateFoodValidatorTests
     [SetUp]
     public void Setup()
     {
-        _validRequest = new UpdateFoodInput
+        _validRequest = new UpdateFoodRequest
         {
             Id = 1,
             Name = "Name",
@@ -78,7 +78,7 @@ public class UpdateFoodValidatorTests
     [Test, TestCaseSource(nameof(InvalidIdTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalidId(int invalidId)
     {
-        var request = new UpdateFoodInput
+        var request = new UpdateFoodRequest
         {
             Id = invalidId,
             Name = _validRequest.Name,
@@ -97,7 +97,7 @@ public class UpdateFoodValidatorTests
     [Test, TestCaseSource(nameof(InvalidNameTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalidName(string invalidName)
     {
-        var request = new UpdateFoodInput
+        var request = new UpdateFoodRequest
         {
             Id = _validRequest.Id,
             Name = invalidName,
@@ -116,7 +116,7 @@ public class UpdateFoodValidatorTests
     [Test, TestCaseSource(nameof(InvalidPriceTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalidPrice(decimal invalidPrice)
     {
-        var request = new UpdateFoodInput
+        var request = new UpdateFoodRequest
         {
             Id = _validRequest.Id,
             Name = _validRequest.Name,
@@ -134,7 +134,7 @@ public class UpdateFoodValidatorTests
     [Test, TestCaseSource(nameof(InvalidImageUrlTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalidImageUrl(string invalidImageUrl)
     {
-        var request = new UpdateFoodInput
+        var request = new UpdateFoodRequest
         {
             Id = _validRequest.Id,
             Name = _validRequest.Name,

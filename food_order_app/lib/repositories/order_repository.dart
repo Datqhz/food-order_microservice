@@ -18,7 +18,7 @@ class OrderRepository {
     try {
       var response = await get(
           Uri.parse(
-              '${GlobalVariable.requestUrlPrefix}/api/v1/order/get-by-eater-merchant?eaterId=${request.eaterId}&merchantId=${request.merchantId}'),
+              '${GlobalVariable.requestUrlPrefix}/api/v1/order/get-by-eater-merchant?EaterId=${request.eaterId}&MerchantId=${request.merchantId}'),
           headers: headers);
 
       Map<String, dynamic> responseBody = json.decode(response.body);
@@ -94,8 +94,7 @@ class OrderRepository {
     }
   }
 
-  Future<Order?> getOrderById(
-      int orderId, BuildContext context) async {
+  Future<Order?> getOrderById(int orderId, BuildContext context) async {
     Map<String, String> headers = {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ${GlobalVariable.loginResponse!.accessToken}'
@@ -103,7 +102,7 @@ class OrderRepository {
     try {
       var requestUrl =
           '${GlobalVariable.requestUrlPrefix}/api/v1/order/$orderId';
-    
+
       var response = await get(Uri.parse(requestUrl), headers: headers);
 
       Map<String, dynamic> responseBody = json.decode(response.body);

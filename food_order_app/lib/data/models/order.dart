@@ -1,5 +1,4 @@
 import 'package:food_order_app/data/models/brief_user.dart';
-import 'package:food_order_app/data/models/user.dart';
 
 class Order {
   int id;

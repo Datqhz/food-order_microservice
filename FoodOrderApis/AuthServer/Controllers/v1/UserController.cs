@@ -21,9 +21,9 @@ public class UserController : ControllerBase
         _mediator = mediator;
     }
     [HttpPut("update-user")]
-    public async Task<IActionResult> UpdateUser([FromBody] UpdateUserInput input)
+    public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRequest request)
     {
-        var result = await _mediator.Send(new UpdateUserCommand { Payload = input });
+        var result = await _mediator.Send(new UpdateUserCommand { Payload = request });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
     }
     

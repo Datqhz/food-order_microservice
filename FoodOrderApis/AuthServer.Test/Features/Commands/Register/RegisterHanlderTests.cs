@@ -55,7 +55,7 @@ public class RegisterHanlderTests
         var clientId = _fixture.Create<string>();
         var clients = _fixture.Build<Client>().With(c => c.ClientId, clientId).CreateMany(1).AsQueryable().BuildMock();
         var users = _fixture.Build<User>().CreateMany(0).AsQueryable().BuildMock();
-        var request = new RegisterInput
+        var request = new RegisterRequest
         {
             Displayname = "abcd",
             ClientId = clientId,
@@ -86,7 +86,7 @@ public class RegisterHanlderTests
     {
         // Arrange
         var clients = _fixture.Build<Client>().CreateMany(0).AsQueryable().BuildMock();
-        var request = new RegisterInput
+        var request = new RegisterRequest
         {
             Displayname = "abcd",
             ClientId = "nbnb",
@@ -116,7 +116,7 @@ public class RegisterHanlderTests
         var clientId = _fixture.Create<string>();
         var clients = _fixture.Build<Client>().With(c => c.ClientId, clientId).CreateMany(1).AsQueryable().BuildMock();
         var users = _fixture.Build<User>().CreateMany(1).AsQueryable().BuildMock();
-        var request = new RegisterInput
+        var request = new RegisterRequest
         {
             Displayname = "abcd",
             ClientId = clientId,
@@ -147,7 +147,7 @@ public class RegisterHanlderTests
         var clientId = _fixture.Create<string>();
         var clients = _fixture.Build<Client>().With(c => c.ClientId, clientId).CreateMany(1).AsQueryable().BuildMock();
         var users = _fixture.Build<User>().CreateMany(0).AsQueryable().BuildMock();
-        var request = new RegisterInput
+        var request = new RegisterRequest
         {
             Displayname = "abcd",
             ClientId = clientId,

@@ -31,7 +31,7 @@ public class CreateOrderHandlerTests
     public async Task Handle_ShouldReturn_StatusCreated()
     {
         // Arrange
-        var input = _fixture.Create<CreateOrderInput>();
+        var input = _fixture.Create<CreateOrderRequest>();
         var user = _fixture.Create<User>();
         
         _unitOfRepositoryMock.Setup(p => p.User.GetById(It.IsAny<string>())).ReturnsAsync(user);
@@ -54,7 +54,7 @@ public class CreateOrderHandlerTests
     public async Task Handle_ShouldReturn_StatusNotFound_User()
     {
         // Arrange
-        var input = _fixture.Create<CreateOrderInput>();
+        var input = _fixture.Create<CreateOrderRequest>();
         
         _unitOfRepositoryMock.Setup(p => p.User.GetById(It.IsAny<string>())).ReturnsAsync((User)null);
         var command = new CreateOrderCommand
@@ -74,7 +74,7 @@ public class CreateOrderHandlerTests
     public async Task Handle_ShouldReturn_StatusInternalServerError()
     {
         // Arrange
-        var input = _fixture.Create<CreateOrderInput>();
+        var input = _fixture.Create<CreateOrderRequest>();
         
         _unitOfRepositoryMock.Setup(p => p.User.GetById(It.IsAny<string>())).ThrowsAsync(new Exception());
         var command = new CreateOrderCommand

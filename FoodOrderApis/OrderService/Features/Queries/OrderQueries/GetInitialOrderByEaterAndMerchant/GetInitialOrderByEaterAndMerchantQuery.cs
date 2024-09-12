@@ -6,5 +6,5 @@ namespace OrderService.Features.Queries.OrderQueries.GetInitialOrderByEaterAndMe
 
 public class GetInitialOrderByEaterAndMerchantQuery : IRequest<GetInitialOrderByEaterAndMerchantResponse>
 {
-    public GetInitialOrderByEaterAndMerchantInput Payload { get; set; }
+    public GetInitialOrderByEaterAndMerchantRequest Payload { get; set; }
 }

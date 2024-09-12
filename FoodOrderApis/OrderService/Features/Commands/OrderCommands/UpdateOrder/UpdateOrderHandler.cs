@@ -1,4 +1,5 @@
 ﻿using FoodOrderApis.Common.Helpers;
+using FoodOrderApis.Common.HttpContextCustom;
 using MediatR;
 using OrderService.Data.Models;
 using OrderService.Data.Responses;
@@ -11,11 +12,13 @@ public class UpdateOrderHandler : IRequestHandler<UpdateOrderCommand, UpdateOrde
 {
     private readonly IUnitOfRepository _unitOfRepository;
     private readonly ILogger<UpdateOrderHandler> _logger;
+    private readonly ICustomHttpContextAccessor _httpContext;
 
-    public UpdateOrderHandler(IUnitOfRepository unitOfRepository, ILogger<UpdateOrderHandler> logger)
+    public UpdateOrderHandler(IUnitOfRepository unitOfRepository, ILogger<UpdateOrderHandler> logger, ICustomHttpContextAccessor httpContext)
     {
         _unitOfRepository = unitOfRepository;
         _logger = logger;
+        _httpContext = httpContext;
     }
     public async Task<UpdateOrderResponse> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
     {
@@ -33,10 +36,41 @@ public class UpdateOrderHandler : IRequestHandler<UpdateOrderCommand, UpdateOrde
                 response.StatusText = $"Order with id {payload.OrderId} does not exist";
                 return response;
             }
-            order.OrderStatus = payload.OrderStatus;
-            if (payload.OrderStatus == (int)OrderStatus.Preparing)
+            if (order.OrderStatus == (int)OrderStatus.Cancelled)
             {
+                _logger.LogError($"{functionName} => Can't update this order");
+                response.StatusCode = (int)ResponseStatusCode.BadRequest;
+                response.StatusText = $"Can't update this order";
+                return response;
+            }
+            var userId = _httpContext.GetCurrentUserId();
+            if (order.OrderStatus == (int)OrderStatus.Preparing && payload.Cancellation == true)
+            {
+                if (order.EaterId != userId)
+                {
+                    response.StatusCode = (int)ResponseStatusCode.Forbidden;
+                    response.StatusText = $"Permision denied";
+                    return response;
+                }
+                order.OrderStatus = (int)OrderStatus.Cancelled;
+            }
+            else
+            {
+                if (order.MerchantId != userId && order.EaterId != userId)
+                {
+                    response.StatusCode = (int)ResponseStatusCode.Forbidden;
+                    response.StatusText = $"Permision denied";
+                    return response;
+                }
                 order.OrderedDate = DateTime.Now;
+                if (payload.Cancellation == true)
+                {
+                    _logger.LogError($"{functionName} => Can't cancel this order");
+                    response.StatusCode = (int)ResponseStatusCode.BadRequest;
+                    response.StatusText = $"Can't cancel this order";
+                    return response;
+                }
+                order.OrderStatus += 1;
             }
 
             var saveResult = _unitOfRepository.Order.Update(order);
@@ -55,7 +89,7 @@ public class UpdateOrderHandler : IRequestHandler<UpdateOrderCommand, UpdateOrde
         }
         catch (Exception ex)
         {
-            _logger.LogError($"{functionName} => Has error : Message = {ex.Message}");
+            _logger.LogError(ex, $"{functionName} => Has error : Message = {ex.Message}");
             response.StatusCode = (int)ResponseStatusCode.InternalServerError;
             response.StatusText = "Internal Server Error";
             response.ErrorMessage = ex.Message;

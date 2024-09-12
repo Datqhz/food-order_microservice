@@ -34,7 +34,7 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand>
         }
         catch (Exception ex)
         {
-            _logger.LogError($"{functionName} => Has error : Message = {ex.Message}");
+            _logger.LogError(ex,$"{functionName} => Has error : Message = {ex.Message}");
         }
     }
 }

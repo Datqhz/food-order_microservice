@@ -8,7 +8,7 @@ namespace OrderService.Test.Features.Commands.UpdateOrderDetail;
 public class UpdateOrderDetailValidatorTests
 {
     private readonly UpdateOrderDetailValidator _validator;
-    private UpdateOrderDetailInput _validInput;
+    private UpdateOrderDetailRequest _validRequest;
 
     public UpdateOrderDetailValidatorTests()
     {
@@ -18,7 +18,7 @@ public class UpdateOrderDetailValidatorTests
     [SetUp]
     public void Setup()
     {
-        _validInput = new UpdateOrderDetailInput
+        _validRequest = new UpdateOrderDetailRequest
         {
             OrderDetailId = 1,
             Price = 10000,
@@ -60,7 +60,7 @@ public class UpdateOrderDetailValidatorTests
     {
         var command = new UpdateOrderDetailCommand
         {
-            Payload = _validInput,
+            Payload = _validRequest,
         };
         var actual = _validator.Validate(command);
         
@@ -75,11 +75,11 @@ public class UpdateOrderDetailValidatorTests
         Console.WriteLine(invalidOrderDetailId);
         var command = new UpdateOrderDetailCommand
         {
-            Payload = new UpdateOrderDetailInput
+            Payload = new UpdateOrderDetailRequest
             {
                 OrderDetailId = invalidOrderDetailId,
-                Price = _validInput.Price,
-                Quantity = _validInput.Quantity
+                Price = _validRequest.Price,
+                Quantity = _validRequest.Quantity
             },
         };
         var actual = _validator.Validate(command);
@@ -94,11 +94,11 @@ public class UpdateOrderDetailValidatorTests
         Console.WriteLine(invalidPrice);
         var command = new UpdateOrderDetailCommand
         {
-            Payload = new UpdateOrderDetailInput
+            Payload = new UpdateOrderDetailRequest
             {
-                OrderDetailId = _validInput.OrderDetailId,
+                OrderDetailId = _validRequest.OrderDetailId,
                 Price = invalidPrice,
-                Quantity = _validInput.Quantity
+                Quantity = _validRequest.Quantity
             },
         };
         var actual = _validator.Validate(command);
@@ -111,10 +111,10 @@ public class UpdateOrderDetailValidatorTests
     {
         var command = new UpdateOrderDetailCommand
         {
-            Payload = new UpdateOrderDetailInput
+            Payload = new UpdateOrderDetailRequest
             {
-                OrderDetailId = _validInput.OrderDetailId,
-                Price = _validInput.Price,
+                OrderDetailId = _validRequest.OrderDetailId,
+                Price = _validRequest.Price,
                 Quantity = invalidQuantity
             },
         };

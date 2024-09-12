@@ -8,7 +8,7 @@ namespace OrderService.Test.Features.Commands.ModifyMultipleOrderDetails;
 public class ModifyMultipleOrderDetailsValidatorTests
 {
     private readonly ModifyMultipleOrderDetailValidator _validator;
-    private List<ModifyOrderDetailInput> _validRequest;
+    private List<ModifyOrderDetailRequest> _validRequest;
     public ModifyMultipleOrderDetailsValidatorTests()
     {
         _validator = new ModifyMultipleOrderDetailValidator();
@@ -17,9 +17,9 @@ public class ModifyMultipleOrderDetailsValidatorTests
     [SetUp]
     public void Setup()
     {
-        _validRequest = new List<ModifyOrderDetailInput>()
+        _validRequest = new List<ModifyOrderDetailRequest>()
         {
-            new ModifyOrderDetailInput
+            new ModifyOrderDetailRequest
             {
                 OrderDetailId = 1,
                 Price = 10000,
@@ -35,7 +35,7 @@ public class ModifyMultipleOrderDetailsValidatorTests
     {
         yield return new TestCaseData(null)
             .SetName("Payload cannot be null");
-        yield return new TestCaseData(new List<ModifyOrderDetailInput>())
+        yield return new TestCaseData(new List<ModifyOrderDetailRequest>())
             .SetName("Payload cannot be empty");
     }
     
@@ -75,7 +75,7 @@ public class ModifyMultipleOrderDetailsValidatorTests
     }
 
     [Test, TestCaseSource(nameof(InvalidPayloadTestCases))]
-    public void Validate_ShouldNotBeValid_WhenGivenInvalidPayload(List<ModifyOrderDetailInput> invalidPayload)
+    public void Validate_ShouldNotBeValid_WhenGivenInvalidPayload(List<ModifyOrderDetailRequest> invalidPayload)
     {
         var command = new ModifyMultipleOrderDetailCommand() { Payload = invalidPayload };
         
@@ -86,9 +86,9 @@ public class ModifyMultipleOrderDetailsValidatorTests
     [Test, TestCaseSource(nameof(InvalidFeatureTestCases))]
     public void Validate_ShouldBeInvalid_WhenGivenInvalidFeature(int invalidFeature)
     {
-        List<ModifyOrderDetailInput> request = new List<ModifyOrderDetailInput>()
+        List<ModifyOrderDetailRequest> request = new List<ModifyOrderDetailRequest>()
         {
-            new ModifyOrderDetailInput
+            new ModifyOrderDetailRequest
             {
                 OrderDetailId = _validRequest[0].OrderDetailId,
                 Feature = invalidFeature,
@@ -109,9 +109,9 @@ public class ModifyMultipleOrderDetailsValidatorTests
     [Test, TestCaseSource(nameof(InvalidPriceTestCases))]
     public void Validate_ShouldBeInvalid_WhenGivenInvalidPrice(decimal invalidPrice)
     {
-        List<ModifyOrderDetailInput> request = new List<ModifyOrderDetailInput>()
+        List<ModifyOrderDetailRequest> request = new List<ModifyOrderDetailRequest>()
         {
-            new ModifyOrderDetailInput
+            new ModifyOrderDetailRequest
             {
                 OrderDetailId = _validRequest[0].OrderDetailId,
                 Feature = _validRequest[0].Feature,
@@ -131,9 +131,9 @@ public class ModifyMultipleOrderDetailsValidatorTests
     [Test, TestCaseSource(nameof(InvalidQuantityTestCases))]
     public void Validate_ShouldBeInvalid_WhenGivenInvalidQuantity(int invalidQuantity)
     {
-        List<ModifyOrderDetailInput> request = new List<ModifyOrderDetailInput>()
+        List<ModifyOrderDetailRequest> request = new List<ModifyOrderDetailRequest>()
         {
-            new ModifyOrderDetailInput
+            new ModifyOrderDetailRequest
             {
                 OrderDetailId = _validRequest[0].OrderDetailId,
                 Feature = _validRequest[0].Feature,

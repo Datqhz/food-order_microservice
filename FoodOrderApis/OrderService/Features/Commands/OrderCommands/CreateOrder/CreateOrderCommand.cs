@@ -6,5 +6,5 @@ namespace OrderService.Features.Commands.OrderCommands.CreateOrder;
 
 public class CreateOrderCommand : IRequest<CreateOrderResponse>
 {
-    public CreateOrderInput Payload { get; set; }
+    public CreateOrderRequest Payload { get; set; }
 }

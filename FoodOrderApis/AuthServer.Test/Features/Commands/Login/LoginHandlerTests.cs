@@ -37,7 +37,7 @@ public class LoginHandlerTests
     public async Task Handle_ShouldReturn_StatusOK()
     {
         // Arrange
-        var input = new LoginInput
+        var input = new LoginRequest
         {
             Username = "yamato",
             Password = "String123@"

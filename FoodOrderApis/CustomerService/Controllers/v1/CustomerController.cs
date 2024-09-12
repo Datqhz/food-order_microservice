@@ -4,6 +4,7 @@ using CustomerService.Features.Commands.UserInfoCommands.UpdateUser;
 using CustomerService.Features.Queries.UserInfoQueries.GetAllMerchant;
 using CustomerService.Features.Queries.UserInfoQueries.GetAllUserInfo;
 using CustomerService.Features.Queries.UserInfoQueries.GetUserInfoById;
+using CustomerService.Features.Queries.UserInfoQueries.SearchMerchantsByName;
 using FoodOrderApis.Common.Helpers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -37,24 +38,37 @@ public class CustomerController : ControllerBase
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data);
     }
     /*[HttpPost]
-    public async Task<IActionResult> CreateCustomer([FromBody] CreateUserInfoInput input)
+    public async Task<IActionResult> CreateCustomer([FromBody] CreateUserInfoRequest request)
     {
-        var result = await _mediator.Send(new CreateUserCommand{Payload = input});
+        var result = await _mediator.Send(new CreateUserCommand{Payload = request});
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
     }*/
 
     [HttpPut]
-    public async Task<IActionResult> UpdateCustomer([FromBody] UpdateUserInfoInput input)
+    public async Task<IActionResult> UpdateCustomer([FromBody] UpdateUserInfoRequest request)
     {
-        var result = await _mediator.Send(new UpdateUserCommand(){Payload = input});
+        var result = await _mediator.Send(new UpdateUserCommand(){Payload = request});
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
     }
 
-    
+
     [HttpGet("all-merchants")]
-    public async Task<IActionResult> GetAllMerchants()
+    public async Task<IActionResult> GetAllMerchants([FromQuery] GetAllMerchantRequest? input)
+
     {
-        var result = await _mediator.Send(new GetAllMerchantQuery());
-        return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data);
+        var result = await _mediator.Send(new GetAllMerchantQuery
+        {
+            Payload = input
+        });
+        return ResponseHelper.ToPaginationResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data, result.Paging);
+    }
+    [HttpGet("search-by-name")]
+    public async Task<IActionResult> SearchMerchantsByName([FromQuery] SearchMerchantByNameRequest request)
+    {
+        var result = await _mediator.Send(new SearchMerchantsByNameQuery
+        {
+            Payload = request
+        });
+        return ResponseHelper.ToPaginationResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data, result.Paging);
     }
 }

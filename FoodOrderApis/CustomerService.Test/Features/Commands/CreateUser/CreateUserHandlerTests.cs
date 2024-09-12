@@ -30,7 +30,7 @@ public class CreateUserHandlerTests
     public async Task Handle_ShouldReturn_StatusCreated()
     {
         // Arrange
-        var input = _fixture.Build<CreateUserInfoInput>().With(x => x.PhoneNumber, "0323232323").Create();
+        var input = _fixture.Build<CreateUserInfoRequest>().With(x => x.PhoneNumber, "0323232323").Create();
         _unitOfRepositoryMock.Setup(p => p.User.Add(It.IsAny<UserInfo>())).ReturnsAsync(new UserInfo());
 
         var command = new CreateUserCommand
@@ -49,7 +49,7 @@ public class CreateUserHandlerTests
     public async Task Handle_ShouldReturn_StatusInternalServerError()
     {
         // Arrange
-        var input = _fixture.Build<CreateUserInfoInput>().With(x => x.PhoneNumber, "0323232323").Create();
+        var input = _fixture.Build<CreateUserInfoRequest>().With(x => x.PhoneNumber, "0323232323").Create();
         _unitOfRepositoryMock.Setup(p => p.User.Add(It.IsAny<UserInfo>())).ThrowsAsync(new Exception());
 
         var command = new CreateUserCommand

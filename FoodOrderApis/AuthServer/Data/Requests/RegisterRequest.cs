@@ -1,6 +1,6 @@
 ﻿namespace AuthServer.Data.Requests;
 
-public class RegisterInput
+public class RegisterRequest
 {
     public string Displayname { get; set; }
     public string Username { get; set; }

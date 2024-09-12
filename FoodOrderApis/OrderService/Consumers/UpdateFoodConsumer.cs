@@ -26,7 +26,7 @@ public class UpdateFoodConsumer : IConsumer<UpdateFood>
             _logger.LogInformation($"{functionName} Message = {JsonSerializer.Serialize(message)}");
             await _mediator.Send(new UpdateFoodCommand
             {
-                Payload = new ModifyFoodInput
+                Payload = new ModifyFoodRequest
                 {
                     FoodId = message.Id,
                     Name = message.Name,

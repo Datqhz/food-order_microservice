@@ -7,5 +7,5 @@ namespace AuthServer.Features.Commands.Login;
 
 public class LoginCommand : IRequest<LoginResponse>
 {
-    public LoginInput Payload { get; set; }
+    public LoginRequest Payload { get; set; }
 }

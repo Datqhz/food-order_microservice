@@ -56,7 +56,7 @@ public class CreateFoodHandlerTests
             UserId = userId
         };
 
-        var request = new CreateFoodInput
+        var request = new CreateFoodRequest
         {
             UserId = userId,
             Name = "Test",
@@ -95,7 +95,7 @@ public class CreateFoodHandlerTests
         var userId = _fixture.Create<Guid>().ToString();
 
         var users = _fixture.Build<User>().CreateMany(0).AsQueryable().BuildMock();
-        var request = _fixture.Build<CreateFoodInput>().With(p => p.UserId, userId).Create();
+        var request = _fixture.Build<CreateFoodRequest>().With(p => p.UserId, userId).Create();
         var command = new CreateFoodCommand
         {
             Payload = request
@@ -116,7 +116,7 @@ public class CreateFoodHandlerTests
     public async Task Handler_ShouldReturn_StatusInternalServerError()
     {
         // Arrange
-        var request = _fixture.Build<CreateFoodInput>().Create();
+        var request = _fixture.Build<CreateFoodRequest>().Create();
         var command = new CreateFoodCommand
         {
             Payload = request

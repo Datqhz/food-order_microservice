@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:food_order_app/core/global_val.dart';
 import 'package:food_order_app/core/provider/login_state_provider.dart';
 import 'package:food_order_app/core/stream/change_stream.dart';
+import 'package:food_order_app/core/utils/string_format.dart';
 import 'package:food_order_app/presentation/screens/change_password_screen.dart';
 import 'package:food_order_app/presentation/screens/modify_profile_screen.dart';
 import 'package:food_order_app/presentation/screens/setting_screen.dart';
@@ -69,10 +70,8 @@ class ProfileScreen extends StatelessWidget {
                 builder: (context) => const ChangePasswordScreen()));
       }, false),
       _optionItem('Setting', Colors.black, () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const SettingScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const SettingScreen()));
       }, false),
       _optionItem('Sign out', Colors.red, () async {
         GlobalVariable.currentUser = null;
@@ -116,7 +115,7 @@ class ProfileScreen extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              GlobalVariable.currentUser!.role,
+                              capitalize(GlobalVariable.currentUser!.role),
                               maxLines: 1,
                               style: const TextStyle(
                                 fontSize: 18.0,

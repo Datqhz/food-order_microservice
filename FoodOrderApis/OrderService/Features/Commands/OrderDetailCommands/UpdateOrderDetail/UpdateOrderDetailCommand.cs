@@ -6,5 +6,5 @@ namespace OrderService.Features.Commands.OrderDetailCommands.UpdateOrderDetail;
 
 public class UpdateOrderDetailCommand : IRequest<UpdateOrderDetailResponse>
 {
-    public UpdateOrderDetailInput Payload { get; set; }
+    public UpdateOrderDetailRequest Payload { get; set; }
 }

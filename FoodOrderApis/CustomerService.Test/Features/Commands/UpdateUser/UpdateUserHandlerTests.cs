@@ -40,7 +40,7 @@ public class UpdateUserHandlerTests
         // Arrange
         var userId = _fixture.Create<Guid>().ToString();
         var user = _fixture.Build<UserInfo>().With(x => x.Id, userId).Create();
-        var input = _fixture.Build<UpdateUserInfoInput>().With(x => x.Id, userId).With(x => x.PhoneNumber, "0323121452").Create();
+        var input = _fixture.Build<UpdateUserInfoRequest>().With(x => x.Id, userId).With(x => x.PhoneNumber, "0323121452").Create();
         
         _httpContextAccessorMock.Setup(p => p.GetCurrentUserId()).Returns(userId);
         _unitOfRepositoryMock.Setup(p => p.User.GetById(It.IsAny<string>())).ReturnsAsync(user);
@@ -64,7 +64,7 @@ public class UpdateUserHandlerTests
     {
         // Arrange
         var userId = _fixture.Create<Guid>().ToString();
-        var input = _fixture.Build<UpdateUserInfoInput>().With(x => x.PhoneNumber, "0323121452").Create();
+        var input = _fixture.Build<UpdateUserInfoRequest>().With(x => x.PhoneNumber, "0323121452").Create();
         
         _httpContextAccessorMock.Setup(p => p.GetCurrentUserId()).Returns(userId);
 
@@ -86,7 +86,7 @@ public class UpdateUserHandlerTests
     {
         // Arrange
         var userId = _fixture.Create<Guid>().ToString();
-        var input = _fixture.Build<UpdateUserInfoInput>().With(x => x.Id, userId).With(x => x.PhoneNumber, "0323121452").Create();
+        var input = _fixture.Build<UpdateUserInfoRequest>().With(x => x.Id, userId).With(x => x.PhoneNumber, "0323121452").Create();
         
         _httpContextAccessorMock.Setup(p => p.GetCurrentUserId()).Returns(userId);
         _unitOfRepositoryMock.Setup(p => p.User.GetById(It.IsAny<string>())).ReturnsAsync((UserInfo)null);
@@ -109,7 +109,7 @@ public class UpdateUserHandlerTests
     {
         // Arrange
         var userId = _fixture.Create<Guid>().ToString();
-        var input = _fixture.Build<UpdateUserInfoInput>().With(x => x.Id, userId).With(x => x.PhoneNumber, "0323121452").Create();
+        var input = _fixture.Build<UpdateUserInfoRequest>().With(x => x.Id, userId).With(x => x.PhoneNumber, "0323121452").Create();
         
         _httpContextAccessorMock.Setup(p => p.GetCurrentUserId()).Throws(new Exception("Error"));
 

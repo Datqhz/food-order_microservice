@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:food_order_app/core/provider/login_state_provider.dart';
-import 'package:food_order_app/presentation/screens/eater/home_screen.dart';
 import 'package:food_order_app/presentation/screens/main_screen.dart';
 import 'package:food_order_app/presentation/screens/onboarding_screen.dart';
 import 'package:provider/provider.dart';

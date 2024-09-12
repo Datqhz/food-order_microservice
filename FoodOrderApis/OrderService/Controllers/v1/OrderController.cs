@@ -26,15 +26,11 @@ public class OrderController
     
     [Authorize(Policy = "OrderRead")]
     [HttpGet("get-by-user")]
-    public async Task<IActionResult> GetOrderByUserIdAsync([FromQuery] string? eaterId = null, [FromQuery] string? merchantId = null)
+    public async Task<IActionResult> GetOrderByUserIdAsync([FromQuery] GetAllOrderByUserIdRequest request)
     {
         var result = await _mediator.Send(new GetAllOrderByUserIdQuery
         {
-            Payload = new GetAllOrderByUserIdInput
-            {
-                EaterId = eaterId,
-                MerchantId = merchantId
-            }
+            Payload = request
         });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data);
     }
@@ -51,36 +47,32 @@ public class OrderController
     }
     [Authorize(Policy = "OrderWrite")]
     [HttpPost]
-    public async Task<IActionResult> CreateOrder([FromBody] CreateOrderInput input)
+    public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest request)
     {
         var result = await _mediator.Send(new CreateOrderCommand
         {
-            Payload = input
+            Payload = request
         });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
     }
     [Authorize(Policy = "OrderWrite")]
     [HttpPut]
-    public async Task<IActionResult> UpdateOrderDetail([FromBody] UpdateOrderInput input)
+    public async Task<IActionResult> UpdateOrderDetail([FromBody] UpdateOrderRequest request)
     {
         var result = await _mediator.Send(new UpdateOrderCommand
         {
-            Payload = input
+            Payload = request
         });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
     }
     
     [Authorize(Policy = "OrderWrite")]
     [HttpGet("get-by-eater-merchant")]
-    public async Task<IActionResult> GetOrderDetailByEaterMerchantAsync([FromQuery] string merchantId, [FromQuery] string eaterId)
+    public async Task<IActionResult> GetOrderDetailByEaterMerchantAsync([FromQuery] GetInitialOrderByEaterAndMerchantRequest request)
     {
         var result = await _mediator.Send(new GetInitialOrderByEaterAndMerchantQuery()
         {
-            Payload = new GetInitialOrderByEaterAndMerchantInput
-            {
-                MerchantId = merchantId,
-                EaterId = eaterId
-            }
+            Payload = request
         });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data);
     }

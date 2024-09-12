@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:food_order_app/core/global_val.dart';
 import 'package:food_order_app/core/snackbar.dart';
+import 'package:food_order_app/data/models/dto/food_with_paging.dart';
 import 'package:food_order_app/data/models/food.dart';
 import 'package:food_order_app/data/requests/create_food_request.dart';
 import 'package:food_order_app/data/requests/update_food_request.dart';
@@ -111,6 +112,32 @@ class FoodRepository {
       print(e.toString());
       showSnackBar(context, "Delete failed");
       return false;
+    }
+  }
+   Future<FoodsWithPaging?> searchFoodsByName(
+      String keyword, int page, BuildContext context) async {
+    Map<String, String> headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ${GlobalVariable.loginResponse!.accessToken}'
+    };
+    try {
+      var response = await get(
+          Uri.parse(
+              '${GlobalVariable.requestUrlPrefix}/api/v1/food/search-by-name?Keyword=$keyword&Page=$page&MaxPerPage=1'),
+          headers: headers);
+
+      Map<String, dynamic> responseBody = json.decode(response.body);
+      var statusCode = responseBody["statusCode"];
+      if (statusCode == 200) {
+        return FoodsWithPaging.fromJson(responseBody);
+      }
+      showSnackBar(context, "Get foods failed");
+      print(responseBody["errorMessage"]);
+      return null;
+    } catch (e) {
+      print(e.toString());
+      showSnackBar(context, "Get foods failed");
+      return null;
     }
   }
 }

@@ -1,6 +1,6 @@
 ﻿namespace CustomerService.Data.Requests;
 
-public class CreateUserInfoInput
+public class CreateUserInfoRequest
 {
     public string UserId { get; set; }
     public string Role { get; set; }

@@ -6,5 +6,5 @@ namespace FoodService.Features.Commands.FoodCommands.UpdateFoodCommands;
 
 public class UpdateFoodCommand : IRequest<UpdateFoodResponse>
 {
-    public UpdateFoodInput Payload { get; set; }
+    public UpdateFoodRequest Payload { get; set; }
 }

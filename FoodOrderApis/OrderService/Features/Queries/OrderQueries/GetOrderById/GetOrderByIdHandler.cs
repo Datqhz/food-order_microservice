@@ -26,9 +26,9 @@ public class GetOrderByIdHandler : IRequestHandler<GetOrderByIdQuery, GetOrderBy
         {
             var order = await _unitOfRepository.Order
                 .Where(o => o.Id == request.Id)
-                .AsNoTracking()
                 .Include(o => o.Eater)
                 .Include(o => o.Merchant)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(cancellationToken);
             if (order == null)
             {
@@ -47,7 +47,7 @@ public class GetOrderByIdHandler : IRequestHandler<GetOrderByIdQuery, GetOrderBy
         }
         catch (Exception ex)
         {
-            _logger.LogError($"{functionName} => has error : Message = {ex.Message}");
+            _logger.LogError(ex,$"{functionName} => has error : Message = {ex.Message}");
             response.StatusCode = (int)ResponseStatusCode.InternalServerError;
             response.StatusText = "Internal Server Error";
             response.ErrorMessage = ex.Message;

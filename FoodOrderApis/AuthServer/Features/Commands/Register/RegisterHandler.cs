@@ -96,7 +96,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
         }
         catch (Exception ex)
         {
-            _logger.LogError($"{functionName} => Error : Message = {ex.Message}");
+            _logger.LogError(ex, $"{functionName} => Error : Message = {ex.Message}");
             response.StatusCode = (int)ResponseStatusCode.InternalServerError;
             response.StatusText = "Internal server error";
             response.ErrorMessage = ex.Message;

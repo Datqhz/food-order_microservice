@@ -229,13 +229,13 @@ class _FoodManagementItemState extends State<FoodManagementItem> {
                                   },
                                   style: TextButton.styleFrom(
                                     foregroundColor:
-                                        Colors.black.withOpacity(0.8),
+                                        Colors.black.withOpacity(0.6),
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 16, vertical: 10),
                                     textStyle: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
-                                        color: Colors.black.withOpacity(0.8)),
+                                        color: Colors.black.withOpacity(0.6)),
                                     backgroundColor: Colors.transparent,
                                   ),
                                   child: const Text(
@@ -281,7 +281,7 @@ class _FoodManagementItemState extends State<FoodManagementItem> {
                                     backgroundColor: Colors.transparent,
                                   ),
                                   child: const Text(
-                                    "YES",
+                                    "UPDATE",
                                   ),
                                 )
                               ],
@@ -351,13 +351,13 @@ class _FoodManagementItemState extends State<FoodManagementItem> {
                                   },
                                   style: TextButton.styleFrom(
                                     foregroundColor:
-                                        Colors.black.withOpacity(0.8),
+                                        Colors.black.withOpacity(0.6),
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 16, vertical: 10),
                                     textStyle: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
-                                        color: Colors.black.withOpacity(0.8)),
+                                        color: Colors.black.withOpacity(0.6)),
                                     backgroundColor: Colors.transparent,
                                   ),
                                   child: const Text(

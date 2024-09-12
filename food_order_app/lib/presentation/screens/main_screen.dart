@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:food_order_app/core/constant.dart';
 import 'package:food_order_app/core/global_val.dart';
 import 'package:food_order_app/presentation/screens/eater/home_screen.dart';
+import 'package:food_order_app/presentation/screens/eater/search_food_screen.dart';
+import 'package:food_order_app/presentation/screens/eater/search_merchant_screen.dart';
 import 'package:food_order_app/presentation/screens/merchant/food_management_screen.dart';
 import 'package:food_order_app/presentation/screens/order_management_screen.dart';
 import 'package:food_order_app/presentation/screens/profile.dart';
@@ -36,43 +38,97 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       body: SafeArea(
-        child: Container(
-          padding:
-              EdgeInsets.symmetric(horizontal: Constant.padding_horizontal_2),
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Stack(
             children: [
               Container(
-                  padding: EdgeInsets.only(
-                      top: Constant.padding_verticle_4,
-                      bottom: Constant.padding_verticle_5),
-                  child: ValueListenableBuilder(
-                      valueListenable: _bottomIndex,
-                      builder: (context, value, child) {
-                        return _handleNavigationBottomBar();
-                      })),
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                height: 50,
-                child: Builder(
-                  builder: (context) => Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Scaffold.of(context).openDrawer();
-                        },
-                        child: const Icon(
-                          CupertinoIcons.bars,
-                          size: 22,
-                          color: Colors.black,
+                color: Theme.of(context).primaryColorLight,
+                child: ValueListenableBuilder(
+                  valueListenable: _bottomIndex,
+                  builder: (context, value, child) {
+                    return _handleNavigationBottomBar();
+                  },
+                ),
+              ),
+              ValueListenableBuilder(
+                valueListenable: _bottomIndex,
+                builder: (context, value, child) {
+                  if (value != 2) {
+                    return Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: 50,
+                      child: Builder(
+                        builder: (context) => Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: Constant.padding_horizontal_2),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Scaffold.of(context).openDrawer();
+                                },
+                                child: const Icon(
+                                  CupertinoIcons.bars,
+                                  size: 22,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              if (GlobalVariable.currentUser!.role
+                                          .toLowerCase() ==
+                                      'eater' &&
+                                  value == 0) ...[
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SearchMerchantScreen(),
+                                      ),
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.all(Constant.dimension_8),
+                                    child: const Icon(
+                                      CupertinoIcons.search,
+                                      size: 22,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const SearchFoodScreen()));
+                                  },
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.all(Constant.dimension_8),
+                                    child: const Icon(
+                                      CupertinoIcons.search,
+                                      size: 22,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ]
+                            ],
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
+                    );
+                  }
+                  return const SizedBox();
+                },
               )
             ],
           ),

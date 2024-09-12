@@ -1,6 +1,6 @@
 ﻿namespace FoodService.Data.Requests;
 
-public class ModifyUserInput
+public class ModifyUserRequest
 {
     public string UserId { get; set; }
     public string DisplayName { get; set; }

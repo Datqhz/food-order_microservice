@@ -32,7 +32,7 @@ public class ModifyMultipleOrderDetailsHandlerTests
     public async Task Handler_ShouldReturn_StatusOK()
     {
         // Arrange
-        var request = new ModifyOrderDetailInput
+        var request = new ModifyOrderDetailRequest
         {
             OrderDetailId = 1,
             Feature = 2,
@@ -48,7 +48,7 @@ public class ModifyMultipleOrderDetailsHandlerTests
 
         var command = new ModifyMultipleOrderDetailCommand()
         {
-            Payload = new List<ModifyOrderDetailInput>(){request}
+            Payload = new List<ModifyOrderDetailRequest>(){request}
         };
         
         // Act 
@@ -63,7 +63,7 @@ public class ModifyMultipleOrderDetailsHandlerTests
     public async Task Handler_ShouldReturn_StatusInternalServerError()
     {
         // Arrange
-        var request = new ModifyOrderDetailInput
+        var request = new ModifyOrderDetailRequest
         {
             OrderDetailId = 1,
             Feature = 2,
@@ -74,7 +74,7 @@ public class ModifyMultipleOrderDetailsHandlerTests
 
         var command = new ModifyMultipleOrderDetailCommand()
         {
-            Payload = new List<ModifyOrderDetailInput>(){request}
+            Payload = new List<ModifyOrderDetailRequest>(){request}
         };
         
         // Act 

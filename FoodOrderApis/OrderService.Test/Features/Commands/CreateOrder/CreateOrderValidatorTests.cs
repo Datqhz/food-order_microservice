@@ -7,7 +7,7 @@ namespace OrderService.Test.Features.Commands.CreateOrder;
 public class CreateOrderValidatorTests
 {
     private readonly CreateOrderValidator _validator;
-    private CreateOrderInput _validInput;
+    private CreateOrderRequest _validRequest;
 
     public CreateOrderValidatorTests()
     {
@@ -17,7 +17,7 @@ public class CreateOrderValidatorTests
     [SetUp]
     public void Setup()
     {
-        _validInput = new CreateOrderInput
+        _validRequest = new CreateOrderRequest
         {
             EaterId = "bb",
             MerchantId = "aa"
@@ -43,7 +43,7 @@ public class CreateOrderValidatorTests
     {
         var command = new CreateOrderCommand
         {
-            Payload = _validInput
+            Payload = _validRequest
         };
         
         var actual = await _validator.ValidateAsync(command);
@@ -54,10 +54,10 @@ public class CreateOrderValidatorTests
     [Test, TestCaseSource(nameof(InvalidUserIdTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_EaterId(string invalidEaterId)
     {
-        var request = new CreateOrderInput
+        var request = new CreateOrderRequest
         {
             EaterId = invalidEaterId,
-            MerchantId = _validInput.MerchantId
+            MerchantId = _validRequest.MerchantId
         };
         var command = new CreateOrderCommand
         {
@@ -70,9 +70,9 @@ public class CreateOrderValidatorTests
     [Test, TestCaseSource(nameof(InvalidUserIdTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGiveInvalid_MerchantId(string invalidMerchantId)
     {
-        var request = new CreateOrderInput
+        var request = new CreateOrderRequest
         {
-            EaterId = _validInput.EaterId,
+            EaterId = _validRequest.EaterId,
             MerchantId = invalidMerchantId
         };
         var command = new CreateOrderCommand

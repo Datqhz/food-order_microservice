@@ -1,6 +1,6 @@
 ﻿namespace FoodService.Data.Requests;
 
-public class CreateFoodInput
+public class CreateFoodRequest
 {
     public string Name { get; set; }
     public string ImageUrl { get; set; }

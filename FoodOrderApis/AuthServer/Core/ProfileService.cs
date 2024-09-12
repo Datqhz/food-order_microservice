@@ -22,6 +22,7 @@ public class ProfileService : IProfileService
     {
         try
         {
+            var clientId = context.Client.ClientId;
             var sub = context.Subject.GetSubjectId();
             var user = await _userManager.FindByIdAsync(sub);
             var roles = await _userManager.GetRolesAsync(user);
@@ -30,6 +31,7 @@ public class ProfileService : IProfileService
                 new Claim(Constants.CustomClaimTypes.UserId, sub),
                 new Claim(Constants.CustomClaimTypes.Role, roles[0]),
                 new Claim(Constants.CustomClaimTypes.UserName, user.UserName),
+                new Claim(Constants.CustomClaimTypes.ClientId, clientId)
             };
             context.IssuedClaims.AddRange(claims);
         }

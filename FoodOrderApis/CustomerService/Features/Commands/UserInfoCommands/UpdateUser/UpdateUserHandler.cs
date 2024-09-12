@@ -80,7 +80,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserIn
         }
         catch (Exception ex)
         {
-            _logger.LogError($"{functionName} => Error: {ex.Message}");
+            _logger.LogError(ex, $"{functionName} => Error: {ex.Message}");
             response.StatusCode = (int)ResponseStatusCode.InternalServerError;
             response.StatusText = "Internal Server Error";
             response.ErrorMessage = ex.Message;

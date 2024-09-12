@@ -8,7 +8,7 @@ namespace CustomerService.Test.Features.Commands.CreateUser;
 public class CreateUserValidatorTests
 {
     private readonly CreateUserValidator _validator;
-    private CreateUserInfoInput _validInput;
+    private CreateUserInfoRequest _validRequest;
 
     public CreateUserValidatorTests()
     {
@@ -18,7 +18,7 @@ public class CreateUserValidatorTests
     [SetUp]
     public void Setup()
     {
-        _validInput = new CreateUserInfoInput
+        _validRequest = new CreateUserInfoRequest
         {
             UserId = "a",
             UserName = "yamato",
@@ -91,7 +91,7 @@ public class CreateUserValidatorTests
     {
         var command = new CreateUserCommand
         {
-            Payload = _validInput
+            Payload = _validRequest
         };
         
         var actual = _validator.Validate(command);
@@ -102,15 +102,15 @@ public class CreateUserValidatorTests
     [Test, TestCaseSource(nameof(InvalidUserIdTestCases))]
     public void Validate_ShouldBeInvalid_WhenGivenInvalidUserId(string invalidUserId)
     {
-        var invalidInput = new CreateUserInfoInput
+        var invalidInput = new CreateUserInfoRequest
         {
             UserId = invalidUserId,
-            UserName = _validInput.UserName,
-            DisplayName = _validInput.DisplayName,
-            CreatedDate = _validInput.CreatedDate,
-            IsActive = _validInput.IsActive,
-            PhoneNumber = _validInput.PhoneNumber,
-            Role = _validInput.Role
+            UserName = _validRequest.UserName,
+            DisplayName = _validRequest.DisplayName,
+            CreatedDate = _validRequest.CreatedDate,
+            IsActive = _validRequest.IsActive,
+            PhoneNumber = _validRequest.PhoneNumber,
+            Role = _validRequest.Role
         };
         var command = new CreateUserCommand
         {
@@ -124,15 +124,15 @@ public class CreateUserValidatorTests
     [Test, TestCaseSource(nameof(InvalidUserNameTestCases))]
     public void Validate_ShouldBeInvalid_WhenGivenInvalidUserName(string invalidUserName)
     {
-        var invalidInput = new CreateUserInfoInput
+        var invalidInput = new CreateUserInfoRequest
         {
-            UserId = _validInput.UserId,
+            UserId = _validRequest.UserId,
             UserName = invalidUserName,
-            DisplayName = _validInput.DisplayName,
-            CreatedDate = _validInput.CreatedDate,
-            IsActive = _validInput.IsActive,
-            PhoneNumber = _validInput.PhoneNumber,
-            Role = _validInput.Role
+            DisplayName = _validRequest.DisplayName,
+            CreatedDate = _validRequest.CreatedDate,
+            IsActive = _validRequest.IsActive,
+            PhoneNumber = _validRequest.PhoneNumber,
+            Role = _validRequest.Role
         };
         var command = new CreateUserCommand
         {
@@ -146,15 +146,15 @@ public class CreateUserValidatorTests
     [Test, TestCaseSource(nameof(InvalidDisplayNameTestCases))]
     public void Validate_ShouldBeInvalid_WhenGivenInvalidDisplayName(string invalidDisplayName)
     {
-        var invalidInput = new CreateUserInfoInput
+        var invalidInput = new CreateUserInfoRequest
         {
-            UserId = _validInput.UserId,
-            UserName = _validInput.UserName,
+            UserId = _validRequest.UserId,
+            UserName = _validRequest.UserName,
             DisplayName = invalidDisplayName,
-            CreatedDate = _validInput.CreatedDate,
-            IsActive = _validInput.IsActive,
-            PhoneNumber = _validInput.PhoneNumber,
-            Role = _validInput.Role
+            CreatedDate = _validRequest.CreatedDate,
+            IsActive = _validRequest.IsActive,
+            PhoneNumber = _validRequest.PhoneNumber,
+            Role = _validRequest.Role
         };
         var command = new CreateUserCommand
         {
@@ -169,15 +169,15 @@ public class CreateUserValidatorTests
     [Test, TestCaseSource(nameof(InvalidPhoneNumberTestCases))]
     public void Validate_ShouldBeInvalid_WhenGivenInvalidPhoneNumber(string invalidPhoneNumber)
     {
-        var invalidInput = new CreateUserInfoInput
+        var invalidInput = new CreateUserInfoRequest
         {
-            UserId = _validInput.UserId,
-            UserName = _validInput.UserName,
-            DisplayName = _validInput.DisplayName,
-            CreatedDate = _validInput.CreatedDate,
-            IsActive = _validInput.IsActive,
+            UserId = _validRequest.UserId,
+            UserName = _validRequest.UserName,
+            DisplayName = _validRequest.DisplayName,
+            CreatedDate = _validRequest.CreatedDate,
+            IsActive = _validRequest.IsActive,
             PhoneNumber = invalidPhoneNumber,
-            Role = _validInput.Role
+            Role = _validRequest.Role
         };
         var command = new CreateUserCommand
         {
@@ -191,14 +191,14 @@ public class CreateUserValidatorTests
     [Test, TestCaseSource(nameof(InvalidRoleTestCases))]
     public void Validate_ShouldBeInvalid_WhenGivenInvalidRole(string invalidRole)
     {
-        var invalidInput = new CreateUserInfoInput
+        var invalidInput = new CreateUserInfoRequest
         {
-            UserId = _validInput.UserId,
-            UserName = _validInput.UserName,
-            DisplayName = _validInput.DisplayName,
-            CreatedDate = _validInput.CreatedDate,
-            IsActive = _validInput.IsActive,
-            PhoneNumber = _validInput.PhoneNumber,
+            UserId = _validRequest.UserId,
+            UserName = _validRequest.UserName,
+            DisplayName = _validRequest.DisplayName,
+            CreatedDate = _validRequest.CreatedDate,
+            IsActive = _validRequest.IsActive,
+            PhoneNumber = _validRequest.PhoneNumber,
             Role = invalidRole
         };
         var command = new CreateUserCommand

@@ -7,5 +7,5 @@ namespace CustomerService.Features.Commands.UserInfoCommands.CreateUser;
 
 public class CreateUserCommand : IRequest<CreateUserInfoResponse>
 {
-    public CreateUserInfoInput Payload { get; set; }
+    public CreateUserInfoRequest Payload { get; set; }
 }

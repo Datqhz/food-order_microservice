@@ -3,7 +3,6 @@ import 'package:food_order_app/core/constant.dart';
 import 'package:food_order_app/core/global_val.dart';
 import 'package:food_order_app/core/provider/login_state_provider.dart';
 import 'package:food_order_app/data/requests/login_request.dart';
-import 'package:food_order_app/presentation/screens/eater/home_screen.dart';
 import 'package:food_order_app/repositories/auth_repository.dart';
 import 'package:food_order_app/repositories/user_repository.dart';
 import 'package:provider/provider.dart';
@@ -105,6 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             value.trim().length < 5) {
                           return "Username must be between 5 and 50 characters";
                         }
+                        return null;
                       },
                     ),
                     SizedBox(
@@ -139,6 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             value.trim().length < 8) {
                           return "Password must be between 8 and 16 characters";
                         }
+                        return null;
                       },
                     )
                   ],

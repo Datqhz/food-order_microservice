@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order_app/core/global_val.dart';
 import 'package:food_order_app/core/provider/login_state_provider.dart';
+import 'package:food_order_app/core/utils/string_format.dart';
 import 'package:provider/provider.dart';
 
 class MyDrawer extends StatefulWidget {
@@ -203,7 +204,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   height: 6,
                 ),
                 Text(
-                  GlobalVariable.currentUser!.role.toLowerCase(),
+                  capitalize(GlobalVariable.currentUser!.role),
                   style: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 13,

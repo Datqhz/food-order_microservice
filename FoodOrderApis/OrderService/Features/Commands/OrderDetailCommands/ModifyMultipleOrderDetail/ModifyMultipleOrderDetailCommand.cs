@@ -6,5 +6,5 @@ namespace OrderService.Features.Commands.OrderDetailCommands.ModifyMultipleOrder
 
 public class ModifyMultipleOrderDetailCommand : IRequest<ModifyMultipleOrderDetailResponse>
 {
-    public List<ModifyOrderDetailInput> Payload { get; set; }
+    public List<ModifyOrderDetailRequest> Payload { get; set; }
 }

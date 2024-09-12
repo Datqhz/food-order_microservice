@@ -14,5 +14,6 @@ public static class Constants
         public const string UserId = "user_id";
         public const string Role = "role";
         public const string UserName = "user_name";
+        public const string ClientId = "user_client_id";
     }
 }

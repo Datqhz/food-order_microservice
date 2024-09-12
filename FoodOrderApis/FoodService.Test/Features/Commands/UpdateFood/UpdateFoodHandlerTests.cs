@@ -39,7 +39,7 @@ public class UpdateFoodHandlerTests
     {
         // Arrange
         var food = _fixture.Build<Food>().Create();
-        var input = _fixture.Build<UpdateFoodInput>().With(x => x.Id, food.Id).Create();
+        var input = _fixture.Build<UpdateFoodRequest>().With(x => x.Id, food.Id).Create();
         _unitOfRepositoryMock.Setup(p => p.Food.GetById(input.Id)).ReturnsAsync(food);
         _unitOfRepositoryMock.Setup(p => p.Food.Update(It.IsAny<Food>())).Returns(true);
         _httpContextAccessorMock.Setup(p => p.GetCurrentUserId()).Returns(food.UserId);
@@ -60,7 +60,7 @@ public class UpdateFoodHandlerTests
     public async Task Handle_ShouldReturn_StatusNotFound()
     {
         // Arrange
-        var input = _fixture.Build<UpdateFoodInput>().Create();
+        var input = _fixture.Build<UpdateFoodRequest>().Create();
         _unitOfRepositoryMock.Setup(p => p.Food.GetById(It.IsAny<int>())).ReturnsAsync((Food)null);
 
         var command = new UpdateFoodCommand
@@ -82,7 +82,7 @@ public class UpdateFoodHandlerTests
         // Arrange
         var currentUserId = _fixture.Create<Guid>().ToString();
         var food = _fixture.Build<Food>().Create();
-        var input = _fixture.Build<UpdateFoodInput>().With(x => x.Id, food.Id).Create();
+        var input = _fixture.Build<UpdateFoodRequest>().With(x => x.Id, food.Id).Create();
         _unitOfRepositoryMock.Setup(p => p.Food.GetById(input.Id)).ReturnsAsync(food); ;
         _httpContextAccessorMock.Setup(p => p.GetCurrentUserId()).Returns(currentUserId);
         var command = new UpdateFoodCommand
@@ -102,7 +102,7 @@ public class UpdateFoodHandlerTests
     public async Task Handle_ShouldReturn_StatusInternalServerError()
     {
         // Arrange
-        var input = _fixture.Build<UpdateFoodInput>().Create();
+        var input = _fixture.Build<UpdateFoodRequest>().Create();
         _unitOfRepositoryMock.Setup(p => p.Food.GetById(It.IsAny<int>())).ThrowsAsync(new Exception());
         var command = new UpdateFoodCommand
         {

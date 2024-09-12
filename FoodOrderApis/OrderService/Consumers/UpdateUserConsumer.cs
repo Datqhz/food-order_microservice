@@ -26,7 +26,7 @@ public class UpdateUserConsumer : IConsumer<UpdateUserInfo>
             _logger.LogInformation($"{functionName} Message = {JsonSerializer.Serialize(message)}");
             await _mediator.Send(new UpdateUserCommand
             {
-                Payload = new ModifyUserInput
+                Payload = new ModifyUserRequest
                 {
                     UserId = message.UserId,
                     DisplayName = message.DisplayName,

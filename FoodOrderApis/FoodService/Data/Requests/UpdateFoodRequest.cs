@@ -1,6 +1,6 @@
 ﻿namespace FoodService.Data.Requests;
 
-public class UpdateFoodInput
+public class UpdateFoodRequest
 {
     public int Id { get; set; }
     public string Name { get; set; }

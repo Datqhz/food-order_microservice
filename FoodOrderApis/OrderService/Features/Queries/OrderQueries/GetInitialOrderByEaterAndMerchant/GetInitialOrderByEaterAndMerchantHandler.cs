@@ -84,7 +84,7 @@ public class GetInitialOrderByEaterAndMerchantHandler : IRequestHandler<GetIniti
         }
         catch (Exception ex)
         {
-            _logger.LogError($"{functionName} - Error: {ex.Message}");
+            _logger.LogError(ex,$"{functionName} - Error: {ex.Message}");
             response.StatusText = "Internal Server Error";
             response.StatusCode = (int)ResponseStatusCode.InternalServerError;
             response.ErrorMessage = ex.Message;

@@ -33,6 +33,7 @@ class _MerchantDetailScreenState extends State<MerchantDetailScreen> {
       ValueNotifier([]);
 
   Future<void> _fetchData() async {
+    _isLoading.value = true;
     _foods.value = await FoodRepository()
         .getAllFoodsByMerchantId(widget.merchant.id, context);
     _order.value = await OrderRepository().getOrderByEaterAndMerchant(
@@ -243,12 +244,16 @@ class _MerchantDetailScreenState extends State<MerchantDetailScreen> {
                             .modifyMultipleOrderDetails(modifies, context);
                       }
                       if (result) {
-                        Navigator.push(
+                        var isOrder = await Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => PrepareOrderScreen(
                                       orderId: _order.value!.id,
                                     )));
+                        print(isOrder);
+                        if (isOrder) {
+                          await _fetchData();
+                        }
                       }
                     }
                   },

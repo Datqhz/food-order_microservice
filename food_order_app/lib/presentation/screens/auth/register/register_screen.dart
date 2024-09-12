@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order_app/core/constant.dart';
+import 'package:food_order_app/core/utils/string_format.dart';
 import 'package:food_order_app/data/models/role.dart';
 import 'package:food_order_app/data/requests/register_request.dart';
 import 'package:food_order_app/presentation/screens/auth/register/register_result_screen.dart';
-import 'package:food_order_app/presentation/screens/eater/home_screen.dart';
 import 'package:food_order_app/repositories/auth_repository.dart';
 import 'package:food_order_app/repositories/role_repository.dart';
 
@@ -208,12 +208,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         errorStyle:
                             TextStyle(color: Color.fromRGBO(182, 0, 0, 1)),
                       ),
-                      value: _roleSelected.value,
+                      value: _roleSelected.value != null
+                          ? capitalize(_roleSelected.value!)
+                          : null,
                       items: _roles!
                           .map((item) => DropdownMenuItem<String>(
                                 value: item.roleName,
                                 child: Text(
-                                  item.roleName,
+                                  capitalize(item.roleName),
                                 ),
                               ))
                           .toList(),

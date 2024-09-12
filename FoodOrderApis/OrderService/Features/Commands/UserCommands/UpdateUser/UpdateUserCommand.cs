@@ -5,5 +5,5 @@ namespace OrderService.Features.Commands.UserCommands.UpdateUser;
 
 public class UpdateUserCommand : IRequest
 {
-    public ModifyUserInput Payload { get; set; }
+    public ModifyUserRequest Payload { get; set; }
 }

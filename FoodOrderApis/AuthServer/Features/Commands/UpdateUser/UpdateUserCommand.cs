@@ -6,5 +6,5 @@ namespace AuthServer.Features.Commands.UpdateUser;
 
 public class UpdateUserCommand : IRequest<UpdateUserResponse>
 {
-    public UpdateUserInput Payload { get; init; }
+    public UpdateUserRequest Payload { get; init; }
 }

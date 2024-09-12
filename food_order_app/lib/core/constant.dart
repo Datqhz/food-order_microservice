@@ -5,6 +5,7 @@ class Constant {
   static double padding_horizontal_1 = 12;
   static double padding_horizontal_2 = 16;
   static double padding_horizontal_3 = 20;
+  static double padding_horizontal_4 = 4;
 
   // padding verticle
   static double padding_verticle_1 = 8;
