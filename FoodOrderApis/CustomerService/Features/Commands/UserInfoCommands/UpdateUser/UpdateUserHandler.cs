@@ -6,6 +6,7 @@ using FoodOrderApis.Common.HttpContextCustom;
 using FoodOrderApis.Common.MassTransit.Contracts;
 using FoodOrderApis.Common.MassTransit.Core;
 using MassTransit;
+using MassTransit.Transports.Fabric;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -64,7 +65,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserIn
                     DisplayName = user.DisplayName,
                     IsActive = user.IsActive,
                     PhoneNumber = user.PhoneNumber
-                }, cancellationToken, null);
+                }, cancellationToken, ExchangeType.Topic);
                 response.StatusCode = (int)ResponseStatusCode.OK;
                 response.StatusText = "User updated";
             }

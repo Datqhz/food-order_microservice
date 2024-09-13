@@ -7,6 +7,7 @@ using FoodOrderApis.Common.MassTransit.Core;
 using FoodService.Data.InternalResponse;
 using FoodService.Data.Responses;
 using FoodService.Repositories;
+using MassTransit.Transports.Fabric;
 using MediatR;
 
 namespace FoodService.Features.Commands.FoodCommands.DeleteFoodCommands;
@@ -95,7 +96,7 @@ public class DeleteFoodHandler : IRequestHandler<DeleteFoodCommand, DeleteFoodRe
                 await _sendEndpoint.SendMessage<DeleteFood>(new DeleteFood
                 {
                     FoodId = request.Id
-                }, cancellationToken, "order-delete-food");
+                }, cancellationToken, ExchangeType.Direct);
                 response.StatusCode = (int)ResponseStatusCode.OK;
                 response.StatusText = $"Food with ID {request.Id} has been deleted";
             }

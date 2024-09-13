@@ -1,5 +1,6 @@
 using AuthServer.Extensions;
 using AuthServer.Middlewares;
+using AuthServer.StartupRegistrations;
 using FoodOrderApis.Common.HttpContextCustom;
 using FoodOrderApis.Common.MassTransit.Extensions;
 
@@ -12,7 +13,7 @@ serviceExtensions.ConfigureIdentityServer(builder.Services);
 serviceExtensions.AddValidators(builder.Services);
 serviceExtensions.ConfigureMediator(builder.Services);
 serviceExtensions.AddCors(builder.Services);
-builder.Services.AddMassTransitRegistration(null);
+builder.Services.AddCustomMassTransitRegistration();
 builder.Services.AddControllers();
 builder.Services.AddCustomHttpContextAccessor();
 serviceExtensions.ConfigureSwagger(builder.Services);

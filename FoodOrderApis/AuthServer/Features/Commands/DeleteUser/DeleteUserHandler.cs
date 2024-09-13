@@ -6,6 +6,7 @@ using FoodOrderApis.Common.Helpers;
 using FoodOrderApis.Common.HttpContextCustom;
 using FoodOrderApis.Common.MassTransit.Contracts;
 using FoodOrderApis.Common.MassTransit.Core;
+using MassTransit.Transports.Fabric;
 using MediatR;
 
 namespace AuthServer.Features.Commands.DeleteUser;
@@ -62,7 +63,7 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
                 if (updateResult)
                 {
                     await _unitOfRepository.CompleteAsync();
-                    await _sendEndpoint.SendMessage<DeleteUserInfo>(new DeleteUserInfo { UserId = user.Id }, cancellationToken, "customer-delete-user");
+                    await _sendEndpoint.SendMessage<DeleteUserInfo>(new DeleteUserInfo { UserId = user.Id }, cancellationToken, ExchangeType.Direct);
                     response.StatusCode = (int)ResponseStatusCode.OK;
                     response.StatusText = $"User deleted";
                 }

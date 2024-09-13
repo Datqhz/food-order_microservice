@@ -5,6 +5,7 @@ using FoodOrderApis.Common.MassTransit.Core;
 using FoodService.Data.Responses;
 using FoodService.Repositories;
 using MassTransit;
+using MassTransit.Transports.Fabric;
 using MediatR;
 
 namespace FoodService.Features.Commands.FoodCommands.UpdateFoodCommands;
@@ -65,7 +66,7 @@ public class UpdateFoodHandler : IRequestHandler<UpdateFoodCommand, UpdateFoodRe
                     Name = food.Name,
                     Describe = food.Describe,
                     ImageUrl = food.ImageUrl,
-                }, cancellationToken, "order-update-food");
+                }, cancellationToken, ExchangeType.Direct);
                 
                 response.StatusCode = (int)ResponseStatusCode.OK;
                 response.StatusText = "Food updated";

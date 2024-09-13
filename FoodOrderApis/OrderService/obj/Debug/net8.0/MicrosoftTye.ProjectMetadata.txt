@@ -1,5 +1,5 @@
 AssemblyInformationalVersion:
-InformationalVersion: 1.0.0+c1d53063ad56f961acc3913f1376d97978ed4601
+InformationalVersion: 1.0.0+a1774a98f1b18c4346878ae56d3ca244ca0063d9
 Version: 1.0.0
 TargetFrameworks:
 RunCommand: C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\OrderService\bin\Debug\net8.0\OrderService.exe

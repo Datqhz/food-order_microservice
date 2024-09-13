@@ -5,6 +5,7 @@ using FoodService.Data.Models;
 using FoodService.Data.Responses;
 using FoodService.Repositories;
 using MassTransit;
+using MassTransit.Transports.Fabric;
 using MediatR;
 
 namespace FoodService.Features.Commands.FoodCommands.CreateFoodCommands;
@@ -61,7 +62,7 @@ public class CreateFoodHandler : IRequestHandler<CreateFoodCommand, CreateFoodRe
                     Describe = createdFood.Describe,
                     ImageUrl = createdFood.ImageUrl,
                 };
-                await _sendEndpoint.SendMessage<CreateFood>(message, cancellationToken, "order-create-food");
+                await _sendEndpoint.SendMessage<CreateFood>(message, cancellationToken, ExchangeType.Direct);
                 response.StatusCode = (int)HttpStatusCode.Created;
                 response.StatusText = "Food created successfully";
             }

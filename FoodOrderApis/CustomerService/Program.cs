@@ -1,5 +1,6 @@
 using CustomerService.Extensions;
 using CustomerService.Middlewares;
+using CustomerService.StartupRegistrations;
 using FoodOrderApis.Common.HttpContextCustom;
 using FoodOrderApis.Common.MassTransit.Extensions;
 
@@ -13,8 +14,7 @@ serviceExtensions.ConfigureDependencyInjection(builder.Services);
 serviceExtensions.AddValidators(builder.Services);
 serviceExtensions.AddMediatorPattern(builder.Services);
 serviceExtensions.AddCors(builder.Services);
-//serviceExtensions.AddMassTransitRabbitMq(builder.Services);
-builder.Services.AddMassTransitRegistration("customer");
+builder.Services.AddCustomMassTransitRegistration();
 builder.Services.AddControllers();
 builder.Services.AddCustomHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();

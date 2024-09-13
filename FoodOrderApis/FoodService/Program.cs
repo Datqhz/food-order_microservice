@@ -2,6 +2,7 @@ using FoodOrderApis.Common.HttpContextCustom;
 using FoodOrderApis.Common.MassTransit.Extensions;
 using FoodService.Extensions;
 using FoodService.Middlewares;
+using FoodService.StartupRegistrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,8 +16,7 @@ serviceExtensions.ConfigureDependencyInjection(builder.Services);
 serviceExtensions.AddValidators(builder.Services);
 serviceExtensions.AddMediatorPattern(builder.Services);
 serviceExtensions.AddCors(builder.Services);
-//serviceExtensions.AddMassTransitRabbitMq(builder.Services);
-builder.Services.AddMassTransitRegistration("food");
+builder.Services.AddCustomMassTransitRegistration();
 builder.Services.AddControllers();
 builder.Services.AddCustomHttpContextAccessor();
 serviceExtensions.ConfigureSwagger(builder.Services);

@@ -5,6 +5,7 @@ using FoodOrderApis.Common.Helpers;
 using FoodOrderApis.Common.MassTransit.Contracts;
 using FoodOrderApis.Common.MassTransit.Core;
 using MassTransit;
+using MassTransit.Transports.Fabric;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -87,7 +88,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
                     Role = payload.Role.ToUpper(),
                     DisplayName = payload.Displayname,
                     PhoneNumber = payload.PhoneNumber,
-                }, cancellationToken, null);
+                }, cancellationToken, ExchangeType.Topic);
                 response.StatusText = "Created";
                 response.StatusCode = (int)ResponseStatusCode.Created;
             }
