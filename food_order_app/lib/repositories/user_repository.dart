@@ -47,7 +47,7 @@ class UserRepository {
     try {
       var uri = '${GlobalVariable.requestUrlPrefix}/api/v1/customer/all-merchants';
       if(page!= null && maxPerPage!= null){
-        uri += '?Page=$page&MaxPerPage=$maxPerPage';
+        uri += '&Page=$page&MaxPerPage=$maxPerPage';
       }
       var response = await get(
         Uri.parse(

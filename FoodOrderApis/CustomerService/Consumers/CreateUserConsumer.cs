@@ -36,7 +36,8 @@ public class CreateUserConsumer : IConsumer<CreateUserInfo>
                     CreatedDate = newUser.CreatedDate,
                     IsActive = newUser.IsActive,
                     DisplayName = newUser.DisplayName,
-                    PhoneNumber = newUser.PhoneNumber
+                    PhoneNumber = newUser.PhoneNumber,
+                    Avatar = newUser.Avatar,
                 }
             });
         }

@@ -54,6 +54,9 @@ namespace OrderService.Data.Context.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     OrderedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     OrderStatus = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
+                    ShippingAddress = table.Column<string>(type: "text", nullable: true),
+                    ShippingPhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    ShippingFee = table.Column<decimal>(type: "numeric", nullable: true),
                     EaterId = table.Column<string>(type: "text", nullable: false),
                     MerchantId = table.Column<string>(type: "text", nullable: false)
                 },

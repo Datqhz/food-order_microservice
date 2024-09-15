@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:food_order_app/core/constant.dart';
+import 'package:food_order_app/core/global_val.dart';
 import 'package:food_order_app/core/snackbar.dart';
 import 'package:food_order_app/data/models/order_detail.dart';
 import 'package:food_order_app/data/requests/update_order_request.dart';
+import 'package:food_order_app/data/requests/update_order_with_shipping_info_request.dart';
 import 'package:food_order_app/presentation/widgets/order_detail_item.dart';
 import 'package:food_order_app/repositories/order_detail_repository.dart';
 import 'package:food_order_app/repositories/order_repository.dart';
@@ -36,7 +38,7 @@ class _PrepareOrderScreenState extends State<PrepareOrderScreen> {
     _fetchData();
   }
 
-  double _calcTotal() {
+  double _calcSubstantial() {
     var total = 0.0;
     for (var detail in _orderDetails.value!) {
       total += detail.price * detail.quantity;
@@ -62,6 +64,64 @@ class _PrepareOrderScreenState extends State<PrepareOrderScreen> {
                     children: [
                       SizedBox(
                         height: Constant.dimension_50,
+                      ),
+                      SizedBox(
+                        height: Constant.dimension_14,
+                      ),
+                      Container(
+                        height: 80,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border(
+                                bottom: BorderSide(
+                                    color: Constant.colour_low_grey,
+                                    width: 0.8))),
+                        child: const Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.location_on_sharp,
+                              color: Colors.red,
+                              size: 30,
+                            ),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Home',
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromRGBO(49, 49, 49, 1),
+                                      overflow: TextOverflow.ellipsis),
+                                ),
+                                Text(
+                                  "Tp.HCM",
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w400,
+                                      color: Color.fromRGBO(49, 49, 49, 1),
+                                      overflow: TextOverflow.ellipsis),
+                                )
+                              ],
+                            ),
+                            Expanded(
+                                child: SizedBox(
+                              width: 12,
+                            )),
+                            Icon(
+                              Icons.chevron_right,
+                              color: Colors.red,
+                              size: 30,
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: Constant.dimension_14,
@@ -160,6 +220,66 @@ class _PrepareOrderScreenState extends State<PrepareOrderScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text(
+                            'Substantial',
+                            maxLines: 1,
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromRGBO(49, 49, 49, 1),
+                                overflow: TextOverflow.ellipsis),
+                          ),
+                          ValueListenableBuilder(
+                            valueListenable: _isLoading,
+                            builder: (context, value, child) {
+                              return Text(
+                                value
+                                    ? "..."
+                                    : NumberFormat.currency(
+                                            locale: 'vi_VN', symbol: '₫')
+                                        .format(_calcSubstantial()),
+                                maxLines: 1,
+                                style: const TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromRGBO(49, 49, 49, 1),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: Constant.dimension_8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Shipping fee',
+                            maxLines: 1,
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromRGBO(49, 49, 49, 1),
+                                overflow: TextOverflow.ellipsis),
+                          ),
+                          Text(
+                            NumberFormat.currency(locale: 'vi_VN', symbol: '₫')
+                                .format(15000),
+                            maxLines: 1,
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromRGBO(49, 49, 49, 1),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: Constant.dimension_8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
                             'Total',
                             maxLines: 1,
                             style: TextStyle(
@@ -176,7 +296,7 @@ class _PrepareOrderScreenState extends State<PrepareOrderScreen> {
                                     ? "..."
                                     : NumberFormat.currency(
                                             locale: 'vi_VN', symbol: '₫')
-                                        .format(_calcTotal()),
+                                        .format(_calcSubstantial() + 15000),
                                 maxLines: 1,
                                 style: const TextStyle(
                                   fontSize: 16.0,
@@ -196,10 +316,14 @@ class _PrepareOrderScreenState extends State<PrepareOrderScreen> {
                         width: MediaQuery.of(context).size.width / 1.5,
                         child: TextButton(
                           onPressed: () async {
-                            var request = UpdateOrderRequest(
-                                orderId: widget.orderId);
+                            var request = UpdateOrderWithShippingInfoRequest(
+                                orderId: widget.orderId,
+                                shippingAddress: "aaaa",
+                                shippingFee: 15000,
+                                shippingPhoneNumber:
+                                    GlobalVariable.currentUser!.phoneNumber);
                             var result = await OrderRepository()
-                                .update(request, context);
+                                .updateWithShippingInfo(request, context);
                             if (result) {
                               showSnackBar(context, "Order successful");
                               Navigator.pop(context, true);

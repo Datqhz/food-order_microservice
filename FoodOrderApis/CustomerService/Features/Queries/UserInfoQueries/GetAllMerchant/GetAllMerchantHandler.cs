@@ -27,7 +27,10 @@ public class GetAllMerchantHandler : IRequestHandler<GetAllMerchantQuery, GetAll
         try
         {
             var payload = request.Payload;
-            var merchants = _unitOfRepository.User.Where(u => u.Role == Constants.Role.Merchant).AsNoTracking();
+            var merchants = _unitOfRepository.User
+                .Where(u => 
+                    u.Role == Constants.Role.Merchant &&
+                       u.IsActive == true).AsNoTracking();
             int totalItems = await merchants.CountAsync(cancellationToken);
             if (payload != null)
             {

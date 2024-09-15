@@ -110,6 +110,9 @@ class _FoodManagementItemState extends State<FoodManagementItem> {
           children: [
             GestureDetector(
               onTap: () async {
+                _nameController.text = widget.food.name;
+                _priceController.text = widget.food.price.toString();
+                _describeController.text = widget.food.describe;
                 showDialog(
                   context: context,
                   builder: (context) {
@@ -268,6 +271,9 @@ class _FoodManagementItemState extends State<FoodManagementItem> {
                                       widget.update(tempFood);
                                       Navigator.pop(context);
                                       showSnackBar(context, "Food was updated");
+                                      _nameController.text = "";
+                                      _priceController.text = "";
+                                      _describeController.text = "";
                                     }
                                   },
                                   style: TextButton.styleFrom(

@@ -35,6 +35,14 @@ public class SearchMerchantsByNameHandler : IRequestHandler<SearchMerchantsByNam
                 return response;
             }
 
+            if (payload.SortBy == (int)SortOption.ByAlphabeticalDescending)
+            {
+                merchants = merchants.OrderByDescending(merchant => merchant.DisplayName);
+            }
+            else
+            {
+                merchants = merchants.OrderBy(merchant => merchant.DisplayName);
+            }
             if (payload.Page != null && payload.MaxPerPage != null)
             {
                 response.Data = await merchants

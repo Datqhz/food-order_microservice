@@ -7,6 +7,9 @@ public class Order
     public int Id { get; set; }
     public DateTime OrderedDate { get; set; }
     public int OrderStatus { get; set; }
+    public string? ShippingAddress { get; set; }
+    public string? ShippingPhoneNumber { get; set; }
+    public decimal? ShippingFee { get; set; }
     public string EaterId { get; set; }
     public User Eater { get; set; }
     public string MerchantId { get; set; }

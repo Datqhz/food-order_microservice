@@ -88,6 +88,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
                     Role = payload.Role.ToUpper(),
                     DisplayName = payload.Displayname,
                     PhoneNumber = payload.PhoneNumber,
+                    Avatar = payload.Avatar
                 }, cancellationToken, ExchangeType.Topic);
                 response.StatusText = "Created";
                 response.StatusCode = (int)ResponseStatusCode.Created;

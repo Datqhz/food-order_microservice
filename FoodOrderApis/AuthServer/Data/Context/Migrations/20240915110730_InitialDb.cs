@@ -316,9 +316,9 @@ namespace AuthServer.Data.Context.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "5316c797-a874-448c-965e-0d853995920e", null, "ADMIN", "ADMIN" },
-                    { "8c69ac60-6901-423a-aa6e-5460e4dc3dee", null, "EATER", "EATER" },
-                    { "aa345928-9b4a-4b57-8138-de54dfaed540", null, "MERCHANT", "MERCHANT" }
+                    { "0873c4e3-0ba2-4fd7-a110-935abfa9228a", null, "ADMIN", "ADMIN" },
+                    { "41652eea-0dba-4ea4-a5d8-b1887d90e9a0", null, "MERCHANT", "MERCHANT" },
+                    { "51376d1d-dc2e-4cf9-a98b-c88830a3dd73", null, "EATER", "EATER" }
                 });
 
             migrationBuilder.InsertData(

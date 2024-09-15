@@ -1,9 +1,13 @@
+import 'package:cloudinary_flutter/cloudinary_context.dart';
+import 'package:cloudinary_url_gen/cloudinary.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order_app/core/provider/login_state_provider.dart';
 import 'package:food_order_app/presentation/screens/wrapper.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  CloudinaryContext.cloudinary = 
+        Cloudinary.fromCloudName(cloudName: "dyhjqna2u");
   runApp(ChangeNotifierProvider(
       create: (_) => LoginStateProvider(), child: const MyApp()));
 }

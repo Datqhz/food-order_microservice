@@ -1,4 +1,5 @@
-﻿using FoodOrderApis.Common.Helpers;
+﻿using FoodOrderApis.Common.Enums;
+using FoodOrderApis.Common.Helpers;
 using FoodOrderApis.Common.Models.Dtos;
 using FoodService.Data.Responses;
 using FoodService.Repositories;
@@ -33,6 +34,14 @@ public class SearchFoodsByNameHandler : IRequestHandler<SearchFoodsByNameQuery, 
                 return response;
             }
 
+            if (payload.SortBy == (int)SortOption.ByAlphabeticalDescending)
+            {
+                foods = foods.OrderByDescending(f => f.Name);
+            }
+            else
+            {
+                foods = foods.OrderBy(f => f.Name);
+            }
             if (payload.MaxPerPage != null && payload.Page != null)
             {
                 response.Data = await foods

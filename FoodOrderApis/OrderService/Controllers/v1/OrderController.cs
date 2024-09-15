@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using OrderService.Data.Requests;
 using OrderService.Features.Commands.OrderCommands.CreateOrder;
 using OrderService.Features.Commands.OrderCommands.UpdateOrder;
+using OrderService.Features.Commands.OrderCommands.UpdateOrderWithShippingInfo;
 using OrderService.Features.Commands.OrderDetailCommands.CreateOrderDetail;
 using OrderService.Features.Commands.OrderDetailCommands.UpdateOrderDetail;
 using OrderService.Features.Queries.OrderQueries.GetAllOrderByUserId;
@@ -57,9 +58,20 @@ public class OrderController
     }
     [Authorize(Policy = "OrderWrite")]
     [HttpPut]
-    public async Task<IActionResult> UpdateOrderDetail([FromBody] UpdateOrderRequest request)
+    public async Task<IActionResult> UpdateOrder([FromBody] UpdateOrderRequest request)
     {
         var result = await _mediator.Send(new UpdateOrderCommand
+        {
+            Payload = request
+        });
+        return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
+    }
+    
+    [Authorize(Policy = "OrderWrite")]
+    [HttpPut("update-shipping-info")]
+    public async Task<IActionResult> UpdateOrderWithShippingInfo([FromBody] UpdateOrderWithShippingInfoRequest request)
+    {
+        var result = await _mediator.Send(new UpdateOrderWithShippingInfoCommand
         {
             Payload = request
         });

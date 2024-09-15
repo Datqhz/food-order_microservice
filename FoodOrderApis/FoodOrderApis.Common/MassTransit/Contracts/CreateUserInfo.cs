@@ -9,4 +9,5 @@ public record CreateUserInfo
     public string UserName { get; init; }
     public string DisplayName { get; init; }
     public string PhoneNumber { get; init; }
+    public string Avatar {get; init;}
 }

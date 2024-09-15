@@ -23,19 +23,19 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
     _isLoading.value = true;
     _orders.value = await OrderRepository().getAllOrdersByUserId(
         GetOrderByUseridRequest(
-          merchantId: GlobalVariable.currentUser!.role == 'MERCHANT'
-              ? JWTHelper.getCurrentUid(
-                  GlobalVariable.loginResponse!.accessToken)
-              : null,
-          eaterId: GlobalVariable.currentUser!.role == 'EATER'
-              ? JWTHelper.getCurrentUid(
-                  GlobalVariable.loginResponse!.accessToken)
-              : null,
-        ),
+            merchantId: GlobalVariable.currentUser!.role == 'MERCHANT'
+                ? JWTHelper.getCurrentUid(
+                    GlobalVariable.loginResponse!.accessToken)
+                : null,
+            eaterId: GlobalVariable.currentUser!.role == 'EATER'
+                ? JWTHelper.getCurrentUid(
+                    GlobalVariable.loginResponse!.accessToken)
+                : null,
+            orderStatus: 2,
+            sortBy: 0),
         context);
     _isLoading.value = false;
   }
-
 
   @override
   void initState() {

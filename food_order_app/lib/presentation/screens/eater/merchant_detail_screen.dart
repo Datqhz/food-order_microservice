@@ -39,7 +39,9 @@ class _MerchantDetailScreenState extends State<MerchantDetailScreen> {
     _order.value = await OrderRepository().getOrderByEaterAndMerchant(
         GetOrderByUseridRequest(
             eaterId: GlobalVariable.currentUser!.id,
-            merchantId: widget.merchant.id),
+            merchantId: widget.merchant.id,
+            sortBy: 0,
+            orderStatus: 2),
         context);
     if (_order.value != null) {
       _orderDetails.value = await OrderDetailRepository()

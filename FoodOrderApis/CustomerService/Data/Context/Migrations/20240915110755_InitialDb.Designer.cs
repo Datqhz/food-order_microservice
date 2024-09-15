@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CustomerService.Data.Context.Migrations
 {
     [DbContext(typeof(CustomerDbContext))]
-    [Migration("20240909160323_InitialDb")]
+    [Migration("20240915110755_InitialDb")]
     partial class InitialDb
     {
         /// <inheritdoc />
@@ -29,6 +29,10 @@ namespace CustomerService.Data.Context.Migrations
             modelBuilder.Entity("CustomerService.Data.Models.UserInfo", b =>
                 {
                     b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Avatar")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDate")

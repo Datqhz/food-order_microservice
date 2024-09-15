@@ -12,7 +12,7 @@ using OrderService.Data.Context;
 namespace OrderService.Data.Context.Migrations
 {
     [DbContext(typeof(OrderDbContext))]
-    [Migration("20240909160212_InitialDb")]
+    [Migration("20240915111029_InitialDb")]
     partial class InitialDb
     {
         /// <inheritdoc />
@@ -76,6 +76,15 @@ namespace OrderService.Data.Context.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("ShippingAddress")
+                        .HasColumnType("text");
+
+                    b.Property<decimal?>("ShippingFee")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("ShippingPhoneNumber")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

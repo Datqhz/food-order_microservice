@@ -8,6 +8,9 @@ class Order {
   String? merchantId;
   BriefUser? eater;
   BriefUser? merchant;
+  String? shippingAddress;
+  String? shippingPhoneNumber;
+  double? shippingFee;
   Order(
       {required this.id,
       this.orderedDate,
@@ -15,7 +18,10 @@ class Order {
       this.eaterId,
       this.merchantId,
       this.merchant,
-      this.eater});
+      this.eater,
+      this.shippingAddress,
+      this.shippingFee,
+      this.shippingPhoneNumber});
 
   factory Order.fromJson(Map<String, dynamic> json) {
     return Order(
@@ -29,6 +35,11 @@ class Order {
         eater: json['eater'] != null ? BriefUser.fromJson(json['eater']) : null,
         merchant: json['merchant'] != null
             ? BriefUser.fromJson(json['merchant'])
-            : null);
+            : null,
+        shippingAddress: json['shippingAddress'] ?? json['shippingAddress'],
+        shippingFee:
+            json['shippingFee'] != null ? json['shippingFee'] / 1.0 : null,
+        shippingPhoneNumber:
+            json['shippingPhoneNumber'] ?? json['shippingPhoneNumber']);
   }
 }

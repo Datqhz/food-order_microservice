@@ -33,7 +33,7 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserIn
                 CreatedDate = payload.CreatedDate,
                 PhoneNumber = payload.PhoneNumber,
                 UserName = payload.UserName,
-                IsActive = payload.IsActive
+                Avatar = payload.Avatar,
             });
             await _unitOfRepository.CompleteAsync();
             response.StatusCode = (int)ResponseStatusCode.Created;

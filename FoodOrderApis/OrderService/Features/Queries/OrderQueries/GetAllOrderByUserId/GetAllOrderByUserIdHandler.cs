@@ -1,4 +1,6 @@
-﻿using FoodOrderApis.Common.Helpers;
+﻿using System.Diagnostics;
+using FoodOrderApis.Common.Enums;
+using FoodOrderApis.Common.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using OrderService.Data.Models;
@@ -28,30 +30,33 @@ public class GetAllOrderByUserIdHandler : IRequestHandler<GetAllOrderByUserIdQue
         {
             _logger.LogInformation($"{functionName} - Start");
             var payload = request.Payload;
-            List<Order> orders = new List<Order>();
+            var orders = _unitOfRepository.Order
+                .Where(o => o.OrderStatus == payload.OrderStatus)
+                .Include(o => o.Eater)
+                .Include(o => o.Merchant)
+                .AsNoTracking();
             if (payload.EaterId != null)
             {
-                orders = _unitOfRepository.Order
-                    .Where(o => o.EaterId == payload.EaterId && o.OrderStatus != (int)OrderStatus.Initialize)
-                    .Include(o =>o.Eater)
-                    .Include(o => o.Merchant)
-                    .AsNoTracking()
-                    .OrderByDescending(o => o.OrderedDate)
-                    .ToList();
+                orders = orders.Where(o => o.EaterId == payload.EaterId);
             }
             else
             {
-                orders = _unitOfRepository.Order
-                    .Where(o => o.MerchantId == payload.MerchantId && o.OrderStatus != (int)OrderStatus.Initialize)
-                    .Include(o =>o.Eater)
-                    .Include(o => o.Merchant)
-                    .AsNoTracking()
-                    .OrderByDescending(o => o.OrderedDate)
-                    .ToList();
+                orders = orders.Where(o => o.MerchantId == payload.MerchantId);
+            }
+
+            switch (payload.SortBy)
+            {
+                case (int)SortOption.ByDateDescending:
+                    orders = orders.OrderByDescending(o => o.OrderedDate);
+                        
+                    break;
+                default:
+                    orders = orders.OrderBy(o => o.OrderedDate);
+                    break;
             }
             response.StatusCode = (int)ResponseStatusCode.OK;
             response.StatusText = "Get all orders by successfully";
-            response.Data = orders.Select(o => o.AsDto()).ToList();
+            response.Data = await orders.Select(o => o.AsDto()).ToListAsync(cancellationToken);
             _logger.LogInformation($"{functionName} - End");
             return response;
         }

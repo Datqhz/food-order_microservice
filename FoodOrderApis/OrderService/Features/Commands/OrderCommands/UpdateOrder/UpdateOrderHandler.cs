@@ -1,6 +1,7 @@
 ﻿using FoodOrderApis.Common.Helpers;
 using FoodOrderApis.Common.HttpContextCustom;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using OrderService.Data.Models;
 using OrderService.Data.Responses;
 using OrderService.Enums;
@@ -28,48 +29,41 @@ public class UpdateOrderHandler : IRequestHandler<UpdateOrderCommand, UpdateOrde
         {
             _logger.LogInformation($"{functionName} - Start");
             var payload = request.Payload;
-            var order = await _unitOfRepository.Order.GetById(payload.OrderId);
+            var order = await _unitOfRepository.Order
+                .Where(o => o.Id == payload.OrderId && 
+                            o.OrderStatus != (int)OrderStatus.Cancelled && 
+                            o.OrderStatus != (int)OrderStatus.Initialize &&
+                            o.OrderStatus != (int)OrderStatus.Received)
+                .FirstOrDefaultAsync(cancellationToken);
             if (order == null)
             {
-                _logger.LogError($"{functionName} - Order not found");
+                _logger.LogError($"{functionName} => No matching order found");
                 response.StatusCode = (int)ResponseStatusCode.NotFound;
-                response.StatusText = $"Order with id {payload.OrderId} does not exist";
-                return response;
-            }
-            if (order.OrderStatus == (int)OrderStatus.Cancelled)
-            {
-                _logger.LogError($"{functionName} => Can't update this order");
-                response.StatusCode = (int)ResponseStatusCode.BadRequest;
-                response.StatusText = $"Can't update this order";
+                response.StatusText = $"No order matching found";
                 return response;
             }
             var userId = _httpContext.GetCurrentUserId();
-            if (order.OrderStatus == (int)OrderStatus.Preparing && payload.Cancellation == true)
+            if (payload.Cancellation == true)
             {
                 if (order.EaterId != userId)
                 {
+                    _logger.LogError($"{functionName} => Permission denied");
                     response.StatusCode = (int)ResponseStatusCode.Forbidden;
-                    response.StatusText = $"Permision denied";
+                    response.StatusText = $"Permission denied";
                     return response;
                 }
                 order.OrderStatus = (int)OrderStatus.Cancelled;
             }
             else
             {
-                if (order.MerchantId != userId && order.EaterId != userId)
+                if (order.MerchantId != userId)
                 {
+                    _logger.LogError($"{functionName} => Permission denied");
                     response.StatusCode = (int)ResponseStatusCode.Forbidden;
-                    response.StatusText = $"Permision denied";
+                    response.StatusText = $"Permission denied";
                     return response;
                 }
                 order.OrderedDate = DateTime.Now;
-                if (payload.Cancellation == true)
-                {
-                    _logger.LogError($"{functionName} => Can't cancel this order");
-                    response.StatusCode = (int)ResponseStatusCode.BadRequest;
-                    response.StatusText = $"Can't cancel this order";
-                    return response;
-                }
                 order.OrderStatus += 1;
             }
 
@@ -82,7 +76,7 @@ public class UpdateOrderHandler : IRequestHandler<UpdateOrderCommand, UpdateOrde
             }
             else
             {
-                response.StatusText = "Order not updated";
+                throw new Exception("Order not updated");
             }
             _logger.LogInformation($"{functionName} - End");
             return response;

@@ -74,6 +74,15 @@ namespace OrderService.Data.Context.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+                    b.Property<string>("ShippingAddress")
+                        .HasColumnType("text");
+
+                    b.Property<decimal?>("ShippingFee")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("ShippingPhoneNumber")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EaterId");
