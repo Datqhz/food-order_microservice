@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order_app/core/constant.dart';
 import 'package:food_order_app/core/global_val.dart';
+import 'package:food_order_app/presentation/screens/admin/user_management_screen.dart';
 import 'package:food_order_app/presentation/screens/eater/home_screen.dart';
 import 'package:food_order_app/presentation/screens/eater/search_food_screen.dart';
 import 'package:food_order_app/presentation/screens/eater/search_merchant_screen.dart';
@@ -28,8 +29,23 @@ class _MainScreenState extends State<MainScreen> {
         return const OrderManagementScreen();
       case 2:
         return ProfileScreen();
+      case 4:
+        return const UserManagementScreen();
       default:
         return const FoodManagementScreen();
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (GlobalVariable.currentUser!.role.toLowerCase() == "eater") {
+      _bottomIndex.value = 0;
+    } else if (GlobalVariable.currentUser!.role.toLowerCase() == "merchant") {
+      _bottomIndex.value = 3;
+    } else {
+      _bottomIndex.value = 4;
     }
   }
 
@@ -139,15 +155,17 @@ class _MainScreenState extends State<MainScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            IconButton(
-              onPressed: () {
-                _bottomIndex.value = 0;
-              },
-              icon: Icon(
-                CupertinoIcons.home,
-                color: Theme.of(context).primaryColorLight,
+            if (GlobalVariable.currentUser!.role == "EATER") ...[
+              IconButton(
+                onPressed: () {
+                  _bottomIndex.value = 0;
+                },
+                icon: Icon(
+                  CupertinoIcons.home,
+                  color: Theme.of(context).primaryColorLight,
+                ),
               ),
-            ),
+            ],
             if (GlobalVariable.currentUser!.role == "MERCHANT") ...[
               IconButton(
                 onPressed: () {
@@ -159,15 +177,28 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
             ],
-            IconButton(
-              onPressed: () {
-                _bottomIndex.value = 1;
-              },
-              icon: Icon(
-                CupertinoIcons.layers_alt,
-                color: Theme.of(context).primaryColorLight,
+            if (GlobalVariable.currentUser!.role != "ADMIN") ...[
+              IconButton(
+                onPressed: () {
+                  _bottomIndex.value = 1;
+                },
+                icon: Icon(
+                  CupertinoIcons.layers_alt,
+                  color: Theme.of(context).primaryColorLight,
+                ),
               ),
-            ),
+            ],
+            if (GlobalVariable.currentUser!.role == "ADMIN") ...[
+              IconButton(
+                onPressed: () {
+                  _bottomIndex.value = 4;
+                },
+                icon: Icon(
+                  CupertinoIcons.person_2,
+                  color: Theme.of(context).primaryColorLight,
+                ),
+              ),
+            ],
             IconButton(
               onPressed: () {
                 _bottomIndex.value = 2;

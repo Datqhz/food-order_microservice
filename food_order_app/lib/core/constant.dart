@@ -46,4 +46,5 @@ class Constant {
   static Color colour_low_white = Colors.white.withOpacity(0.4);
   static Color colour_low_grey = Colors.grey.withOpacity(0.2);
   static Color colour_red = Colors.red;
+  static Color colour_green = Colors.green;
 }

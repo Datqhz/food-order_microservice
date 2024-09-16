@@ -34,6 +34,7 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserIn
                 PhoneNumber = payload.PhoneNumber,
                 UserName = payload.UserName,
                 Avatar = payload.Avatar,
+                IsActive = payload.IsActive
             });
             await _unitOfRepository.CompleteAsync();
             response.StatusCode = (int)ResponseStatusCode.Created;

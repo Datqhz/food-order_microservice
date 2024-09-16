@@ -1,7 +1,11 @@
-﻿using CustomerService.Data.Responses;
+﻿using CustomerService.Data.Models;
+using CustomerService.Data.Responses;
 using CustomerService.Repositories;
+using FoodOrderApis.Common.Constants;
+using FoodOrderApis.Common.Enums;
 using FoodOrderApis.Common.Helpers;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CustomerService.Features.Queries.UserInfoQueries.GetAllUserInfo;
@@ -21,10 +25,28 @@ public class GetAllUserHanlder : IRequestHandler<GetAllUserQuery, GetAllUserInfo
         var functionName = nameof(GetAllUserHanlder);
         _logger.LogInformation($"{functionName} - Start");
         var response = new GetAllUserInfoResponse(){StatusCode = (int)ResponseStatusCode.BadRequest};
+        var payload = request.Payload;
         try
         {
-            var users = await _unitOfRepository.User.GetAll().AsNoTracking().ToListAsync();
-            response.Data = users;
+            var users = _unitOfRepository.User.GetAll().AsNoTracking();
+            if (payload.GetBy == (int)FilterUser.Eater)
+            {
+                users = users.Where(u => u.Role.ToLower() == Constants.Role.Eater.ToLower());
+            }
+            else
+            {
+                users = users.Where(u => u.Role.ToLower() == Constants.Role.Merchant.ToLower());
+            }
+
+            if (payload.SortBy == (int)SortOption.ByAlphabeticalDescending)
+            {
+                users = users.OrderByDescending(u => u.DisplayName);
+            }
+            else
+            {
+                users = users.OrderBy(u => u.DisplayName);
+            }
+            response.Data = await users.ToListAsync(cancellationToken);
             response.StatusCode = (int)ResponseStatusCode.OK;
             response.StatusText = "Get all user successfully";
             _logger.LogInformation($"{functionName} - End");

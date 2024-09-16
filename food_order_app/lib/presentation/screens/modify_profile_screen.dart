@@ -1,11 +1,15 @@
+import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order_app/core/constant.dart';
 import 'package:food_order_app/core/global_val.dart';
 import 'package:food_order_app/core/snackbar.dart';
 import 'package:food_order_app/core/stream/change_stream.dart';
+import 'package:food_order_app/core/utils/image_helper.dart';
 import 'package:food_order_app/data/requests/update_user_request.dart';
 import 'package:food_order_app/repositories/user_repository.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ModifyProfileScreen extends StatefulWidget {
   ModifyProfileScreen({super.key, required this.stream});
@@ -18,6 +22,7 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
   final _formKey = GlobalKey<FormState>();
   final _displayNameController = TextEditingController();
   final _phoneController = TextEditingController();
+  final ValueNotifier<XFile?> _avatar = ValueNotifier(null);
 
   @override
   void initState() {
@@ -61,6 +66,59 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            XFile? img = await ImagePicker().pickImage(
+                                maxWidth: 1920,
+                                maxHeight: 1080,
+                                imageQuality: 100,
+                                source: ImageSource.gallery);
+                            if (img != null) {
+                              _avatar.value = img;
+                            }
+                          },
+                          child: SizedBox(
+                            height: 100,
+                            child: Stack(
+                              children: [
+                                ValueListenableBuilder(
+                                    valueListenable: _avatar,
+                                    builder: (context, value, child) {
+                                      return CircleAvatar(
+                                        backgroundColor: Colors.black,
+                                        radius: 50,
+                                        backgroundImage: value != null
+                                            ? FileImage(File(value.path))
+                                                as ImageProvider<Object>
+                                            : NetworkImage(GlobalVariable
+                                                .currentUser!.avatar),
+                                      );
+                                    }),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 16,
+                                  child: Container(
+                                    height: 20,
+                                    width: 20,
+                                    decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        borderRadius: BorderRadius.circular(2)),
+                                    child: const Icon(
+                                      CupertinoIcons.pencil,
+                                      size: 16,
+                                      color: Color.fromRGBO(240, 240, 240, 1),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     SizedBox(
                       height: Constant.dimension_12,
                     ),
@@ -136,16 +194,28 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
                       onPressed: () async {
                         final displayName = _displayNameController.text.trim();
                         final phone = _phoneController.text.trim();
+                        String? avtUrl;
+                        if (_avatar.value != null) {
+                          avtUrl = await ImageHelper.uploadAvatarImage(_avatar.value);
+                        } else {
+                          avtUrl = GlobalVariable.currentUser!.avatar;
+                        }
+                        if (avtUrl == null) {
+                          showSnackBar(context, "Update failed");
+                          return;
+                        }
                         var result = await UserRepository().update(
                             UpdateUserRequest(
                                 id: GlobalVariable.currentUser!.id,
                                 displayName: displayName,
-                                phoneNumber: phone),
+                                phoneNumber: phone,
+                                avatar: avtUrl),
                             context);
                         if (result) {
                           showSnackBar(context, "Update successful");
                           GlobalVariable.currentUser!.displayName = displayName;
                           GlobalVariable.currentUser!.phoneNumber = phone;
+                          GlobalVariable.currentUser!.avatar = avtUrl;
                           widget.stream.notifyChange();
                           Navigator.pop(context);
                         }

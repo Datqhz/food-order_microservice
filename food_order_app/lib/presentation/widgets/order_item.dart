@@ -8,10 +8,10 @@ import 'package:food_order_app/presentation/screens/order_detail_screen.dart';
 import 'package:intl/intl.dart';
 
 class OrderItem extends StatelessWidget {
-  OrderItem({super.key, required this.order});
+  OrderItem({super.key, required this.order, required this.stream});
 
   Order order;
-  final ChangeStream _stream = ChangeStream();
+  ChangeStream stream;
 
   String getStatusAsString() {
     switch (order.orderStatus) {
@@ -37,78 +37,74 @@ class OrderItem extends StatelessWidget {
             MaterialPageRoute(
                 builder: (context) => OrderDetailScreen(
                       orderId: order.id,
-                      stream: _stream,
+                      stream: stream,
                     )));
       },
-      child: StreamBuilder(
-        stream: _stream.stream,
-        builder: (context, snapshot) {
-          return Container(
-            padding: EdgeInsets.only(bottom: Constant.dimension_8),
-            decoration: BoxDecoration(
-                border: Border(
-                    bottom:
-                        BorderSide(color: Constant.colour_grey.withOpacity(0.5)))),
-            child: Row(
+      child: Container(
+        padding: EdgeInsets.only(bottom: Constant.dimension_8),
+        margin: EdgeInsets.only(bottom: Constant.dimension_8),
+        decoration: BoxDecoration(
+            border: Border(
+                bottom:
+                    BorderSide(color: Constant.colour_grey.withOpacity(0.5)))),
+        child: Row(
+          children: [
+            Icon(
+              CupertinoIcons.cube_box,
+              color: Theme.of(context).primaryColorDark,
+              size: Constant.dimension_32,
+            ),
+            SizedBox(
+              width: Constant.dimension_12,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
-                  CupertinoIcons.cube_box,
-                  color: Theme.of(context).primaryColorDark,
-                  size: Constant.dimension_32,
+                Text(
+                  GlobalVariable.currentUser!.role == "EATER"
+                      ? order.merchant!.displayName
+                      : order.eater!.displayName,
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColorDark,
+                    fontSize: Constant.font_size_3,
+                    fontWeight: Constant.font_weight_nomal,
+                  ),
                 ),
-                SizedBox(
-                  width: Constant.dimension_12,
+                Text(
+                  DateFormat.yMMMd("en_US")
+                      .format(order.orderedDate!)
+                      .toString(),
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColorDark,
+                    fontSize: Constant.font_size_3,
+                    fontWeight: Constant.font_weight_nomal,
+                  ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      GlobalVariable.currentUser!.role == "EATER"
-                          ? order.merchant!.displayName
-                          : order.eater!.displayName,
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColorDark,
-                        fontSize: Constant.font_size_3,
-                        fontWeight: Constant.font_weight_nomal,
-                      ),
-                    ),
-                    Text(
-                      DateFormat.yMMMd("en_US")
-                          .format(order.orderedDate!)
-                          .toString(),
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColorDark,
-                        fontSize: Constant.font_size_3,
-                        fontWeight: Constant.font_weight_nomal,
-                      ),
-                    ),
-                  ],
-                ),
-                const Expanded(child: SizedBox()),
-                Row(
-                  children: [
-                    Icon(
-                      CupertinoIcons.circle_fill,
-                      color: Constant.colour_red,
-                      size: Constant.dimension_12,
-                    ),
-                    SizedBox(
-                      width: Constant.dimension_4,
-                    ),
-                    Text(
-                      getStatusAsString(),
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColorDark,
-                        fontSize: Constant.font_size_3,
-                        fontWeight: Constant.font_weight_nomal,
-                      ),
-                    ),
-                  ],
-                )
               ],
             ),
-          );
-        }
+            const Expanded(child: SizedBox()),
+            Row(
+              children: [
+                Icon(
+                  CupertinoIcons.circle_fill,
+                  color: Constant.colour_red,
+                  size: Constant.dimension_12,
+                ),
+                SizedBox(
+                  width: Constant.dimension_4,
+                ),
+                Text(
+                  getStatusAsString(),
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColorDark,
+                    fontSize: Constant.font_size_3,
+                    fontWeight: Constant.font_weight_nomal,
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

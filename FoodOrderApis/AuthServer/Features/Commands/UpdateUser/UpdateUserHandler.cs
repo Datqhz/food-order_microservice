@@ -69,8 +69,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
                 }
                 else
                 {
-                    response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    response.StatusText = "Can't update user";
+                    throw new Exception("Cannot update user");
                 }
                 _logger.LogInformation($"{functionName} - End");
                 return response;

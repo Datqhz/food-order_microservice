@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order_app/core/constant.dart';
 import 'package:food_order_app/core/snackbar.dart';
+import 'package:food_order_app/core/utils/image_helper.dart';
 import 'package:food_order_app/data/models/food.dart';
 import 'package:food_order_app/data/requests/update_food_request.dart';
 import 'package:food_order_app/repositories/food_repository.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class FoodManagementItem extends StatefulWidget {
@@ -26,6 +30,7 @@ class _FoodManagementItemState extends State<FoodManagementItem> {
   final _nameController = TextEditingController();
   final _describeController = TextEditingController();
   final _priceController = TextEditingController();
+  final ValueNotifier<XFile?> _image = ValueNotifier(null);
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +56,8 @@ class _FoodManagementItemState extends State<FoodManagementItem> {
                   height: 80,
                   width: 80,
                   decoration: BoxDecoration(
-                    image: const DecorationImage(
-                        image: AssetImage("assets/images/store_avatar.jpg"),
+                    image: DecorationImage(
+                        image: NetworkImage(widget.food.imageUrl),
                         fit: BoxFit.cover),
                     color: Colors.black,
                     borderRadius: BorderRadius.circular(6),
@@ -132,13 +137,52 @@ class _FoodManagementItemState extends State<FoodManagementItem> {
                             ),
                             const Text(
                               "Update food",
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black),
                             ),
                             const SizedBox(
                               height: 16,
+                            ),
+                            GestureDetector(
+                              onTap: () async {
+                                XFile? img = await ImagePicker().pickImage(
+                                    maxWidth: 1920,
+                                    maxHeight: 1080,
+                                    imageQuality: 100,
+                                    source: ImageSource.gallery);
+                                if (img != null) {
+                                  _image.value = img;
+                                }
+                              },
+                              child: ValueListenableBuilder(
+                                  valueListenable: _image,
+                                  builder: (context, value, child) {
+                                    return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          height: 100,
+                                          width: 200,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: value != null
+                                                  ? FileImage(File(value.path))
+                                                      as ImageProvider<Object>
+                                                  : NetworkImage(
+                                                      widget.food.imageUrl),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  }),
+                            ),
+                            SizedBox(
+                              height: Constant.dimension_14,
                             ),
                             TextFormField(
                               controller: _nameController,
@@ -255,13 +299,26 @@ class _FoodManagementItemState extends State<FoodManagementItem> {
                                         _describeController.text.trim();
                                     final price = double.parse(
                                         _priceController.text.trim());
+                                    String? foodImg;
+                                    if (_image.value != null) {
+                                      foodImg =
+                                          await ImageHelper.uploadFoodImage(
+                                              _image.value);
+                                    } else {
+                                      foodImg = widget.food.imageUrl;
+                                    }
+                                    if (foodImg == null) {
+                                      showSnackBar(
+                                          context, "Can't update food");
+                                      return;
+                                    }
                                     var result = await FoodRepository().update(
                                         UpdateFoodRequest(
                                             id: widget.food.id,
                                             name: name,
                                             price: price,
                                             describe: describe,
-                                            imageUrl: "string"),
+                                            imageUrl: foodImg),
                                         context);
                                     if (result) {
                                       var tempFood = widget.food;
@@ -329,7 +386,7 @@ class _FoodManagementItemState extends State<FoodManagementItem> {
                             ),
                             const Text(
                               "Delete food",
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black),

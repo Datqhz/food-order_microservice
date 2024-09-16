@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_order_app/data/models/food.dart';
+import 'package:food_order_app/presentation/screens/eater/merchant_detail_screen.dart';
+import 'package:food_order_app/repositories/user_repository.dart';
 import 'package:intl/intl.dart';
 
 class FoodSearchItem extends StatefulWidget {
@@ -14,30 +16,38 @@ class FoodSearchItem extends StatefulWidget {
 class _FoodSearchItemState extends State<FoodSearchItem> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      padding: const EdgeInsets.only(bottom: 8, top: 12),
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Color.fromRGBO(159, 159, 159, 1),
-            width: 1,
+    return GestureDetector(
+      onTap: () async {
+        var merchant = await UserRepository()
+            .getUserInfoById(widget.food.userId!, context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    MerchantDetailScreen(merchant: merchant!)));
+      },
+      child: Container(
+        height: 100,
+        padding: const EdgeInsets.only(bottom: 8, top: 12),
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Color.fromRGBO(159, 159, 159, 1),
+              width: 1,
+            ),
           ),
         ),
-      ),
-      child: Row(children: [
-        // food image
-        Expanded(
-          child: GestureDetector(
-            onTap: () {},
+        child: Row(children: [
+          // food image
+          Expanded(
             child: Row(
               children: [
                 Container(
                   height: 80,
                   width: 80,
                   decoration: BoxDecoration(
-                    image: const DecorationImage(
-                        image: AssetImage("assets/images/store_avatar.jpg"),
+                    image: DecorationImage(
+                        image: NetworkImage(widget.food.imageUrl),
                         fit: BoxFit.cover),
                     color: Colors.black,
                     borderRadius: BorderRadius.circular(6),
@@ -89,8 +99,8 @@ class _FoodSearchItemState extends State<FoodSearchItem> {
               ],
             ),
           ),
-        ),
-      ]),
+        ]),
+      ),
     );
   }
 }

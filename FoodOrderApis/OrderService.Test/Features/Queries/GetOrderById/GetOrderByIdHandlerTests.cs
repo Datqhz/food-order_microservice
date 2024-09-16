@@ -1,6 +1,8 @@
-﻿using AutoFixture;
+﻿using System.Linq.Expressions;
+using AutoFixture;
 using FoodOrderApis.Common.Helpers;
 using Microsoft.Extensions.Logging;
+using MockQueryable;
 using Moq;
 using OrderService.Data.Models;
 using OrderService.Data.Responses;
@@ -32,8 +34,12 @@ public class GetOrderByIdHandlerTests
     {
         // Arrange
         var orderId = _fixture.Create<int>();
-        var order = _fixture.Build<Order>().With(x => x.Id, orderId).Create();
-        _unitOfRepositoryMock.Setup(x => x.Order.GetById(orderId)).ReturnsAsync(order);
+        var order = _fixture.Build<Order>()
+            .With(x => x.Id, orderId)
+            .CreateMany(1)
+            .AsQueryable()
+            .BuildMock();
+        _unitOfRepositoryMock.Setup(x => x.Order.Where(It.IsAny<Expression<Func<Order, bool>>>())).Returns(order);
         
         var query = new GetOrderByIdQuery
         {

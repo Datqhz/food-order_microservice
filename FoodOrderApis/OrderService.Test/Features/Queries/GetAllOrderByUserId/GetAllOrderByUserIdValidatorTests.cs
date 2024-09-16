@@ -21,7 +21,8 @@ public class GetAllOrderByUserIdValidatorTests
     {
         _validRequest = new GetAllOrderByUserIdRequest
         {
-            EaterId = "aaaa"
+            EaterId = "aaaa",
+            OrderStatus = 1,
         };
     }
 

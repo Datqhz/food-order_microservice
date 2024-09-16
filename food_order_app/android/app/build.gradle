@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.food_order_app"
-    compileSdk = 34
+    compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

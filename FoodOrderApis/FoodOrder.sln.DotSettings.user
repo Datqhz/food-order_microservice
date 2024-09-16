@@ -79,36 +79,16 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AThread_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003F5159b23811b96792d12316dd5148242a372bd596ea9d614d53abeda41057f4_003FThread_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AUri_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003Febe65732adf281db03e388c6486e28a574c76c8be32d99ca59dcfbecc65_003FUri_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AUserManager_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003Fd8d9726f3deb1bbf671f5b791e4dc3e0338219a996f439ad2a69024b825c60_003FUserManager_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2a81a60f_002D436d_002D4b6a_002D929b_002Db6535fed7e25/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="LoginHandlerTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Commands.ModifyMultipleOrderDetails.ModifyMultipleOrderDetailsValidatorTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Commands.ModifyMultipleOrderDetails.ModifyMultipleOrderDetailsHandlerTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Queries.GetInitialOrderByEaterAndMerchant.GetInitialOrderByEaterAndMerchantValidatorTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Queries.GetInitialOrderByEaterAndMerchant.GetInitialOrderByEaterAndMerchantHandlerTests.Handle_ShouldReturn_StatusOK_WhenOrderExists&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Queries.GetInitialOrderByEaterAndMerchant.GetInitialOrderByEaterAndMerchantHandlerTests.Handle_ShouldReturn_StatusOK_WhenOrderDoesNotExists&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Queries.GetInitialOrderByEaterAndMerchant.GetInitialOrderByEaterAndMerchantHandlerTests.Handle_ShouldReturn_StatusNotFound_WhenEaterDoesNotExists&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Queries.GetInitialOrderByEaterAndMerchant.GetInitialOrderByEaterAndMerchantHandlerTests.Handle_ShouldReturn_StatusBadRequest_WhenEaterDoesNotExists&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Queries.GetInitialOrderByEaterAndMerchant.GetInitialOrderByEaterAndMerchantHandlerTests.Handle_ShouldReturn_StatusBadRequest_WhenMerchantDoesNotExists&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Queries.GetAllOrderByUserId.GetAllOrderByUserIdValidatorTests.Validate_ShouldBeValid&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Queries.GetAllOrderByUserId.GetAllOrderByUserIdValidatorTests.Validate_ShouldBeInvalid_WhenGivenInvalidEaterId&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Commands.UpdateOrder.UpdateOrderHandlerTests.Handle_ShouldReturn_StatusOK&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9d74745b_002D579b_002D40b4_002D93e9_002Df2143e12c584/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;Tests&amp;gt;\&amp;lt;AuthServer.Test&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;Project Location="C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\AuthServer.Test" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;AuthServer.Test&amp;gt;" /&gt;&#xD;
+    &lt;Project Location="C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\CustomerService.Test" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;CustomerService.Test&amp;gt;" /&gt;&#xD;
+    &lt;Project Location="C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\FoodService.Test" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;FoodService.Test&amp;gt;" /&gt;&#xD;
+    &lt;Project Location="C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\OrderService.Test" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;OrderService.Test&amp;gt;" /&gt;&#xD;
+  &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d1f26816_002Dc669_002D4033_002D9520_002D553eb7932aed/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Validate_ShouldBeValid" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Queries.GetAllOrderByUserId.GetAllOrderByUserIdValidatorTests.Validate_ShouldBeValid&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Queries.GetAllOrderByUserId.GetAllOrderByUserIdValidatorTests.Validate_ShouldBeInvalid_WhenGivenInvalidEaterId&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Queries.GetAllOrderByUserId.GetAllOrderByUserIdValidatorTests.Validate_ShouldBeInvalid_WhenGivenInvalidMerchantId&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Queries.GetAllOrderByUserId.GetAllOrderByUserIdValidatorTests.Validate_ShouldBeInvalid_WhenGivenInvalidBothValue&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Queries.GetAllOrderByUserId.GetAllOrderByUserIdHandlerTests.Handle_ShouldReturn_StatusOK_When_FindByEaterId&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Queries.GetAllOrderByUserId.GetAllOrderByUserIdHandlerTests.Handle_ShouldReturn_StatusOK_When_FindByMerchantId&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Queries.GetAllOrderByUserId.GetAllOrderByUserIdHandlerTests.Handle_ShouldReturn_StatusInternalServerError&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Queries.GetInitialOrderByEaterAndMerchant.GetInitialOrderByEaterAndMerchantHandlerTests.Handle_ShouldReturn_StatusInternalServerError&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Queries.GetOrderById.GetOrderByIdHandlerTests.Handle_ShouldReturn_StatusOK&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Queries.GetOrderById.GetOrderByIdHandlerTests.Handle_ShouldReturn_StatusInternalServerError&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::364FED3C-02FB-4FC6-9C11-8B04D9ED1EE2::net8.0::OrderService.Test.Features.Commands.UpdateOrder.UpdateOrderHandlerTests.Handle_ShouldReturn_StatusOK&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
+	
+	
 	
 	
 	

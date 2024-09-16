@@ -20,16 +20,6 @@ class OnboardingScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              "Welcome",
-              style: TextStyle(
-                  fontWeight: Constant.font_weight_heading1,
-                  fontSize: Constant.font_size_heading_1,
-                  color: Theme.of(context).primaryColorDark),
-            ),
-            SizedBox(
-              height: Constant.dimension_12,
-            ),
             SizedBox(
                 width: double.infinity,
                 child: TextButton(

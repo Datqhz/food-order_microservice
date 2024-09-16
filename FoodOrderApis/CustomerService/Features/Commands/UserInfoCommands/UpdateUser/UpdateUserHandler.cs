@@ -55,6 +55,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserIn
             }
             user.DisplayName = payload.DisplayName;
             user.PhoneNumber = payload.PhoneNumber;
+            user.Avatar = payload.Avatar;
             bool updateResult = _unitOfRepository.User.Update(user);
             await _unitOfRepository.CompleteAsync();
             if (updateResult)
@@ -64,20 +65,17 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserIn
                     UserId = user.Id,
                     DisplayName = user.DisplayName,
                     IsActive = user.IsActive,
-                    PhoneNumber = user.PhoneNumber
+                    PhoneNumber = user.PhoneNumber,
                 }, cancellationToken, ExchangeType.Topic);
                 response.StatusCode = (int)ResponseStatusCode.OK;
                 response.StatusText = "User updated";
             }
             else
             {
-                response.StatusCode = (int)ResponseStatusCode.InternalServerError;
-                response.StatusText = "Internal Server Error";
-                response.ErrorMessage = "Something wrong happened";
+                throw new Exception("Something wrong happened");
             }
             _logger.LogInformation($"{functionName} - End");
             return response;
-            
         }
         catch (Exception ex)
         {

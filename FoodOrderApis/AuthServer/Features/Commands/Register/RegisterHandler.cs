@@ -73,9 +73,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, RegisterResponse
             var createUserRole = await _userManager.AddToRoleAsync(newUser, payload.Role.ToUpper());
             if (!createResult.Succeeded || !createUserRole.Succeeded)
             {
-                _logger.LogError($"{functionName} => Failed to create user : Message = {createResult.Errors.ToString() + createUserRole.Errors.ToString()}");
-                response.StatusText = "Bad request";
-                response.ErrorMessage = createResult.Errors.ToString();
+                throw new Exception($"{createResult.Errors.ToString() + createUserRole.Errors.ToString()}");
             }
             else
             {

@@ -35,7 +35,7 @@ class _MerchantDetailScreenState extends State<MerchantDetailScreen> {
   Future<void> _fetchData() async {
     _isLoading.value = true;
     _foods.value = await FoodRepository()
-        .getAllFoodsByMerchantId(widget.merchant.id, context);
+        .getAllFoodsByMerchantId(widget.merchant.id, 3, context);
     _order.value = await OrderRepository().getOrderByEaterAndMerchant(
         GetOrderByUseridRequest(
             eaterId: GlobalVariable.currentUser!.id,
@@ -143,7 +143,7 @@ class _MerchantDetailScreenState extends State<MerchantDetailScreen> {
                     Image(
                       height: 200,
                       width: MediaQuery.of(context).size.width,
-                      image: const AssetImage("assets/images/store_avatar.jpg"),
+                      image: NetworkImage(widget.merchant.avatar),
                       fit: BoxFit.cover,
                     ),
                     SizedBox(
@@ -225,9 +225,19 @@ class _MerchantDetailScreenState extends State<MerchantDetailScreen> {
                       Text(
                         widget.merchant.displayName,
                         style: TextStyle(
-                            color: Theme.of(context).primaryColorLight,
-                            fontSize: Constant.font_size_3,
-                            fontWeight: Constant.font_weight_heading2),
+                          color: Theme.of(context).primaryColorLight,
+                          fontSize: Constant.font_size_4,
+                          fontWeight: Constant.font_weight_heading2,
+                          shadows: [
+                            Shadow(
+                              offset:
+                                  Offset(2.0, 2.0), // Độ lệch của bóng (X,Y)
+                              blurRadius: 3.0, // Độ mờ của bóng
+                              color:
+                                  Colors.black.withOpacity(0.5), // Màu của bóng
+                            ),
+                          ],
+                        ),
                       )
                     ],
                   ),
@@ -246,16 +256,13 @@ class _MerchantDetailScreenState extends State<MerchantDetailScreen> {
                             .modifyMultipleOrderDetails(modifies, context);
                       }
                       if (result) {
-                        var isOrder = await Navigator.push(
+                        await Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => PrepareOrderScreen(
                                       orderId: _order.value!.id,
                                     )));
-                        print(isOrder);
-                        if (isOrder) {
-                          await _fetchData();
-                        }
+                        await _fetchData();
                       }
                     }
                   },

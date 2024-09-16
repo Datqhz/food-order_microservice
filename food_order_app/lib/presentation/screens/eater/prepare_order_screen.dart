@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -5,8 +7,9 @@ import 'package:food_order_app/core/constant.dart';
 import 'package:food_order_app/core/global_val.dart';
 import 'package:food_order_app/core/snackbar.dart';
 import 'package:food_order_app/data/models/order_detail.dart';
-import 'package:food_order_app/data/requests/update_order_request.dart';
+import 'package:food_order_app/data/models/shipping_info.dart';
 import 'package:food_order_app/data/requests/update_order_with_shipping_info_request.dart';
+import 'package:food_order_app/presentation/screens/eater/fill_shipping_info.dart';
 import 'package:food_order_app/presentation/widgets/order_detail_item.dart';
 import 'package:food_order_app/repositories/order_detail_repository.dart';
 import 'package:food_order_app/repositories/order_repository.dart';
@@ -23,6 +26,10 @@ class PrepareOrderScreen extends StatefulWidget {
 class _PrepareOrderScreenState extends State<PrepareOrderScreen> {
   final ValueNotifier<List<OrderDetail>?> _orderDetails = ValueNotifier(null);
   final _isLoading = ValueNotifier(true);
+  final ValueNotifier<ShippingInfo> _shippingInfo = ValueNotifier(ShippingInfo(
+      shippingAddress: "Tp.HCM",
+      shippingPhoneNumber: GlobalVariable.currentUser!.phoneNumber));
+  final _shippingFee = 15000 + Random().nextDouble() * (15000);
 
   Future<void> _fetchData() async {
     _isLoading.value = true;
@@ -68,59 +75,79 @@ class _PrepareOrderScreenState extends State<PrepareOrderScreen> {
                       SizedBox(
                         height: Constant.dimension_14,
                       ),
-                      Container(
-                        height: 80,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border(
-                                bottom: BorderSide(
-                                    color: Constant.colour_low_grey,
-                                    width: 0.8))),
-                        child: const Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.location_on_sharp,
-                              color: Colors.red,
-                              size: 30,
-                            ),
-                            SizedBox(
-                              width: 8,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Home',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color.fromRGBO(49, 49, 49, 1),
-                                      overflow: TextOverflow.ellipsis),
-                                ),
-                                Text(
-                                  "Tp.HCM",
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color.fromRGBO(49, 49, 49, 1),
-                                      overflow: TextOverflow.ellipsis),
-                                )
-                              ],
-                            ),
-                            Expanded(
-                                child: SizedBox(
-                              width: 12,
-                            )),
-                            Icon(
-                              Icons.chevron_right,
-                              color: Colors.red,
-                              size: 30,
-                            ),
-                          ],
+                      GestureDetector(
+                        onTap: () async {
+                          var shippingInfo = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      FillShippingInfoScreen()));
+                          if (shippingInfo != null) {
+                            _shippingInfo.value = shippingInfo;
+                          }
+                        },
+                        child: Container(
+                          height: 80,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border(
+                                  bottom: BorderSide(
+                                      color: Constant.colour_low_grey,
+                                      width: 0.8))),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.location_on_sharp,
+                                color: Colors.red,
+                                size: 30,
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              ValueListenableBuilder(
+                                  valueListenable: _shippingInfo,
+                                  builder: (context, value, child) {
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          value.shippingPhoneNumber,
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold,
+                                              color:
+                                                  Color.fromRGBO(49, 49, 49, 1),
+                                              overflow: TextOverflow.ellipsis),
+                                        ),
+                                        Text(
+                                          value.shippingAddress,
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.w400,
+                                              color:
+                                                  Color.fromRGBO(49, 49, 49, 1),
+                                              overflow: TextOverflow.ellipsis),
+                                        )
+                                      ],
+                                    );
+                                  }),
+                              const Expanded(
+                                  child: SizedBox(
+                                width: 12,
+                              )),
+                              const Icon(
+                                Icons.chevron_right,
+                                color: Colors.red,
+                                size: 30,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -264,7 +291,7 @@ class _PrepareOrderScreenState extends State<PrepareOrderScreen> {
                           ),
                           Text(
                             NumberFormat.currency(locale: 'vi_VN', symbol: '₫')
-                                .format(15000),
+                                .format(_shippingFee),
                             maxLines: 1,
                             style: const TextStyle(
                               fontSize: 16.0,
@@ -296,7 +323,8 @@ class _PrepareOrderScreenState extends State<PrepareOrderScreen> {
                                     ? "..."
                                     : NumberFormat.currency(
                                             locale: 'vi_VN', symbol: '₫')
-                                        .format(_calcSubstantial() + 15000),
+                                        .format(
+                                            _calcSubstantial() + _shippingFee),
                                 maxLines: 1,
                                 style: const TextStyle(
                                   fontSize: 16.0,
@@ -318,10 +346,11 @@ class _PrepareOrderScreenState extends State<PrepareOrderScreen> {
                           onPressed: () async {
                             var request = UpdateOrderWithShippingInfoRequest(
                                 orderId: widget.orderId,
-                                shippingAddress: "aaaa",
+                                shippingAddress:
+                                    _shippingInfo.value.shippingAddress,
                                 shippingFee: 15000,
                                 shippingPhoneNumber:
-                                    GlobalVariable.currentUser!.phoneNumber);
+                                    _shippingInfo.value.shippingPhoneNumber);
                             var result = await OrderRepository()
                                 .updateWithShippingInfo(request, context);
                             if (result) {

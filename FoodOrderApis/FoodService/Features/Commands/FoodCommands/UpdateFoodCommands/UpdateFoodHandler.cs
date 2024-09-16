@@ -73,8 +73,7 @@ public class UpdateFoodHandler : IRequestHandler<UpdateFoodCommand, UpdateFoodRe
             }
             else
             {
-                response.StatusCode = (int)ResponseStatusCode.BadRequest;
-                response.StatusText = "Failed to update food";
+                throw new Exception("Failed to update food");
             }
             _logger.LogInformation($"{functionName} - End");
             return response;

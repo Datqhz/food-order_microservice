@@ -2,6 +2,7 @@
 using AutoFixture;
 using FoodOrderApis.Common.Helpers;
 using FoodService.Data.Models;
+using FoodService.Data.Requests;
 using FoodService.Features.Queries.FoodQueries.GetAllFoodByUserId;
 using FoodService.Features.Queries.FoodQueries.GetFoodById;
 using FoodService.Repositories;
@@ -32,15 +33,15 @@ public class GetAllFoodByUserIdHandlerTests
     [Test]
     public async Task Handle_ShouldReturn_StatusOK()
     {
-        var userId = _fixture.Create<Guid>().ToString();
+        var request = _fixture.Create<GetAllFoodByUserIdRequest>();
         var foods = _fixture.Build<Food>()
-            .With(x => x.UserId, userId)
+            .With(x => x.UserId, request.UserId)
             .CreateMany(10)
             .AsQueryable()
             .BuildMock();
         _unitOfRepositoryMock.Setup(p => p.Food.Where(It.IsAny<Expression<Func<Food, bool>>>())).Returns(foods);
 
-        var query = new GetAllFoodByUserIdQuery {UserId = userId};
+        var query = new GetAllFoodByUserIdQuery {Payload = request};
         
         // Act
         var result = await _handler.Handle(query, _cancellationToken);
@@ -54,11 +55,11 @@ public class GetAllFoodByUserIdHandlerTests
     [Test]
     public async Task Handle_ShouldReturn_StatusInternalServerError()
     {
-        var userId = _fixture.Create<Guid>().ToString();
+        var request = _fixture.Create<GetAllFoodByUserIdRequest>();
         _unitOfRepositoryMock.Setup(p => p.Food.Where(It.IsAny<Expression<Func<Food, bool>>>()))
             .Throws(new Exception());
         
-        var query = new GetAllFoodByUserIdQuery { UserId  = userId };
+        var query = new GetAllFoodByUserIdQuery { Payload = request};
         
         // Act
         var result = await _handler.Handle(query, _cancellationToken);

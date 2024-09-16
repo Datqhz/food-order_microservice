@@ -93,15 +93,14 @@ public class CreateFoodHandlerTests
     {
         // Arrange
         var userId = _fixture.Create<Guid>().ToString();
-
-        var users = _fixture.Build<User>().CreateMany(0).AsQueryable().BuildMock();
+        
         var request = _fixture.Build<CreateFoodRequest>().With(p => p.UserId, userId).Create();
         var command = new CreateFoodCommand
         {
             Payload = request
         };
         
-        _mockUnitOfRepository.Setup(x => x.User.Where(It.IsAny<Expression<Func<User, bool>>>())).Returns(users); ;
+        _mockUnitOfRepository.Setup(x => x.User.GetById(It.IsAny<string>())).ReturnsAsync((User)null); ;
         
         // Actual
         var actual = await _handler.Handle(command, _cancellationToken);
@@ -122,7 +121,7 @@ public class CreateFoodHandlerTests
             Payload = request
         };
         
-        _mockUnitOfRepository.Setup(x => x.User.GetById(It.IsAny<string>())).Throws(new Exception());
+        _mockUnitOfRepository.Setup(x => x.User.GetById(It.IsAny<string>())).ThrowsAsync(new Exception());
         
         // Actual
         var actual = await _handler.Handle(command, _cancellationToken);

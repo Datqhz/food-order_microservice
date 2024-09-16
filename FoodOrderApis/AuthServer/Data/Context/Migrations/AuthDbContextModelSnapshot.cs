@@ -418,19 +418,19 @@ namespace AuthServer.Data.Context.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "51376d1d-dc2e-4cf9-a98b-c88830a3dd73",
+                            Id = "0a376aa1-356a-4fff-bf4a-9c173e558f0c",
                             Name = "EATER",
                             NormalizedName = "EATER"
                         },
                         new
                         {
-                            Id = "41652eea-0dba-4ea4-a5d8-b1887d90e9a0",
+                            Id = "118a4da5-e958-41b6-8978-2a8997db369b",
                             Name = "MERCHANT",
                             NormalizedName = "MERCHANT"
                         },
                         new
                         {
-                            Id = "0873c4e3-0ba2-4fd7-a110-935abfa9228a",
+                            Id = "5e680d3a-28bb-47c6-9b9a-bf1f063d80f4",
                             Name = "ADMIN",
                             NormalizedName = "ADMIN"
                         });

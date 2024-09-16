@@ -42,10 +42,10 @@ class FoodItemState extends State<FoodItem> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // food image
-            const Image(
+            Image(
               height: 100,
               width: double.infinity,
-              image: AssetImage("assets/images/store_avatar.jpg"),
+              image: NetworkImage(widget.food.imageUrl),
               fit: BoxFit.cover,
             ),
             const SizedBox(

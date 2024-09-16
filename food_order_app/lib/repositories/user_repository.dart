@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:food_order_app/core/global_val.dart';
-import 'package:food_order_app/core/jwt_decode.dart';
 import 'package:food_order_app/core/snackbar.dart';
 import 'package:food_order_app/data/models/dto/merchant_with_paging.dart';
 import 'package:food_order_app/data/models/user.dart';
@@ -11,7 +10,7 @@ import 'package:http/http.dart';
 import 'package:logger/logger.dart';
 
 class UserRepository {
-  Future<User?> getUserInfoById(BuildContext context) async {
+  Future<User?> getUserInfoById(String userId,BuildContext context) async {
     Map<String, String> headers = {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ${GlobalVariable.loginResponse!.accessToken}'
@@ -19,7 +18,7 @@ class UserRepository {
     try {
       var response = await get(
         Uri.parse(
-            '${GlobalVariable.requestUrlPrefix}/api/v1/customer/${JWTHelper.getCurrentUid(GlobalVariable.loginResponse!.accessToken)}'),
+            '${GlobalVariable.requestUrlPrefix}/api/v1/customer/$userId'),
         headers: headers,
       );
 
@@ -71,14 +70,14 @@ class UserRepository {
     }
   }
 
-  Future<List<User>?> getAllUsers(BuildContext context) async {
+  Future<List<User>?> getAllUsers(int getBy, int sortBy, BuildContext context) async {
     Map<String, String> headers = {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ${GlobalVariable.loginResponse!.accessToken}'
     };
     try {
       var response = await get(
-        Uri.parse('${GlobalVariable.requestUrlPrefix}/api/v1/customer'),
+        Uri.parse('${GlobalVariable.requestUrlPrefix}/api/v1/customer?GetBy=$getBy&SortBy=$sortBy'),
         headers: headers,
       );
 

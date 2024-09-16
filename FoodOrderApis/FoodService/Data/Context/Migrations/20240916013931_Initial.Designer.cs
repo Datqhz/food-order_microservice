@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FoodService.Data.Context.Migrations
 {
     [DbContext(typeof(FoodDbContext))]
-    [Migration("20240915110822_InitialDb")]
-    partial class InitialDb
+    [Migration("20240916013931_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

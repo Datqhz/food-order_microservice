@@ -57,7 +57,7 @@ public class CreateOrderDetailHandler : IRequestHandler<CreateOrderDetailCommand
             }
             else
             {
-                response.StatusText = "Order Detail Not Created";
+                throw new Exception("Order Detail Not Created");
             }
             _logger.LogInformation($"{functionName} - End");
             return response;

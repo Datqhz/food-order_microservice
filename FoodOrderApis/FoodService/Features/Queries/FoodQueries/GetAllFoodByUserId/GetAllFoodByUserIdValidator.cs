@@ -6,6 +6,6 @@ public class GetAllFoodByUserIdValidator : AbstractValidator<GetAllFoodByUserIdQ
 {
     public GetAllFoodByUserIdValidator()
     {
-        RuleFor(q => q.UserId).NotNull().NotEmpty().WithMessage("UserId is required");
+        RuleFor(q => q.Payload.UserId).NotNull().NotEmpty().WithMessage("UserId is required");
     }
 }

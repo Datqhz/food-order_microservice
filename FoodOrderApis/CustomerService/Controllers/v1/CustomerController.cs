@@ -25,9 +25,12 @@ public class CustomerController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] GetAllUserInfoRequest request)
     {
-        var result = await _mediator.Send(new GetAllUserQuery());
+        var result = await _mediator.Send(new GetAllUserQuery
+        {
+            Payload = request
+        });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data);
     }
 

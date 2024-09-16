@@ -18,8 +18,8 @@ class MerchantItem extends StatelessWidget {
             height: 80,
             width: 80,
             decoration: BoxDecoration(
-              image: const DecorationImage(
-                  image: AssetImage('assets/images/store_avatar.jpg'),
+              image: DecorationImage(
+                  image: NetworkImage(merchant.avatar),
                   fit: BoxFit.cover),
               color: Colors.black,
               borderRadius: BorderRadius.circular(6),

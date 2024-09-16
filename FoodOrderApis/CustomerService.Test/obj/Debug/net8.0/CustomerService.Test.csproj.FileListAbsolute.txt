@@ -292,3 +292,8 @@ C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\Custo
 C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\CustomerService.Test\obj\Debug\net8.0\CustomerService.Test.pdb
 C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\CustomerService.Test\obj\Debug\net8.0\CustomerService.Test.genruntimeconfig.cache
 C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\CustomerService.Test\obj\Debug\net8.0\ref\CustomerService.Test.dll
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\CustomerService.Test\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\CustomerService.Test\bin\Debug\net8.0\IdentityModel.dll
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\CustomerService.Test\bin\Debug\net8.0\IdentityServer4.dll
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\CustomerService.Test\bin\Debug\net8.0\IdentityServer4.Storage.dll
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\CustomerService.Test\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll

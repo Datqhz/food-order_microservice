@@ -1,9 +1,10 @@
-﻿using FoodService.Data.Responses;
+﻿using FoodService.Data.Requests;
+using FoodService.Data.Responses;
 using MediatR;
 
 namespace FoodService.Features.Queries.FoodQueries.GetAllFoodByUserId;
 
 public class GetAllFoodByUserIdQuery : IRequest<GetAllFoodByUserIdResponse>
 {
-    public string UserId { get; set; }
+    public GetAllFoodByUserIdRequest Payload { get; set; }
 }

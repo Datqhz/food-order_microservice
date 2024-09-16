@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:food_order_app/core/constant.dart';
 import 'package:food_order_app/core/global_val.dart';
+import 'package:food_order_app/core/jwt_decode.dart';
 import 'package:food_order_app/core/provider/login_state_provider.dart';
 import 'package:food_order_app/data/requests/login_request.dart';
+import 'package:food_order_app/presentation/screens/auth/register/register_screen.dart';
 import 'package:food_order_app/repositories/auth_repository.dart';
 import 'package:food_order_app/repositories/user_repository.dart';
 import 'package:provider/provider.dart';
@@ -40,15 +42,32 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColorLight,
-        title: Text(
-          "Sign in",
-          style: TextStyle(
-              fontSize: Constant.font_size_2,
-              fontWeight: Constant.font_weight_nomal,
-              color: Theme.of(context).primaryColorDark),
-        ),
-      ),
+          backgroundColor: Theme.of(context).primaryColorLight,
+          title: Row(
+            children: [
+              Text(
+                "Sign in",
+                style: TextStyle(
+                    fontSize: Constant.font_size_2,
+                    fontWeight: Constant.font_weight_nomal,
+                    color: Theme.of(context).primaryColorDark),
+              ),
+              const Expanded(child: SizedBox()),
+              GestureDetector(
+                onTap: () => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RegisterScreen())),
+                child: Text(
+                  "Sign up",
+                  style: TextStyle(
+                      fontSize: Constant.font_size_3,
+                      fontWeight: Constant.font_weight_heading2,
+                      color: Theme.of(context).primaryColorDark),
+                ),
+              )
+            ],
+          )),
       body: Stack(
         children: [
           Container(
@@ -168,8 +187,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           var loginResult =
                               await repository.login(request, context);
                           if (loginResult) {
-                            GlobalVariable.currentUser =
-                                await UserRepository().getUserInfoById(context);
+                            GlobalVariable.currentUser = await UserRepository()
+                                .getUserInfoById(
+                                    JWTHelper.getCurrentUid(GlobalVariable
+                                        .loginResponse!.accessToken),
+                                    context);
                             Provider.of<LoginStateProvider>(context,
                                     listen: false)
                                 .login();

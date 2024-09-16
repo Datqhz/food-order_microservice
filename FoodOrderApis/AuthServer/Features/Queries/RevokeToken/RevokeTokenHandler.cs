@@ -51,7 +51,6 @@ public class RevokeTokenHandler : IRequestHandler<RevokeTokenQuery, RevokeTokenR
             {
                 host = "localhost";
             }
-
             var revokeTokenRequest = new TokenRevocationRequest
             {
                 Address = $"http://{host}:5092/connect/revocation",

@@ -25,11 +25,11 @@ public class FoodController : ControllerBase
     }
     [Authorize(Policy = "FoodRead")]
     [HttpGet("get-by-user")]
-    public async Task<IActionResult> GetAllFoodByUserId([FromQuery] string userId)
+    public async Task<IActionResult> GetAllFoodByUserId([FromQuery] GetAllFoodByUserIdRequest request)
     {
         var result = await _mediator.Send(new GetAllFoodByUserIdQuery
         {
-            UserId = userId
+            Payload = request
         });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data);
     }

@@ -54,7 +54,7 @@ public class UpdateOrderDetailHandler : IRequestHandler<UpdateOrderDetailCommand
                 }
                 else
                 {
-                    response.StatusText = $"Order detail could not be updated";
+                    throw new Exception("Order detail could not be updated");
                 }
             }
             _logger.LogInformation($"{functionName} - End");

@@ -1,4 +1,5 @@
-﻿using FoodOrderApis.Common.Helpers;
+﻿using FoodOrderApis.Common.Enums;
+using FoodOrderApis.Common.Helpers;
 using FoodService.Data.Models.Dtos;
 using FoodService.Data.Responses;
 using FoodService.Repositories;
@@ -21,10 +22,22 @@ public class GetAllFoodByUserIdHandler : IRequestHandler<GetAllFoodByUserIdQuery
     {
         var functionName = nameof(GetAllFoodByUserIdHandler);
         var response = new GetAllFoodByUserIdResponse(){StatusCode = (int)ResponseStatusCode.BadRequest};
+        var payload = request.Payload;
         try
         {
             _logger.LogInformation($"{functionName} - Start");
-            var foods = await _unitOfRepository.Food.Where(f => f.UserId == request.UserId).AsNoTracking().Select(_ =>
+            var foods = _unitOfRepository.Food.Where(f => f.UserId ==payload.UserId).AsNoTracking();
+            if (payload.SortBy == (int)SortOption.ByAlphabeticalDescending)
+            {
+                foods = foods.OrderByDescending(f => f.Name);
+            }
+            else
+            {
+                foods = foods.OrderBy(f => f.Name);
+            }
+            response.StatusCode = (int)ResponseStatusCode.OK;
+            response.StatusText = "Get All Food By UserId";
+            response.Data = await foods.Select(_ =>
                 new FoodDto
                 {
                     Id = _.Id,
@@ -33,9 +46,6 @@ public class GetAllFoodByUserIdHandler : IRequestHandler<GetAllFoodByUserIdQuery
                     ImageUrl = _.ImageUrl,
                     Price = _.Price,
                 }).ToListAsync(cancellationToken);
-            response.StatusCode = (int)ResponseStatusCode.OK;
-            response.StatusText = "Get All Food By UserId";
-            response.Data = foods;
             _logger.LogInformation($"{functionName} - End");
             return response;
         }

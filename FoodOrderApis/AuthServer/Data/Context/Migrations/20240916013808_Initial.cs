@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AuthServer.Data.Context.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDb : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -316,9 +316,9 @@ namespace AuthServer.Data.Context.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0873c4e3-0ba2-4fd7-a110-935abfa9228a", null, "ADMIN", "ADMIN" },
-                    { "41652eea-0dba-4ea4-a5d8-b1887d90e9a0", null, "MERCHANT", "MERCHANT" },
-                    { "51376d1d-dc2e-4cf9-a98b-c88830a3dd73", null, "EATER", "EATER" }
+                    { "0a376aa1-356a-4fff-bf4a-9c173e558f0c", null, "EATER", "EATER" },
+                    { "118a4da5-e958-41b6-8978-2a8997db369b", null, "MERCHANT", "MERCHANT" },
+                    { "5e680d3a-28bb-47c6-9b9a-bf1f063d80f4", null, "ADMIN", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(

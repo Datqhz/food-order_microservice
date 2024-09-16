@@ -11,7 +11,7 @@ import 'package:http/http.dart';
 
 class FoodRepository {
   Future<List<Food>?> getAllFoodsByMerchantId(
-      String merchantId, BuildContext context) async {
+      String merchantId, int sortBy, BuildContext context) async {
     Map<String, String> headers = {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ${GlobalVariable.loginResponse!.accessToken}'
@@ -19,7 +19,7 @@ class FoodRepository {
     try {
       var response = await get(
           Uri.parse(
-              '${GlobalVariable.requestUrlPrefix}/api/v1/food/get-by-user?userId=$merchantId'),
+              '${GlobalVariable.requestUrlPrefix}/api/v1/food/get-by-user?UserId=$merchantId&SortBy=$sortBy'),
           headers: headers);
 
       Map<String, dynamic> responseBody = json.decode(response.body);

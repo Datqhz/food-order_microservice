@@ -1,8 +1,10 @@
-﻿using AutoFixture;
+﻿using System.Linq.Expressions;
+using AutoFixture;
 using FoodOrderApis.Common.Helpers;
 using FoodOrderApis.Common.HttpContextCustom;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using MockQueryable;
 using Moq;
 using OrderService.Data.Models;
 using OrderService.Data.Requests;
@@ -44,8 +46,10 @@ public class UpdateOrderHandlerTests
             .With(x => x.Id, input.OrderId)
             .With(x => x.OrderStatus, (int)OrderStatus.Preparing)
             .With(x => x.EaterId, userId)
-            .Create();
-        _unitOfRepositoryMock.Setup(p => p.Order.GetById(It.IsAny<int>())).ReturnsAsync(order);
+            .CreateMany(1)
+            .AsQueryable()
+            .BuildMock();
+        _unitOfRepositoryMock.Setup(p => p.Order.Where(It.IsAny<Expression<Func<Order, bool>>>())).Returns(order);
         _unitOfRepositoryMock.Setup(p => p.Order.Update(It.IsAny<Order>())).Returns(true);
         _httpContextMock.Setup(p => p.GetCurrentUserId()).Returns(userId);
         var command = new UpdateOrderCommand
@@ -64,9 +68,10 @@ public class UpdateOrderHandlerTests
     [Test]
     public async Task Handle_ShouldReturn_StatusNotFound()
     {
+        var orders = _fixture.Build<Order>().CreateMany(0).AsQueryable().BuildMock();
         // Arrange
         var input = _fixture.Create<UpdateOrderRequest>();
-        _unitOfRepositoryMock.Setup(p => p.Order.GetById(It.IsAny<int>())).ReturnsAsync((Order)null);
+        _unitOfRepositoryMock.Setup(p => p.Order.Where(It.IsAny<Expression<Func<Order, bool>>>())).Returns(orders);
 
         var command = new UpdateOrderCommand
         {

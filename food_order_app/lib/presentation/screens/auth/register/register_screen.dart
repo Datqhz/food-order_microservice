@@ -1,12 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order_app/core/constant.dart';
+import 'package:food_order_app/core/utils/image_helper.dart';
 import 'package:food_order_app/core/utils/string_format.dart';
 import 'package:food_order_app/data/models/role.dart';
 import 'package:food_order_app/data/requests/register_request.dart';
+import 'package:food_order_app/presentation/screens/auth/login/login_screen.dart';
 import 'package:food_order_app/presentation/screens/auth/register/register_result_screen.dart';
 import 'package:food_order_app/repositories/auth_repository.dart';
 import 'package:food_order_app/repositories/role_repository.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -23,6 +28,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passwordController = TextEditingController();
   final ValueNotifier<String?> _roleSelected = ValueNotifier(null);
   List<Role>? _roles = [];
+  final ValueNotifier<XFile?> _avatar = ValueNotifier(null);
 
   Future<void> _fetchRoleData() async {
     _roles = await RoleRepository().getAllRole(context);
@@ -41,15 +47,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColorLight,
-        title: Text(
-          "Sign up",
-          style: TextStyle(
-              fontSize: Constant.font_size_2,
-              fontWeight: Constant.font_weight_nomal,
-              color: Theme.of(context).primaryColorDark),
-        ),
-      ),
+          backgroundColor: Theme.of(context).primaryColorLight,
+          title: Row(
+            children: [
+              Text(
+                "Sign up",
+                style: TextStyle(
+                    fontSize: Constant.font_size_2,
+                    fontWeight: Constant.font_weight_nomal,
+                    color: Theme.of(context).primaryColorDark),
+              ),
+              const Expanded(child: SizedBox()),
+              GestureDetector(
+                onTap: () => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen())),
+                child: Text(
+                  "Sign in",
+                  style: TextStyle(
+                      fontSize: Constant.font_size_3,
+                      fontWeight: Constant.font_weight_heading2,
+                      color: Theme.of(context).primaryColorDark),
+                ),
+              )
+            ],
+          )),
       body: Stack(
         children: [
           Container(
@@ -66,12 +89,58 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Sign up",
-                      style: TextStyle(
-                          color: Theme.of(context).primaryColorDark,
-                          fontSize: Constant.font_size_heading_1,
-                          fontWeight: Constant.font_weight_heading1),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            XFile? img = await ImagePicker().pickImage(
+                                maxWidth: 1920,
+                                maxHeight: 1080,
+                                imageQuality: 100,
+                                source: ImageSource.gallery);
+                            if (img != null) {
+                              _avatar.value = img;
+                            }
+                          },
+                          child: SizedBox(
+                            height: 100,
+                            child: Stack(
+                              children: [
+                                ValueListenableBuilder(
+                                    valueListenable: _avatar,
+                                    builder: (context, value, child) {
+                                      return CircleAvatar(
+                                        backgroundColor: Colors.black,
+                                        radius: 50,
+                                        backgroundImage: value != null
+                                            ? FileImage(File(value.path))
+                                                as ImageProvider<Object>
+                                            : const AssetImage(
+                                                "assets/images/default_avt.jpg"),
+                                      );
+                                    }),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 16,
+                                  child: Container(
+                                    height: 20,
+                                    width: 20,
+                                    decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        borderRadius: BorderRadius.circular(2)),
+                                    child: const Icon(
+                                      CupertinoIcons.pencil,
+                                      size: 16,
+                                      color: Color.fromRGBO(240, 240, 240, 1),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: Constant.dimension_12,
@@ -251,20 +320,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         final phone = _phoneController.text.trim();
                         final userName = _userNameController.text.trim();
                         final password = _passwordController.text.trim();
+                        String? avtUrl;
+                        if (_avatar.value != null) {
+                          avtUrl = await ImageHelper.uploadAvatarImage(
+                              _avatar.value);
+                        }
                         Role? role;
                         for (var e in _roles!) {
                           if (e.roleName == _roleSelected.value) {
                             role = e;
                           }
                         }
-                        var result = await AuthRepository().register(
-                            RegisterRequest(
-                                displayName: displayName,
-                                userName: userName,
-                                password: password,
-                                role: role!.roleName,
-                                phoneNumber: phone),
-                            context);
+                        var payload = RegisterRequest(
+                            displayName: displayName,
+                            userName: userName,
+                            password: password,
+                            role: role!.roleName,
+                            phoneNumber: phone);
+                        if (avtUrl != null) {
+                          payload.avatar = avtUrl;
+                        }
+                        var result =
+                            await AuthRepository().register(payload, context);
                         if (result) {
                           Navigator.pushReplacement(
                               context,

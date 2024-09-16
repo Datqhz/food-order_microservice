@@ -50,22 +50,18 @@ public class CreateFoodHandler : IRequestHandler<CreateFoodCommand, CreateFoodRe
             await _unitOfRepository.CompleteAsync();
             if (createdFood == null)
             {
-                response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                response.StatusText = "Internal Server Error";
+                throw new Exception("Can't create food");
             }
-            else
+            var message = new CreateFood
             {
-                var message = new CreateFood
-                {
-                    Id = createdFood.Id,
-                    Name = createdFood.Name,
-                    Describe = createdFood.Describe,
-                    ImageUrl = createdFood.ImageUrl,
-                };
-                await _sendEndpoint.SendMessage<CreateFood>(message, cancellationToken, ExchangeType.Direct);
-                response.StatusCode = (int)HttpStatusCode.Created;
-                response.StatusText = "Food created successfully";
-            }
+                Id = createdFood.Id,
+                Name = createdFood.Name,
+                Describe = createdFood.Describe,
+                ImageUrl = createdFood.ImageUrl,
+            };
+            await _sendEndpoint.SendMessage<CreateFood>(message, cancellationToken, ExchangeType.Direct);
+            response.StatusCode = (int)HttpStatusCode.Created;
+            response.StatusText = "Food created successfully";
             _logger.LogInformation($"{functionName} - End");
             return response;
         }

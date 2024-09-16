@@ -322,3 +322,4 @@ C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\AuthS
 C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\AuthServer.Test\obj\Debug\net8.0\AuthServer.Test.pdb
 C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\AuthServer.Test\obj\Debug\net8.0\AuthServer.Test.genruntimeconfig.cache
 C:\Users\baam0\OneDrive\Documents\C#\food-order_microservice\FoodOrderApis\AuthServer.Test\obj\Debug\net8.0\ref\AuthServer.Test.dll
+C:\Users\Admin\Documents\Task\food-order_microservice\FoodOrderApis\AuthServer.Test\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll

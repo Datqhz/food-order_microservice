@@ -5,6 +5,8 @@ using FoodOrderApis.Common.Helpers;
 using FoodOrderApis.Common.Models.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using RabbitMQ.Client;
+using Constants = FoodOrderApis.Common.Constants.Constants;
 
 namespace CustomerService.Features.Queries.UserInfoQueries.SearchMerchantsByName;
 
@@ -28,7 +30,7 @@ public class SearchMerchantsByNameHandler : IRequestHandler<SearchMerchantsByNam
         {
             var payload = request.Payload;
             var merchants = _unitOfRepository.User
-                .Where(user => ( user.Role.ToLower() == "merchant" && EF.Functions.ILike(user.DisplayName, $"%{payload.Keyword}%"))).AsNoTracking();
+                .Where(user => ( user.Role == Constants.Role.Merchant && EF.Functions.ILike(user.DisplayName, $"%{payload.Keyword}%"))).AsNoTracking();
             var totalItems = await merchants.CountAsync();
             if (totalItems == 0)
             {

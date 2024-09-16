@@ -22,10 +22,10 @@ class _MyDrawerState extends State<MyDrawer> {
           decoration: BoxDecoration(
               border: Border.all(color: Colors.black, width: 2),
               borderRadius: BorderRadius.circular(50)),
-          child: const CircleAvatar(
+          child: CircleAvatar(
             backgroundColor: Colors.white,
             radius: 50,
-            backgroundImage: AssetImage('assets/images/116577915.jpg'),
+            backgroundImage: NetworkImage(GlobalVariable.currentUser!.avatar),
           ),
         ),
         const SizedBox(
@@ -94,11 +94,11 @@ class _MyDrawerState extends State<MyDrawer> {
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.black, width: 1),
                           borderRadius: BorderRadius.circular(50)),
-                      child: const CircleAvatar(
+                      child: CircleAvatar(
                         backgroundColor: Colors.white,
                         radius: 50,
                         backgroundImage:
-                            AssetImage('assets/images/116577915.jpg'),
+                            NetworkImage(GlobalVariable.currentUser!.avatar),
                       ),
                     ),
                     GestureDetector(

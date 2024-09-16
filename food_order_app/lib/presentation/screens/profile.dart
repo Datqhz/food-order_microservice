@@ -138,29 +138,13 @@ class ProfileScreen extends StatelessWidget {
                                     border: Border.all(
                                         color: Colors.white, width: 2),
                                     borderRadius: BorderRadius.circular(50)),
-                                child: const CircleAvatar(
+                                child: CircleAvatar(
                                   backgroundColor: Colors.black,
                                   radius: 50,
-                                  backgroundImage:
-                                      AssetImage("assets/images/116577915.jpg"),
+                                  backgroundImage: NetworkImage(
+                                      GlobalVariable.currentUser!.avatar),
                                 ),
                               ),
-                              Positioned(
-                                bottom: 0,
-                                right: 3,
-                                child: Container(
-                                  height: 30,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(50)),
-                                  child: const Icon(
-                                    CupertinoIcons.pencil,
-                                    size: 16,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              )
                             ],
                           ),
                         ),

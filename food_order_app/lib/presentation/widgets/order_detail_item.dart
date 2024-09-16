@@ -21,8 +21,8 @@ class OrderDetailItem extends StatelessWidget {
               height: 80,
               width: 80,
               decoration: BoxDecoration(
-                image: const DecorationImage(
-                    image: AssetImage("assets/images/store_avatar.jpg"),
+                image: DecorationImage(
+                    image: NetworkImage(detail.food.imageUrl),
                     fit: BoxFit.cover),
                 color: Theme.of(context).primaryColorDark,
                 borderRadius: BorderRadius.circular(6),

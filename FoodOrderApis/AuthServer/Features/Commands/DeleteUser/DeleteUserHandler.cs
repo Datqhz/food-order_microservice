@@ -69,8 +69,7 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
                 }
                 else
                 {
-                    response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    response.StatusText = "This user is already deleted";
+                    throw new Exception("Can't delete user");
                 }
             }
             _logger.LogInformation($"{funcName} - End");

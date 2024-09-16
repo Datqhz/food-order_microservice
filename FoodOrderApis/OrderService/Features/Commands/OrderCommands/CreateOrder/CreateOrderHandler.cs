@@ -50,14 +50,11 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, CreateOrde
             var addResult = await _unitOfRepository.Order.Add(newOrder);
             if (addResult is null)
             {
-                response.StatusText = "Order could not be added";
+                throw new Exception("Order couldn't be added");
             }
-            else
-            {
-                await _unitOfRepository.CompleteAsync();
-                response.StatusCode = (int)ResponseStatusCode.Created;
-                response.StatusText = "Order added";
-            }
+            await _unitOfRepository.CompleteAsync();
+            response.StatusCode = (int)ResponseStatusCode.Created;
+            response.StatusText = "Order added";
             _logger.LogInformation($"{functionName} - End");
             return response;
         }

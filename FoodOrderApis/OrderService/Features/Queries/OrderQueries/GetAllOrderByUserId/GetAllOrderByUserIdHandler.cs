@@ -43,7 +43,6 @@ public class GetAllOrderByUserIdHandler : IRequestHandler<GetAllOrderByUserIdQue
             {
                 orders = orders.Where(o => o.MerchantId == payload.MerchantId);
             }
-
             switch (payload.SortBy)
             {
                 case (int)SortOption.ByDateDescending:

@@ -32,7 +32,7 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand>
             {
                 await _unitOfRepository.CompleteAsync();
             }
-
+            
             _logger.LogInformation($"{functionName} - End");
         }
         catch (Exception ex)
