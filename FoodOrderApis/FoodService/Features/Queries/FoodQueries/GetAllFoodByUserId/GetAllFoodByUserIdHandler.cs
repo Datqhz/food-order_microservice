@@ -27,7 +27,7 @@ public class GetAllFoodByUserIdHandler : IRequestHandler<GetAllFoodByUserIdQuery
         {
             _logger.LogInformation($"{functionName} - Start");
             var foods = _unitOfRepository.Food.Where(f => f.UserId ==payload.UserId).AsNoTracking();
-            if (payload.SortBy == (int)SortOption.ByAlphabeticalDescending)
+            if (payload.SortBy == SortOption.ByAlphabeticalDescending)
             {
                 foods = foods.OrderByDescending(f => f.Name);
             }

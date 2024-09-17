@@ -37,7 +37,7 @@ public class SearchMerchantsByNameHandler : IRequestHandler<SearchMerchantsByNam
                 return response;
             }
 
-            if (payload.SortBy == (int)SortOption.ByAlphabeticalDescending)
+            if (payload.SortBy == SortOption.ByAlphabeticalDescending)
             {
                 merchants = merchants.OrderByDescending(merchant => merchant.DisplayName);
             }

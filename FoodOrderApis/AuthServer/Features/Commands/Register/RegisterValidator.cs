@@ -25,6 +25,5 @@ public class RegisterValidator : AbstractValidator<RegisterCommand>
             .Cascade(CascadeMode.Stop)
             .NotNull().NotEmpty().WithMessage("PhoneNumber is required")
             .PhoneNumber().WithMessage("Invalid phone number");
-        RuleFor(command => command.Payload.Avatar).NotEmpty().WithMessage("Avatar is required");
     }
 }

@@ -45,7 +45,7 @@ public class GetAllOrderByUserIdHandler : IRequestHandler<GetAllOrderByUserIdQue
             }
             switch (payload.SortBy)
             {
-                case (int)SortOption.ByDateDescending:
+                case SortOption.ByDateDescending:
                     orders = orders.OrderByDescending(o => o.OrderedDate);
                         
                     break;

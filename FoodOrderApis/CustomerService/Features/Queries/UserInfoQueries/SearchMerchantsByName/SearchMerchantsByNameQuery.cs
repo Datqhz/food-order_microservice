@@ -6,5 +6,5 @@ namespace CustomerService.Features.Queries.UserInfoQueries.SearchMerchantsByName
 
 public class SearchMerchantsByNameQuery : IRequest<SearchMerchantsByNameResponse>
 {
-    public SearchMerchantByNameRequest Payload { get; set; }
+    public SearchMerchantsByNameRequest Payload { get; set; }
 }

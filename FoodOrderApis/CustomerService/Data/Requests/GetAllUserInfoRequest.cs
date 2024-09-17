@@ -4,6 +4,6 @@ namespace CustomerService.Data.Requests;
 
 public class GetAllUserInfoRequest
 {
-    public int GetBy { get; set; } = (int)FilterUser.Eater;
-    public int SortBy { get; set; } = (int)SortOption.ByAlphabeticalAscending;
+    public FilterUser GetBy { get; set; } = FilterUser.Eater;
+    public SortOption SortBy { get; set; } = SortOption.ByAlphabeticalAscending;
 }

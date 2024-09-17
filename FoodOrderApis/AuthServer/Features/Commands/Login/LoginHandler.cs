@@ -61,7 +61,7 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
             var clientSecret = await _unitOfRepository.ClientSecret.Where(cs => cs.ClientId == client.Id)
                 .Select(_ => _.SecretName).FirstOrDefaultAsync(cancellationToken);
             var scopes = await _unitOfRepository.RolePermission.Where(p => p.Role == roles[0])
-                .Select(_ => _.Permission).ToListAsync();
+                .Select(_ => _.Permission).ToListAsync(cancellationToken);
             var requestScopes = "";
             foreach (var scope in scopes)
             {
@@ -69,7 +69,7 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
             }
             
             var httpClient = new HttpClient();
-            var discovery = await httpClient.GetDiscoveryDocumentAsync("http://localhost:5092");
+            var discovery = await httpClient.GetDiscoveryDocumentAsync("http://localhost:5092", cancellationToken);
             if (discovery.IsError)
             {
                 _logger.LogError($"{functionName} => Can't get discovery details : Message = {discovery.Error}");
@@ -78,7 +78,6 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
                 loginResponse.ErrorMessage = discovery.Error;
                 return loginResponse;
             }
-
             var response = await httpClient.RequestPasswordTokenAsync(new PasswordTokenRequest
             {
                 Address = discovery.TokenEndpoint,
@@ -87,8 +86,8 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
                 Scope = requestScopes.Trim(),
                 UserName = payload.Username,
                 Password = payload.Password
-            });
-            
+            },
+                cancellationToken);
             if (response.HttpStatusCode == HttpStatusCode.OK)
             {
                 loginResponse.StatusText = "OK";

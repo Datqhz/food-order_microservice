@@ -2,10 +2,10 @@
 
 namespace CustomerService.Data.Requests;
 
-public class SearchMerchantByNameRequest
+public class SearchMerchantsByNameRequest
 {
     public string Keyword { get; set; }
-    public int SortBy { get; set; } = (int)SortOption.ByAlphabeticalAscending;
+    public SortOption SortBy { get; set; } = SortOption.ByAlphabeticalAscending;
     public int? Page { get; set; }
     public int? MaxPerPage { get; set; }
 }

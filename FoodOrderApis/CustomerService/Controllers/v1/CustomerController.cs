@@ -40,12 +40,6 @@ public class CustomerController : ControllerBase
         var result = await _mediator.Send(new GetUserByIdQuery() { UserId = id });
         return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data);
     }
-    /*[HttpPost]
-    public async Task<IActionResult> CreateCustomer([FromBody] CreateUserInfoRequest request)
-    {
-        var result = await _mediator.Send(new CreateUserCommand{Payload = request});
-        return ResponseHelper.ToResponse(result.StatusCode, result.StatusText, result.ErrorMessage);
-    }*/
 
     [HttpPut]
     public async Task<IActionResult> UpdateCustomer([FromBody] UpdateUserInfoRequest request)
@@ -66,7 +60,7 @@ public class CustomerController : ControllerBase
         return ResponseHelper.ToPaginationResponse(result.StatusCode, result.StatusText, result.ErrorMessage, result.Data, result.Paging);
     }
     [HttpGet("search-by-name")]
-    public async Task<IActionResult> SearchMerchantsByName([FromQuery] SearchMerchantByNameRequest request)
+    public async Task<IActionResult> SearchMerchantsByName([FromQuery] SearchMerchantsByNameRequest request)
     {
         var result = await _mediator.Send(new SearchMerchantsByNameQuery
         {

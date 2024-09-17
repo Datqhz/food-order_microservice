@@ -16,6 +16,7 @@ public class UnitOfRepository : IUnitOfRepository
         _context = customerDbContext;
         User = new UserInfoRepository(_context);
     }
+    
     public async Task CompleteAsync()
     {
         await _context.SaveChangesAsync();
@@ -26,7 +27,7 @@ public class UnitOfRepository : IUnitOfRepository
         _transaction = await _context.Database.BeginTransactionAsync();
         return _transaction;
     }
-
+    
     public async Task CommitAsync()
     {
         await _transaction.CommitAsync();

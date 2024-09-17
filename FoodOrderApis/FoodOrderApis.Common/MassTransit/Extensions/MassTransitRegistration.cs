@@ -20,7 +20,7 @@ public static class MassTransitRegistration
                     Console.WriteLine($"prefix: {prefix}");
                     x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix, false));
                 }*/
-                x.SetKebabCaseEndpointNameFormatter();
+                x.SetKebabCaseEndpointNameFormatter(); 
                 x.AddConsumers(Assembly.GetEntryAssembly());
                 x.UsingRabbitMq((context, cfg) =>
                 {

@@ -48,8 +48,8 @@ class _LoginScreenState extends State<LoginScreen> {
               Text(
                 "Sign in",
                 style: TextStyle(
-                    fontSize: Constant.font_size_2,
-                    fontWeight: Constant.font_weight_nomal,
+                    fontSize: Constant.font_size_3,
+                    fontWeight: Constant.font_weight_heading2,
                     color: Theme.of(context).primaryColorDark),
               ),
               const Expanded(child: SizedBox()),

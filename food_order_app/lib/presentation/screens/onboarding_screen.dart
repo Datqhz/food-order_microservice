@@ -20,25 +20,39 @@ class OnboardingScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text(
+              "App demo",
+              style: TextStyle(
+                  fontSize: Constant.font_size_heading_1,
+                  fontWeight: Constant.font_weight_heading2,
+                  color: Theme.of(context).primaryColorDark),
+            ),
             SizedBox(
-                width: double.infinity,
-                child: TextButton(
-                  onPressed: () async {
-                    await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginScreen()));
-                  },
-                  style: TextButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColorLight,
-                      foregroundColor: Theme.of(context).primaryColorDark,
-                      shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(Constant.dimension_8),
-                          side: BorderSide(
-                              color: Theme.of(context).primaryColorDark))),
-                  child: const Text("Sign in"),
-                )),
+              height: Constant.dimension_14,
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: TextButton(
+                onPressed: () async {
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginScreen()));
+                },
+                style: TextButton.styleFrom(
+                    backgroundColor: Theme.of(context).primaryColorLight,
+                    foregroundColor: Theme.of(context).primaryColorDark,
+                    shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(Constant.dimension_8),
+                        side: BorderSide(
+                            color: Theme.of(context).primaryColorDark))),
+                child: const Text("Sign in"),
+              ),
+            ),
+            SizedBox(
+              height: Constant.dimension_4,
+            ),
             SizedBox(
                 width: double.infinity,
                 child: TextButton(

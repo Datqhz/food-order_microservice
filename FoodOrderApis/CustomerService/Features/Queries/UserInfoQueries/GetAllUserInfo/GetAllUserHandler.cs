@@ -10,26 +10,26 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CustomerService.Features.Queries.UserInfoQueries.GetAllUserInfo;
 
-public class GetAllUserHanlder : IRequestHandler<GetAllUserQuery, GetAllUserInfoResponse>
+public class GetAllUserHandler : IRequestHandler<GetAllUserQuery, GetAllUserInfoResponse>
 {
     private readonly IUnitOfRepository _unitOfRepository;
-    private readonly ILogger<GetAllUserHanlder> _logger;
+    private readonly ILogger<GetAllUserHandler> _logger;
 
-    public GetAllUserHanlder(IUnitOfRepository unitOfRepository, ILogger<GetAllUserHanlder> logger)
+    public GetAllUserHandler(IUnitOfRepository unitOfRepository, ILogger<GetAllUserHandler> logger)
     {
         _unitOfRepository = unitOfRepository;
         _logger = logger;
     }
     public async Task<GetAllUserInfoResponse> Handle(GetAllUserQuery request, CancellationToken cancellationToken)
     {
-        var functionName = nameof(GetAllUserHanlder);
+        var functionName = nameof(GetAllUserHandler);
         _logger.LogInformation($"{functionName} - Start");
         var response = new GetAllUserInfoResponse(){StatusCode = (int)ResponseStatusCode.BadRequest};
         var payload = request.Payload;
         try
         {
             var users = _unitOfRepository.User.GetAll().AsNoTracking();
-            if (payload.GetBy == (int)FilterUser.Eater)
+            if (payload.GetBy == FilterUser.Eater)
             {
                 users = users.Where(u => u.Role.ToLower() == Constants.Role.Eater.ToLower());
             }
@@ -38,7 +38,7 @@ public class GetAllUserHanlder : IRequestHandler<GetAllUserQuery, GetAllUserInfo
                 users = users.Where(u => u.Role.ToLower() == Constants.Role.Merchant.ToLower());
             }
 
-            if (payload.SortBy == (int)SortOption.ByAlphabeticalDescending)
+            if (payload.SortBy == SortOption.ByAlphabeticalDescending)
             {
                 users = users.OrderByDescending(u => u.DisplayName);
             }

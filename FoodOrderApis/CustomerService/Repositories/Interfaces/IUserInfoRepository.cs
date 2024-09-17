@@ -4,4 +4,5 @@ namespace CustomerService.Repositories.Interfaces;
 
 public interface IUserInfoRepository : IGenericRepository<UserInfo>
 {
+    
 }

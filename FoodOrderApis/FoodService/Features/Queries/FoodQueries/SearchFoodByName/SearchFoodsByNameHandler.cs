@@ -34,7 +34,7 @@ public class SearchFoodsByNameHandler : IRequestHandler<SearchFoodsByNameQuery, 
                 return response;
             }
 
-            if (payload.SortBy == (int)SortOption.ByAlphabeticalDescending)
+            if (payload.SortBy == SortOption.ByAlphabeticalDescending)
             {
                 foods = foods.OrderByDescending(f => f.Name);
             }

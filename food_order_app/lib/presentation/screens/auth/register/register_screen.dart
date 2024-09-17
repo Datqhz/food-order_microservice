@@ -53,8 +53,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Text(
                 "Sign up",
                 style: TextStyle(
-                    fontSize: Constant.font_size_2,
-                    fontWeight: Constant.font_weight_nomal,
+                    fontSize: Constant.font_size_3,
+                    fontWeight: Constant.font_weight_heading2,
                     color: Theme.of(context).primaryColorDark),
               ),
               const Expanded(child: SizedBox()),
@@ -246,6 +246,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             fontWeight: Constant.font_weight_nomal),
                       ),
                     ),
+                    SizedBox(
+                      height: Constant.dimension_12,
+                    ),
                     DropdownButtonFormField<String>(
                       dropdownColor: Colors.white,
                       style: const TextStyle(
@@ -256,26 +259,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         size: 14,
                         color: Color.fromRGBO(118, 118, 118, 1),
                       ),
-                      decoration: const InputDecoration(
-                        border: UnderlineInputBorder(
+                      decoration: InputDecoration(
+                        hintText: "Role",
+                        hintStyle: TextStyle(
+                            color: Constant.colour_grey,
+                            fontSize: Constant.font_size_2,
+                            fontWeight: Constant.font_weight_nomal),
+                        labelText: "Role",
+                        labelStyle: TextStyle(
+                            color: Constant.colour_grey,
+                            fontWeight: Constant.font_weight_nomal),
+                        border: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Color.fromRGBO(118, 118, 118, 1),
+                              color: Theme.of(context).primaryColorDark,
                               width: 1), // Màu viền khi không được chọn
                         ),
-                        errorBorder: UnderlineInputBorder(
+                        errorBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(
                             color: Color.fromRGBO(182, 0, 0, 1),
                             width: 1,
                           ),
                         ),
-                        focusedErrorBorder: UnderlineInputBorder(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Constant.colour_blue, width: 1),
+                        ),
+                        focusedErrorBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(
                             color: Color.fromRGBO(182, 0, 0, 1),
                             width: 1,
                           ),
                         ),
-                        errorStyle:
-                            TextStyle(color: Color.fromRGBO(182, 0, 0, 1)),
+                        errorStyle: const TextStyle(
+                            color: Color.fromRGBO(182, 0, 0, 1)),
                       ),
                       value: _roleSelected.value != null
                           ? capitalize(_roleSelected.value!)
